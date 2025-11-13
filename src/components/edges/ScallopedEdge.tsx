@@ -15,7 +15,7 @@ export const ScallopedEdge = ({
     <div 
       className={`absolute ${isTop ? "top-0" : "bottom-0"} left-0 w-full overflow-hidden leading-none ${className}`}
       style={{ 
-        transform: isTop ? "none" : "rotate(180deg)",
+        transform: isTop ? "rotate(180deg)" : "none",
         height: "80px"
       }}
     >
