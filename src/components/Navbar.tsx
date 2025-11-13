@@ -1,7 +1,6 @@
 import { ShoppingBag } from "lucide-react";
 import { Button } from "./ui/button";
 import { useCartStore } from "@/stores/cartStore";
-import { ScallopedEdge } from "./edges/ScallopedEdge";
 
 interface NavbarProps {
   onCartClick: () => void;
@@ -40,8 +39,6 @@ export const Navbar = ({ onCartClick }: NavbarProps) => {
           </Button>
         </div>
       </div>
-      
-      <ScallopedEdge color="hsl(var(--pastel-purple))" position="bottom" />
     </nav>
   );
 };
