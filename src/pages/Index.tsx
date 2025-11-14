@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 import { ScallopedEdge } from "@/components/edges/ScallopedEdge";
 import { ZigzagEdge } from "@/components/edges/ZigzagEdge";
 import { MultiScallopEdge } from "@/components/edges/MultiScallopEdge";
@@ -120,6 +121,8 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 };
