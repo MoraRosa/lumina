@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ScallopedEdge } from "./edges/ScallopedEdge";
+import { ScallopedCircleEdge } from "./edges/ScallopedCircleEdge";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { toast } from "sonner";
@@ -54,7 +54,7 @@ export const Footer = () => {
 
   return (
     <footer className="relative bg-pastel-purple pt-24 pb-16">
-      <ScallopedEdge color="hsl(var(--background))" position="top" />
+      <ScallopedCircleEdge color="hsl(var(--background))" position="top" />
 
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
