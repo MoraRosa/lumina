@@ -3,7 +3,7 @@ import { ScallopedEdge } from "./edges/ScallopedEdge";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { toast } from "sonner";
-import { Instagram, Facebook } from "lucide-react";
+import { Youtube, PinIcon as Pinterest } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -53,8 +53,8 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="relative bg-pastel-purple py-16">
-      <ScallopedEdge color="hsl(var(--pastel-pink))" position="top" />
+    <footer className="relative bg-pastel-purple pt-24 pb-16">
+      <ScallopedEdge color="hsl(var(--background))" position="top" />
 
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
@@ -138,22 +138,22 @@ export const Footer = () => {
         <div className="mt-12 pt-8 border-t border-border/30 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-4">
             <a
-              href="https://instagram.com"
+              href="https://youtube.com"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-background/80 flex items-center justify-center hover:bg-background transition-colors"
-              aria-label="Follow us on Instagram"
+              aria-label="Follow us on YouTube"
             >
-              <Instagram className="h-5 w-5" />
+              <Youtube className="h-5 w-5" />
             </a>
             <a
-              href="https://facebook.com"
+              href="https://pinterest.com"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-background/80 flex items-center justify-center hover:bg-background transition-colors"
-              aria-label="Follow us on Facebook"
+              aria-label="Follow us on Pinterest"
             >
-              <Facebook className="h-5 w-5" />
+              <Pinterest className="h-5 w-5" />
             </a>
           </div>
 
