@@ -12,16 +12,19 @@ export interface CartItem {
 
 interface CartStore {
   items: CartItem[];
+  checkoutUrl: string | null;
   addItem: (item: CartItem) => void;
   removeItem: (variantId: string) => void;
   updateQuantity: (variantId: string, quantity: number) => void;
   clearCart: () => void;
+  setCheckoutUrl: (url: string | null) => void;
 }
 
 export const useCartStore = create<CartStore>()(
   persist(
     (set) => ({
       items: [],
+      checkoutUrl: null,
       addItem: (item) =>
         set((state) => {
           const existingItem = state.items.find((i) => i.variantId === item.variantId);
@@ -46,7 +49,8 @@ export const useCartStore = create<CartStore>()(
             i.variantId === variantId ? { ...i, quantity } : i
           ),
         })),
-      clearCart: () => set({ items: [] }),
+      clearCart: () => set({ items: [], checkoutUrl: null }),
+      setCheckoutUrl: (url) => set({ checkoutUrl: url }),
     }),
     {
       name: 'lumina-cart',

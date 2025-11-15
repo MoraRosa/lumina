@@ -17,9 +17,9 @@ All colors MUST be HSL.
     --pastel-green-light: 140 50% 85%;
     --pastel-green-accent: 140 60% 82%;
     --pastel-purple: 270 60% 85%;
-    
+
     --navbar-pink: 350 70% 92%;
-    
+
     --background: var(--pastel-pink);
     --foreground: 222.2 84% 4.9%;
 
@@ -113,6 +113,41 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Quicksand', sans-serif;
+    font-family: "Quicksand", sans-serif;
+  }
+
+  /* Custom Scrollbar Styling */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--pastel-pink-light));
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--pastel-green)) 0%,
+      hsl(var(--pastel-purple)) 100%
+    );
+    border-radius: 10px;
+    border: 2px solid hsl(var(--pastel-pink-light));
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--pastel-green-accent)) 0%,
+      hsl(var(--pastel-purple)) 100%
+    );
+  }
+
+  /* Firefox Scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--pastel-green)) hsl(var(--pastel-pink-light));
   }
 }
