@@ -13,14 +13,23 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        'quicksand': ['Quicksand', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        "navbar-pink": "hsl(var(--navbar-pink))",
         "pastel-pink": "hsl(var(--pastel-pink))",
+        "pastel-pink-medium": "hsl(var(--pastel-pink-medium))",
+        "pastel-pink-muted": "hsl(var(--pastel-pink-muted))",
+        "pastel-pink-light": "hsl(var(--pastel-pink-light))",
         "pastel-green": "hsl(var(--pastel-green))",
+        "pastel-green-light": "hsl(var(--pastel-green-light))",
+        "pastel-green-accent": "hsl(var(--pastel-green-accent))",
         "pastel-purple": "hsl(var(--pastel-purple))",
         primary: {
           DEFAULT: "hsl(var(--primary))",

@@ -11,7 +11,7 @@ export const Navbar = ({ onCartClick }: NavbarProps) => {
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <nav className="sticky top-0 z-50 bg-secondary shadow-lg relative">
+    <nav className="sticky top-0 z-50 bg-navbar-pink shadow-lg relative">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
