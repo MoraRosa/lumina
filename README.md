@@ -1,10 +1,10 @@
 # 🌸 Lumina Skincare
 
-A beautiful, kawaii-styled landing page for Lumina Skincare - gentle, fragrance-free skincare products designed for sensitive skin. Built with modern web technologies and ready to deploy to GitHub Pages.
+A beautiful, kawaii-styled e-commerce website for Lumina Skincare - gentle, fragrance-free skincare products designed for sensitive skin. Built with modern web technologies and powered by Shopify.
 
 ## ✨ Live Demo
 
-🔗 **[View Live Site](#)** _(Add your GitHub Pages URL here after deployment)_
+🔗 **[View Live Site](https://morarosa.github.io/lumina/)**
 
 ## 🎨 Features
 
@@ -46,11 +46,15 @@ A beautiful, kawaii-styled landing page for Lumina Skincare - gentle, fragrance-
 
 ```bash
 # Clone the repository
-git clone <YOUR_GIT_URL>
-cd lumina-skincare
+git clone https://github.com/MoraRosa/lumina.git
+cd lumina
 
 # Install dependencies
 npm install
+
+# Create environment file
+cp .env.example .env
+# Edit .env and add your Shopify credentials
 
 # Start development server
 npm run dev
@@ -71,33 +75,36 @@ npm run deploy       # Deploy to GitHub Pages (manual)
 
 ### Initial Setup (One-time)
 
-1. **Create a new GitHub repository**
+1. **Fork or clone this repository**
 
    ```bash
-   # Example: lumina-skincare
+   git clone https://github.com/MoraRosa/lumina.git
+   cd lumina
    ```
 
-2. **Update the base path in `vite.config.ts`**
-
-   ```typescript
-   export default defineConfig(({ mode }) => ({
-     base: "/lumina-skincare/", // Replace with your actual repo name
-     // ... rest of config
-   }));
-   ```
-
-3. **Push your code to GitHub**
+2. **Set up environment variables**
 
    ```bash
-   git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git
-   git add .
-   git commit -m "Initial commit"
-   git push -u origin main
+   # Copy the example file
+   cp .env.example .env
+
+   # Edit .env and add your Shopify credentials:
+   # VITE_SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
+   # VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN=your-token
+   # VITE_SHOPIFY_API_VERSION=2025-07
    ```
+
+3. **Add GitHub Secrets** (for deployment)
+
+   - Go to your repository on GitHub
+   - Click **Settings** → **Secrets and variables** → **Actions**
+   - Add these secrets:
+     - `VITE_SHOPIFY_STORE_DOMAIN`
+     - `VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN`
+     - `VITE_SHOPIFY_API_VERSION`
 
 4. **Enable GitHub Pages**
-   - Go to your repository on GitHub
-   - Click **Settings** → **Pages**
+   - Go to **Settings** → **Pages**
    - Under **Source**, select **GitHub Actions**
    - Save
 
@@ -128,10 +135,10 @@ This command:
 
 ### Verify Deployment
 
-After deployment (5-10 minutes), your site will be live at:
+After deployment (2-3 minutes), your site will be live at:
 
 ```
-https://YOUR-USERNAME.github.io/YOUR-REPO-NAME/
+https://morarosa.github.io/lumina/
 ```
 
 ## 📁 Project Structure
@@ -207,16 +214,13 @@ lumina-skincare/
 
 ## 💌 Newsletter Signup
 
-### Current Implementation
+### Implementation
 
-- Email validation using Zod schema
-- Stores emails in browser localStorage
-- Toast notifications for success/error states
-- Duplicate email detection
-
-### Future Implementation
-
-Will be connected to Shopify customer list once store is integrated.
+- ✅ **Shopify Customer Accounts Integration** - Creates customer accounts with marketing consent
+- ✅ **Email validation** using Zod schema
+- ✅ **Toast notifications** for success/error states
+- ✅ **Duplicate email detection** - Handles existing customers gracefully
+- ✅ **GraphQL mutation** - Uses Shopify Storefront API `customerCreate` mutation
 
 ## 🛍️ Shopify Integration
 
@@ -232,6 +236,8 @@ Lumina uses a **headless Shopify architecture** where the React frontend handles
 - ✅ **Checkout Redirect** - Seamless redirect to Shopify checkout
 - ✅ **React Query Hooks** - Optimized data fetching with caching
 - ✅ **Cart State Management** - Zustand store with localStorage persistence
+- ✅ **Newsletter Integration** - Shopify Customer Accounts with marketing consent
+- ✅ **Custom Scrollbar** - Themed scrollbar matching kawaii design system
 
 ### 🔧 Setup Instructions
 
@@ -254,8 +260,11 @@ If you don't have a Shopify store yet:
    - `unauthenticated_read_product_listings`
    - `unauthenticated_read_product_inventory`
    - `unauthenticated_read_product_tags`
+   - `unauthenticated_read_selling_plans`
    - `unauthenticated_write_checkouts`
    - `unauthenticated_read_checkouts`
+   - `unauthenticated_write_customers`
+   - `unauthenticated_read_customers`
 7. Click **Save**
 8. Go to **API credentials** tab
 9. Click **Install app**
@@ -266,18 +275,18 @@ If you don't have a Shopify store yet:
 1. Copy the example environment file:
 
    ```bash
-   cp .env.example .env.local
+   cp .env.example .env
    ```
 
-2. Edit `.env.local` and add your Shopify credentials:
+2. Edit `.env` and add your Shopify credentials:
 
    ```env
    VITE_SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
-   VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN=shpat_xxxxxxxxxxxxx
-   VITE_SHOPIFY_API_VERSION=2024-10
+   VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN=your-token-here
+   VITE_SHOPIFY_API_VERSION=2025-07
    ```
 
-3. **Important:** Never commit `.env.local` to git (it's already in `.gitignore`)
+3. **Important:** Never commit `.env` to git (it's already in `.gitignore`)
 
 #### 4. Test the Integration
 
@@ -414,10 +423,10 @@ npm run build
 
 **Problem:** 404 error after deployment
 
-- ✅ Verify `base` path in `vite.config.ts` matches your repo name
+- ✅ Verify `base` path in `vite.config.ts` is set to `/lumina/`
 - ✅ Check if GitHub Pages is enabled in repository Settings
 - ✅ Ensure GitHub Actions workflow completed successfully
-- ✅ Wait 5-10 minutes after first deployment
+- ✅ Wait 2-3 minutes after deployment
 
 **Problem:** Styles not loading
 
@@ -430,6 +439,13 @@ npm run build
 - ✅ Check Actions tab for error messages
 - ✅ Verify Node.js version in workflow matches local version
 - ✅ Ensure `npm ci` can install all dependencies
+- ✅ Verify GitHub Secrets are set correctly (VITE*SHOPIFY*\* variables)
+
+**Problem:** Products not loading on deployed site
+
+- ✅ Verify GitHub Secrets are added (Settings → Secrets and variables → Actions)
+- ✅ Check browser console for API errors
+- ✅ Ensure Shopify store domain and token are correct
 
 ### Local Development Issues
 
