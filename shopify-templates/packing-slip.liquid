@@ -1,0 +1,573 @@
+<div class="wrapper">
+  <div class="header">
+    <div class="shop-title">
+      <div class="logo-title-container">
+        <img src="https://cdn.shopify.com/s/files/1/0710/4960/9270/files/Lumina.png?v=1763412416" alt="Lumina Logo" class="logo-image">
+        <div class="title-text">
+          <p class="to-uppercase">
+            {{ shop.name }}
+          </p>
+          <p class="tagline">✨ Gentle skincare for sensitive souls ✨</p>
+        </div>
+      </div>
+    </div>
+    <div class="order-title">
+      <p class="text-align-right">
+        Order {{ order.name }}
+      </p>
+      {% if order.po_number != blank %}
+        <p class="text-align-right">
+          PO number #{{ order.po_number }}
+        </p>
+      {% endif %}
+      <p class="text-align-right">
+        {{ order.created_at | date: format: "date" }}
+      </p>
+    </div>
+  </div>
+
+  <div class="customer-addresses">
+    <div class="shipping-address">
+      <p class="subtitle-bold to-uppercase">
+        {% if delivery_method.instructions != blank %}
+          🚚 Delivery to
+        {% else %}
+          📦 Ship to
+        {% endif %}
+      </p>
+      <div class="address-card">
+        <p class="address-detail">
+          {% if shipping_address != blank %}
+            {{ shipping_address.name }}
+            {% if shipping_address.company != blank %}
+              <br>
+              {{ shipping_address.company }}
+            {% endif %}
+            <br>
+            {{ shipping_address.address1 }}
+            {% if shipping_address.address2 != blank %}
+              <br>
+              {{ shipping_address.address2 }}
+            {% endif %}
+            {% if shipping_address.city_province_zip != blank %}
+              <br>
+              {{ shipping_address.city_province_zip }}
+            {% endif %}
+            <br>
+            {{ shipping_address.country }}
+            {% if shipping_address.phone != blank %}
+              <br>
+              {{ shipping_address.phone }}
+            {% endif %}
+          {% else %}
+            No shipping address
+          {% endif %}
+        </p>
+      </div>
+    </div>
+    <div class="billing-address">
+      <p class="subtitle-bold to-uppercase">
+        💳 Bill to
+      </p>
+      <div class="address-card">
+        <p class="address-detail">
+          {% if billing_address != blank %}
+            {{ billing_address.name }}
+            {% if billing_address.company != blank %}
+              <br>
+              {{ billing_address.company }}
+            {% endif %}
+            <br>
+            {{ billing_address.address1 }}
+            {%  if billing_address.address2 != blank %}
+              <br>
+              {{ billing_address.address2 }}
+            {% endif %}
+            {% if billing_address.city_province_zip != blank %}
+              <br>
+              {{ billing_address.city_province_zip }}
+            {% endif %}
+            <br>
+            {{ billing_address.country }}
+          {% else %}
+            No billing address
+          {% endif %}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="order-container">
+    <div class="order-container-header">
+      <div class="order-container-header-left-content">
+        <p class="subtitle-bold to-uppercase">
+          🛍️ Items
+        </p>
+      </div>
+      <div class="order-container-header-right-content">
+        <p class="subtitle-bold to-uppercase">
+          Quantity
+        </p>
+      </div>
+    </div>
+
+    {% comment %}
+    To adjust the size of line item images, change desired_image_size.
+    The other variables make sure your images print at high quality.
+    {% endcomment %}
+    {% assign desired_image_size = 58 %}
+    {% assign resolution_adjusted_size = desired_image_size | times: 300 | divided_by: 72 | ceil %}
+    {% capture effective_image_dimensions %}
+      {{ resolution_adjusted_size }}x{{ resolution_adjusted_size }}
+    {% endcapture %}
+
+    {% for line_item in line_items_in_shipment %}
+      <div class="flex-line-item">
+        <div class="flex-line-item-img">
+          {% if line_item.image != blank %}
+            <div class="aspect-ratio aspect-ratio-square" style="width: {{ desired_image_size }}px; height: {{ desired_image_size }}px;">
+              {{ line_item.image | img_url: effective_image_dimensions | img_tag: '', 'aspect-ratio__content' }}
+            </div>
+          {% endif %}
+        </div>
+        <div class="flex-line-item-description">
+          <p>
+            <span class="line-item-description-line">
+              {{ line_item.title }}
+            </span>
+            {% if line_item.variant_title != blank %}
+              <span class="line-item-description-line">
+                {{ line_item.variant_title }}
+              </span>
+            {% endif %}
+            {% if line_item.sku != blank %}
+              <span class="line-item-description-line">
+                {{ line_item.sku }}
+              </span>
+            {% endif %}
+            {% for group in line_item.groups %}
+              {% if group.deliverable? %}
+                <span class="line-item-description-line">
+                  For: {{ group.title }}
+                </span>
+              {% else %}
+                <span class="line-item-description-line">
+                  Part of: {{ group.title }}
+                </span>
+              {% endif %}
+            {% endfor %}
+          </p>
+        </div>
+        <div class="flex-line-item-quantity">
+          <p class="text-align-right">
+            {{ line_item.shipping_quantity }} of {{ line_item.quantity }}
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% unless includes_all_line_items_in_order %}
+    <div class="missing-items-notice">
+      <p>
+        ℹ️ There are other items from your order not included in this shipment.
+      </p>
+    </div>
+  {% endunless %}
+
+  <div class="divider"></div>
+
+  {% if order.note != blank %}
+    <div class="notes">
+      <p class="subtitle-bold to-uppercase">
+        📝 Notes
+      </p>
+      <div class="notes-card">
+        <p class="notes-details">
+          {{ order.note }}
+        </p>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if delivery_method.instructions != blank %}
+    <div class="notes">
+      <p class="subtitle-bold to-uppercase">
+        📍 Delivery instructions
+      </p>
+      <div class="notes-card">
+        <p class="notes-details">
+          {{ delivery_method.instructions }}
+        </p>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="footer">
+    <p class="thank-you">
+      💖 Thank you for choosing Lumina! 💖
+    </p>
+    <div class="footer-logo">
+      <img src="https://cdn.shopify.com/s/files/1/0710/4960/9270/files/Lumina.png?v=1763412416" alt="Lumina Logo" class="footer-logo-image">
+    </div>
+    <p class="footer-details">
+      <strong>Lumina</strong>
+      <br>
+      Canada
+      <br>
+      support@luminaco.skin
+      <br>
+      luminaco.skin
+    </p>
+    <p class="footer-tagline">
+      ✨ Gentle care for your beautiful skin ✨
+    </p>
+  </div>
+</div>
+
+
+<style type="text/css">
+  /* Kawaii Pastel Theme for Lumina Skincare */
+
+  body {
+    font-size: 15px;
+    background: linear-gradient(135deg, #FFE5F0 0%, #E5F5E5 50%, #F0E5FF 100%);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  .wrapper {
+    width: 831px;
+    margin: auto;
+    padding: 4em;
+    font-family: "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 400;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Header Styles */
+  .header {
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    align-items: top;
+    margin-bottom: 2em;
+  }
+
+  .header p {
+    margin: 0;
+  }
+
+  .shop-title {
+    -webkit-box-flex: 6;
+    -webkit-flex: 6;
+    flex: 6;
+  }
+
+  .logo-title-container {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+  }
+
+  .logo-image {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+  }
+
+  .title-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title-text p {
+    margin: 0;
+  }
+
+  .title-text .to-uppercase {
+    font-size: 1.9em;
+    color: #E91E8C;
+    font-weight: 700;
+  }
+
+  .tagline {
+    font-size: 0.75em !important;
+    color: #4B5563;
+    margin-top: 0.3em !important;
+    font-weight: 500;
+  }
+
+  .order-title {
+    -webkit-box-flex: 4;
+    -webkit-flex: 4;
+    flex: 4;
+    color: #374151;
+  }
+
+  /* Address Cards */
+  .customer-addresses {
+    width: 100%;
+    display: inline-block;
+    margin: 2em 0;
+  }
+
+  .address-card {
+    background: linear-gradient(135deg, rgba(255, 179, 217, 0.1) 0%, rgba(163, 228, 189, 0.1) 100%);
+    padding: 1.2em;
+    border-radius: 16px;
+    margin-top: 0.7em;
+    border: 2px solid rgba(255, 179, 217, 0.3);
+  }
+
+  .address-detail {
+    margin: 0;
+    line-height: 1.6;
+    color: #374151;
+  }
+
+  .subtitle-bold {
+    font-weight: 700;
+    margin: 0;
+    font-size: 0.9em;
+    color: #1F2937;
+    letter-spacing: 0.05em;
+  }
+
+  .to-uppercase {
+    text-transform: uppercase;
+  }
+
+  .text-align-right {
+    text-align: right;
+  }
+
+  .shipping-address {
+    float: left;
+    min-width: 18em;
+    max-width: 50%;
+  }
+
+  .billing-address {
+    padding-left: 20em;
+    min-width: 18em;
+  }
+
+  /* Divider */
+  .divider {
+    height: 3px;
+    background: linear-gradient(90deg, #FFB3D9 0%, #A3E4BD 50%, #D4B3FF 100%);
+    border-radius: 2px;
+    margin: 2em 0;
+    border: none;
+  }
+
+  /* Order Container */
+  .order-container {
+    padding: 0 0.7em;
+  }
+
+  .order-container-header {
+    display: inline-block;
+    width: 100%;
+    margin-top: 1.4em;
+  }
+
+  .order-container-header-left-content {
+    float: left;
+  }
+
+  .order-container-header-right-content {
+    float: right;
+  }
+
+  /* Line Items */
+  .flex-line-item {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 1.4em 0;
+    page-break-inside: avoid;
+    padding: 1em;
+    background: linear-gradient(135deg, rgba(212, 179, 255, 0.05) 0%, rgba(255, 179, 217, 0.05) 100%);
+    border-radius: 12px;
+    border: 1px solid rgba(212, 179, 255, 0.2);
+  }
+
+  .flex-line-item-img {
+    margin-right: 1.4em;
+    min-width: {{ desired_image_size }}px;
+  }
+
+  .flex-line-item-description {
+    -webkit-box-flex: 7;
+    -webkit-flex: 7;
+    flex: 7;
+  }
+
+  .line-item-description-line {
+    display: block;
+    color: #374151;
+  }
+
+  .flex-line-item-description p {
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .flex-line-item-quantity {
+    -webkit-box-flex: 3;
+    -webkit-flex: 3;
+    flex: 3;
+    color: #374151;
+  }
+
+  /* Missing Items Notice */
+  .missing-items-notice {
+    background: linear-gradient(135deg, rgba(255, 179, 217, 0.15) 0%, rgba(163, 228, 189, 0.15) 100%);
+    padding: 1em 1.5em;
+    border-radius: 12px;
+    margin: 1.4em 0;
+    border-left: 4px solid #FFB3D9;
+  }
+
+  .missing-items-notice p {
+    margin: 0;
+    color: #374151;
+  }
+
+  /* Notes */
+  .notes {
+    margin-top: 2em;
+  }
+
+  .notes p {
+    margin-bottom: 0;
+  }
+
+  .notes-card {
+    background: linear-gradient(135deg, rgba(212, 179, 255, 0.1) 0%, rgba(255, 179, 217, 0.1) 100%);
+    padding: 1.2em;
+    border-radius: 12px;
+    margin-top: 0.7em;
+    border: 2px solid rgba(212, 179, 255, 0.3);
+  }
+
+  .notes-details {
+    margin: 0;
+    line-height: 1.6;
+    color: #374151;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 3em;
+    text-align: center;
+    line-height: 1.6;
+    padding-top: 2em;
+    border-top: 3px solid transparent;
+    border-image: linear-gradient(90deg, #FFB3D9 0%, #A3E4BD 50%, #D4B3FF 100%);
+    border-image-slice: 1;
+  }
+
+  .footer p {
+    margin: 0;
+    margin-bottom: 1em;
+  }
+
+  .thank-you {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #059669;
+    margin-bottom: 1.5em !important;
+  }
+
+  .footer-details {
+    color: #374151;
+    line-height: 1.8;
+  }
+
+  .footer-tagline {
+    color: #4B5563;
+    font-size: 0.9em;
+    font-weight: 500;
+    margin-top: 1.5em !important;
+  }
+
+  .footer-logo {
+    margin: 1em 0;
+  }
+
+  .footer-logo-image {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin: 0 auto;
+    display: block;
+  }
+
+  /* Image Aspect Ratio */
+  .aspect-ratio {
+    position: relative;
+    display: block;
+    background: linear-gradient(135deg, rgba(255, 179, 217, 0.1) 0%, rgba(163, 228, 189, 0.1) 100%);
+    padding: 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .aspect-ratio::before {
+    z-index: 1;
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: 2px solid rgba(255, 179, 217, 0.3);
+    border-radius: 8px;
+  }
+
+  .aspect-ratio--square {
+    width: 100%;
+    padding-bottom: 100%;
+  }
+
+  .aspect-ratio__content {
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    border-radius: 8px;
+  }
+
+  /* Print Styles */
+  @media print {
+    body {
+      background: white;
+    }
+
+    .wrapper {
+      box-shadow: none;
+    }
+  }
+</style>
+

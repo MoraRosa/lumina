@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { ScallopedCircleEdge } from "./edges/ScallopedCircleEdge";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -136,36 +137,20 @@ export const Footer = () => {
             </h3>
             <ul className="space-y-2 text-sm sm:text-base text-foreground/80">
               <li>
-                <a
-                  href="#about"
+                <Link
+                  to="/shipping"
                   className="hover:text-foreground transition-colors inline-block py-1"
                 >
-                  About Us
-                </a>
+                  Shipping Policy
+                </Link>
               </li>
               <li>
-                <a
-                  href="#contact"
+                <Link
+                  to="/returns"
                   className="hover:text-foreground transition-colors inline-block py-1"
                 >
-                  Contact
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#faq"
-                  className="hover:text-foreground transition-colors inline-block py-1"
-                >
-                  FAQ
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#shipping"
-                  className="hover:text-foreground transition-colors inline-block py-1"
-                >
-                  Shipping & Returns
-                </a>
+                  Return Policy
+                </Link>
               </li>
             </ul>
           </div>

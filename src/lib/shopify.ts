@@ -188,6 +188,29 @@ export const GET_COLLECTIONS_QUERY = `
   }
 `;
 
+export const GET_SHOP_POLICIES_QUERY = `
+  query GetShopPolicies {
+    shop {
+      shippingPolicy {
+        title
+        body
+      }
+      refundPolicy {
+        title
+        body
+      }
+      privacyPolicy {
+        title
+        body
+      }
+      termsOfService {
+        title
+        body
+      }
+    }
+  }
+`;
+
 export const CREATE_CART_MUTATION = `
   mutation CreateCart($input: CartInput!) {
     cartCreate(input: $input) {
