@@ -172,7 +172,7 @@ const ProductDetail = () => {
             <div>
               <h3 className="font-bold text-base sm:text-lg mb-4">Description</h3>
               <div
-                className="text-sm sm:text-base text-muted-foreground leading-relaxed prose prose-sm max-w-none"
+                className="product-description"
                 dangerouslySetInnerHTML={{ __html: product.descriptionHtml || product.description }}
               />
             </div>
