@@ -40,7 +40,44 @@ const Index = () => {
             </Button>
           </div>
         </div>
-        <ScallopedEdge color="hsl(var(--pastel-green))" position="bottom" />
+        <ScallopedEdge color="hsl(var(--secondary))" position="bottom" />
+      </section>
+
+      {/* Products Section */}
+      <section className="relative bg-secondary py-12 sm:py-16 md:py-20">
+        <div className="container mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-foreground mb-8 sm:mb-12">
+            ✨ Featured Products ✨
+          </h2>
+          {products.length > 0 ? (
+            <>
+              <ProductGrid products={products} isLoading={productsLoading} />
+              <div className="text-center mt-8 sm:mt-12">
+                <Button
+                  size="lg"
+                  className="rounded-full px-6 sm:px-8 shadow-lg hover:shadow-xl transition-shadow"
+                  onClick={() => navigate('/products')}
+                >
+                  View All Products
+                </Button>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-12 px-4">
+              <p className="text-base sm:text-lg text-foreground/80 mb-4">
+                {productsLoading
+                  ? "Loading products..."
+                  : "Connect your Shopify store to display products here"}
+              </p>
+              {!productsLoading && (
+                <p className="text-sm text-muted-foreground">
+                  Set up your .env.local file with Shopify credentials
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+        <ZigzagEdge color="hsl(var(--pastel-green))" position="bottom" />
       </section>
 
       {/* Features Section */}
@@ -78,43 +115,6 @@ const Index = () => {
               </p>
             </div>
           </div>
-        </div>
-        <ZigzagEdge color="hsl(var(--secondary))" position="bottom" />
-      </section>
-
-      {/* Products Section */}
-      <section className="relative bg-secondary py-12 sm:py-16 md:py-20">
-        <div className="container mx-auto px-4 sm:px-6">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-foreground mb-8 sm:mb-12">
-            ✨ Featured Products ✨
-          </h2>
-          {products.length > 0 ? (
-            <>
-              <ProductGrid products={products} isLoading={productsLoading} />
-              <div className="text-center mt-8 sm:mt-12">
-                <Button
-                  size="lg"
-                  className="rounded-full px-6 sm:px-8 shadow-lg hover:shadow-xl transition-shadow"
-                  onClick={() => navigate('/products')}
-                >
-                  View All Products
-                </Button>
-              </div>
-            </>
-          ) : (
-            <div className="text-center py-12 px-4">
-              <p className="text-base sm:text-lg text-foreground/80 mb-4">
-                {productsLoading
-                  ? "Loading products..."
-                  : "Connect your Shopify store to display products here"}
-              </p>
-              {!productsLoading && (
-                <p className="text-sm text-muted-foreground">
-                  Set up your .env.local file with Shopify credentials
-                </p>
-              )}
-            </div>
-          )}
         </div>
         <MultiScallopEdge color="hsl(var(--pastel-pink))" position="bottom" />
       </section>
