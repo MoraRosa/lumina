@@ -65,6 +65,7 @@ export const PRODUCT_FRAGMENT = `
     id
     title
     description
+    descriptionHtml
     handle
     availableForSale
     priceRange {

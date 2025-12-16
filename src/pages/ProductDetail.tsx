@@ -170,10 +170,11 @@ const ProductDetail = () => {
             <Separator />
 
             <div>
-              <h3 className="font-bold text-base sm:text-lg mb-2">Description</h3>
-              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                {product.description}
-              </p>
+              <h3 className="font-bold text-base sm:text-lg mb-4">Description</h3>
+              <div
+                className="text-sm sm:text-base text-muted-foreground leading-relaxed prose prose-sm max-w-none"
+                dangerouslySetInnerHTML={{ __html: product.descriptionHtml || product.description }}
+              />
             </div>
 
             <Separator />

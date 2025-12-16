@@ -28,6 +28,7 @@ interface ShopifyProductDetail {
   id: string;
   title: string;
   description: string;
+  descriptionHtml?: string;
   handle: string;
   availableForSale: boolean;
   priceRange: {
@@ -98,9 +99,10 @@ const transformShopifyProductDetail = (shopifyProduct: ShopifyProductDetail): Pr
     id: shopifyProduct.id,
     title: shopifyProduct.title,
     description: shopifyProduct.description,
+    descriptionHtml: shopifyProduct.descriptionHtml,
     price: `$${parseFloat(price.amount).toFixed(2)}`,
-    compareAtPrice: compareAtPrice 
-      ? `$${parseFloat(compareAtPrice.amount).toFixed(2)}` 
+    compareAtPrice: compareAtPrice
+      ? `$${parseFloat(compareAtPrice.amount).toFixed(2)}`
       : undefined,
     image: images[0],
     images: images,
