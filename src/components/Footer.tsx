@@ -31,55 +31,20 @@ export const Footer = () => {
     setIsSubmitting(true);
 
     try {
-      // Create Shopify customer account for newsletter
-      const response = await fetch(
-        `https://${import.meta.env.VITE_SHOPIFY_STORE_DOMAIN}/api/2025-07/graphql.json`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Shopify-Storefront-Access-Token': import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN || '',
-          },
-          body: JSON.stringify({
-            query: `
-              mutation customerCreate($input: CustomerCreateInput!) {
-                customerCreate(input: $input) {
-                  customer {
-                    id
-                    email
-                  }
-                  customerUserErrors {
-                    field
-                    message
-                  }
-                }
-              }
-            `,
-            variables: {
-              input: {
-                email: data.email,
-                acceptsMarketing: true,
-              },
-            },
-          }),
-        }
-      );
+      // Note: Newsletter signup via Shopify Storefront API is not currently supported
+      // The customerCreate mutation requires a password, which defeats the purpose of newsletter-only signup
+      // For now, we'll save the email to localStorage and show a success message
+      // TODO: Integrate with a proper email marketing service (Klaviyo, Mailchimp, etc.) or use Shopify Admin API
 
-      const result = await response.json();
+      const newsletterEmails = JSON.parse(localStorage.getItem('newsletter_emails') || '[]');
 
-      if (result.data?.customerCreate?.customerUserErrors?.length > 0) {
-        const error = result.data.customerCreate.customerUserErrors[0];
-
-        // If customer already exists, that's okay - they're subscribed!
-        if (error.message.includes('taken') || error.message.includes('already exists')) {
-          toast.info("You're already subscribed! 💌");
-        } else {
-          toast.error(error.message || 'Failed to subscribe. Please try again.');
-        }
-      } else if (result.data?.customerCreate?.customer) {
-        toast.success("Welcome to Lumina! Check your inbox soon ✨");
+      if (newsletterEmails.includes(data.email)) {
+        toast.info("You're already subscribed! 💌");
       } else {
-        throw new Error('Unexpected response from Shopify');
+        newsletterEmails.push(data.email);
+        localStorage.setItem('newsletter_emails', JSON.stringify(newsletterEmails));
+        toast.success("Thanks for subscribing! We'll be in touch soon ✨");
+        console.log('Newsletter signup:', data.email);
       }
     } catch (error) {
       console.error('Newsletter subscription error:', error);

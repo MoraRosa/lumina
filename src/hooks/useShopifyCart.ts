@@ -188,7 +188,7 @@ export const useAddToShopifyCart = () => {
 // Helper hook to sync local cart with Shopify and get checkout URL
 export const useSyncCartWithShopify = () => {
   const items = useCartStore((state) => state.items);
-  const { mutateAsync: addToCart } = useAddToShopifyCart();
+  const { mutateAsync: createCart } = useCreateShopifyCart();
 
   const syncAndCheckout = async () => {
     if (items.length === 0) {
@@ -197,12 +197,16 @@ export const useSyncCartWithShopify = () => {
     }
 
     try {
+      // Always create a fresh cart for checkout
+      // Clear any old Shopify cart ID first
+      localStorage.removeItem(SHOPIFY_CART_ID_KEY);
+
       const lines = items.map(item => ({
         merchandiseId: item.variantId,
         quantity: item.quantity,
       }));
 
-      const cart = await addToCart(lines);
+      const cart = await createCart(lines);
       return cart.checkoutUrl;
     } catch (error) {
       console.error('Failed to sync cart:', error);

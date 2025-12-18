@@ -14,6 +14,7 @@ import { ScrollArea } from "./ui/scroll-area";
 import { useSyncCartWithShopify } from "@/hooks/useShopifyCart";
 import { isShopifyConfigured } from "@/lib/shopify";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface CartDrawerProps {
   open: boolean;
@@ -21,7 +22,7 @@ interface CartDrawerProps {
 }
 
 export const CartDrawer = ({ open, onOpenChange }: CartDrawerProps) => {
-  const { items, removeItem, updateQuantity, checkoutUrl } = useCartStore();
+  const { items, removeItem, updateQuantity } = useCartStore();
   const { syncAndCheckout } = useSyncCartWithShopify();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
 
@@ -39,18 +40,10 @@ export const CartDrawer = ({ open, onOpenChange }: CartDrawerProps) => {
     console.log('🛒 Starting checkout process...');
     setIsCheckingOut(true);
     try {
-      // If we already have a checkout URL, use it
-      if (checkoutUrl) {
-        console.log('✅ Using existing checkout URL:', checkoutUrl);
-        window.location.href = checkoutUrl;
-        return;
-      }
-
-      // Otherwise, sync cart with Shopify and get checkout URL
-      console.log('🔄 Syncing cart with Shopify...');
+      // Always create a fresh checkout with current cart items
       const url = await syncAndCheckout();
       if (url) {
-        console.log('✅ Got checkout URL:', url);
+        console.log('✅ Redirecting to checkout...');
         window.location.href = url;
       } else {
         console.error('❌ No checkout URL returned');
