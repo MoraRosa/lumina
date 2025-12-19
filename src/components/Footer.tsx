@@ -4,7 +4,8 @@ import { ScallopedCircleEdge } from "./edges/ScallopedCircleEdge";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { toast } from "sonner";
-import { Youtube, PinIcon as Pinterest } from "lucide-react";
+import { Youtube, PinIcon as Pinterest, Instagram, Facebook } from "lucide-react";
+import { FaTiktok, FaThreads } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -103,6 +104,30 @@ export const Footer = () => {
             <ul className="space-y-2 text-sm sm:text-base text-foreground/80">
               <li>
                 <Link
+                  to="/about"
+                  className="hover:text-foreground transition-colors inline-block py-1"
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  className="hover:text-foreground transition-colors inline-block py-1"
+                >
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/faq"
+                  className="hover:text-foreground transition-colors inline-block py-1"
+                >
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/shipping"
                   className="hover:text-foreground transition-colors inline-block py-1"
                 >
@@ -123,24 +148,60 @@ export const Footer = () => {
 
         {/* Social Links & Copyright */}
         <div className="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-border/30 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6">
-          <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-center">
             <a
-              href="https://youtube.com"
+              href="https://instagram.com/lumaraeofficial"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-background/80 flex items-center justify-center hover:bg-background hover:scale-110 transition-all"
-              aria-label="Follow us on YouTube"
+              aria-label="Follow us on Instagram"
             >
-              <Youtube className="h-5 w-5 sm:h-6 sm:w-6" />
+              <Instagram className="h-5 w-5 sm:h-6 sm:w-6" />
             </a>
             <a
-              href="https://pinterest.com"
+              href="https://facebook.com/luminacoskin"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-background/80 flex items-center justify-center hover:bg-background hover:scale-110 transition-all"
+              aria-label="Follow us on Facebook"
+            >
+              <Facebook className="h-5 w-5 sm:h-6 sm:w-6" />
+            </a>
+            <a
+              href="https://tiktok.com/@luminacoskin"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-background/80 flex items-center justify-center hover:bg-background hover:scale-110 transition-all"
+              aria-label="Follow us on TikTok"
+            >
+              <FaTiktok className="h-5 w-5 sm:h-6 sm:w-6" />
+            </a>
+            <a
+              href="https://threads.net/@lumaraeofficial"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-background/80 flex items-center justify-center hover:bg-background hover:scale-110 transition-all"
+              aria-label="Follow us on Threads"
+            >
+              <FaThreads className="h-5 w-5 sm:h-6 sm:w-6" />
+            </a>
+            <a
+              href="https://pinterest.com/luminacoskin"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-background/80 flex items-center justify-center hover:bg-background hover:scale-110 transition-all"
               aria-label="Follow us on Pinterest"
             >
               <Pinterest className="h-5 w-5 sm:h-6 sm:w-6" />
+            </a>
+            <a
+              href="https://youtube.com/@luminacoskin"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-background/80 flex items-center justify-center hover:bg-background hover:scale-110 transition-all"
+              aria-label="Follow us on YouTube"
+            >
+              <Youtube className="h-5 w-5 sm:h-6 sm:w-6" />
             </a>
           </div>
 
