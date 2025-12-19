@@ -8,8 +8,17 @@ import { useProducts } from "@/hooks/useProducts";
 import { useCollectionProducts } from "@/hooks/useCollectionProducts";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Product } from "@/components/ProductCard";
 
 type Category = 'all' | 'fragrance' | 'body';
+type SortOption = 'alphabetical-asc' | 'alphabetical-desc' | 'price-asc' | 'price-desc';
 
 const PRODUCTS_PER_PAGE = 12;
 
@@ -17,6 +26,7 @@ const ProductListing = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category>('all');
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortOption, setSortOption] = useState<SortOption>('alphabetical-asc');
 
   // Fetch products based on selected category
   const { data: allProducts = [], isLoading: isLoadingAll } = useProducts(100);
@@ -24,7 +34,7 @@ const ProductListing = () => {
   const { data: bodyProducts = [], isLoading: isLoadingBody } = useCollectionProducts('body', 100);
 
   // Get current products based on selected category
-  const { products, isLoading } = useMemo(() => {
+  const { products: unsortedProducts, isLoading } = useMemo(() => {
     switch (selectedCategory) {
       case 'fragrance':
         return { products: fragranceProducts, isLoading: isLoadingFragrance };
@@ -34,6 +44,32 @@ const ProductListing = () => {
         return { products: allProducts, isLoading: isLoadingAll };
     }
   }, [selectedCategory, allProducts, fragranceProducts, bodyProducts, isLoadingAll, isLoadingFragrance, isLoadingBody]);
+
+  // Sort products based on selected sort option
+  const products = useMemo(() => {
+    const sorted = [...unsortedProducts];
+
+    switch (sortOption) {
+      case 'alphabetical-asc':
+        return sorted.sort((a, b) => a.title.localeCompare(b.title));
+      case 'alphabetical-desc':
+        return sorted.sort((a, b) => b.title.localeCompare(a.title));
+      case 'price-asc':
+        return sorted.sort((a, b) => {
+          const priceA = parseFloat(a.price.replace('$', ''));
+          const priceB = parseFloat(b.price.replace('$', ''));
+          return priceA - priceB;
+        });
+      case 'price-desc':
+        return sorted.sort((a, b) => {
+          const priceA = parseFloat(a.price.replace('$', ''));
+          const priceB = parseFloat(b.price.replace('$', ''));
+          return priceB - priceA;
+        });
+      default:
+        return sorted;
+    }
+  }, [unsortedProducts, sortOption]);
 
   // Calculate pagination
   const totalProducts = products.length;
@@ -51,6 +87,11 @@ const ProductListing = () => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSortChange = (value: SortOption) => {
+    setSortOption(value);
+    setCurrentPage(1);
   };
 
   return (
@@ -73,31 +114,50 @@ const ProductListing = () => {
         <ScallopedEdge color="hsl(var(--background))" position="bottom" />
       </section>
 
-      {/* Category Filter Tabs */}
+      {/* OPTION 1: Category Filter Tabs with Sort Dropdown on Same Line */}
       <section className="py-6 sm:py-8 border-b border-border/30">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
-            <Button
-              variant={selectedCategory === 'all' ? 'default' : 'outline'}
-              onClick={() => handleCategoryChange('all')}
-              className="rounded-full px-4 sm:px-6 h-9 sm:h-10 text-sm sm:text-base"
-            >
-              All Products
-            </Button>
-            <Button
-              variant={selectedCategory === 'fragrance' ? 'default' : 'outline'}
-              onClick={() => handleCategoryChange('fragrance')}
-              className="rounded-full px-4 sm:px-6 h-9 sm:h-10 text-sm sm:text-base"
-            >
-              Fragrance
-            </Button>
-            <Button
-              variant={selectedCategory === 'body' ? 'default' : 'outline'}
-              onClick={() => handleCategoryChange('body')}
-              className="rounded-full px-4 sm:px-6 h-9 sm:h-10 text-sm sm:text-base"
-            >
-              Bath & Body
-            </Button>
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+            {/* Category Tabs */}
+            <div className="flex flex-wrap gap-2 sm:gap-3 justify-center lg:justify-start">
+              <Button
+                variant={selectedCategory === 'all' ? 'default' : 'outline'}
+                onClick={() => handleCategoryChange('all')}
+                className="rounded-full px-4 sm:px-6 h-9 sm:h-10 text-sm sm:text-base"
+              >
+                All Products
+              </Button>
+              <Button
+                variant={selectedCategory === 'fragrance' ? 'default' : 'outline'}
+                onClick={() => handleCategoryChange('fragrance')}
+                className="rounded-full px-4 sm:px-6 h-9 sm:h-10 text-sm sm:text-base"
+              >
+                Fragrance
+              </Button>
+              <Button
+                variant={selectedCategory === 'body' ? 'default' : 'outline'}
+                onClick={() => handleCategoryChange('body')}
+                className="rounded-full px-4 sm:px-6 h-9 sm:h-10 text-sm sm:text-base"
+              >
+                Bath & Body
+              </Button>
+            </div>
+
+            {/* Sort Dropdown - OPTION 1 */}
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-foreground/70 whitespace-nowrap">Sort by:</span>
+              <Select value={sortOption} onValueChange={handleSortChange}>
+                <SelectTrigger className="w-[180px] rounded-full h-9 sm:h-10">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="alphabetical-asc">A-Z</SelectItem>
+                  <SelectItem value="alphabetical-desc">Z-A</SelectItem>
+                  <SelectItem value="price-asc">Price: Low to High</SelectItem>
+                  <SelectItem value="price-desc">Price: High to Low</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
       </section>
@@ -105,12 +165,28 @@ const ProductListing = () => {
       {/* Products Section */}
       <section className="py-12 sm:py-16 md:py-20">
         <div className="container mx-auto px-4 sm:px-6">
-          {/* Product Count */}
+          {/* Product Count and Sort Dropdown - OPTION 2 */}
           {!isLoading && totalProducts > 0 && (
-            <div className="text-center mb-6 sm:mb-8">
+            <div className="flex flex-col sm:flex-row items-center justify-between mb-6 sm:mb-8 gap-4">
               <p className="text-sm sm:text-base text-foreground/70">
                 Showing {startIndex + 1}-{Math.min(endIndex, totalProducts)} of {totalProducts} products
               </p>
+
+              {/* Sort Dropdown - OPTION 2 */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-foreground/70 whitespace-nowrap">Sort by:</span>
+                <Select value={sortOption} onValueChange={handleSortChange}>
+                  <SelectTrigger className="w-[180px] rounded-full h-9 sm:h-10">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="alphabetical-asc">A-Z</SelectItem>
+                    <SelectItem value="alphabetical-desc">Z-A</SelectItem>
+                    <SelectItem value="price-asc">Price: Low to High</SelectItem>
+                    <SelectItem value="price-desc">Price: High to Low</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           )}
 
