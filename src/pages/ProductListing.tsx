@@ -29,9 +29,16 @@ const ProductListing = () => {
   const [sortOption, setSortOption] = useState<SortOption>('alphabetical-asc');
 
   // Fetch products based on selected category
-  const { data: allProducts = [], isLoading: isLoadingAll } = useProducts(100);
-  const { data: fragranceProducts = [], isLoading: isLoadingFragrance } = useCollectionProducts('fragrance', 100);
-  const { data: bodyProducts = [], isLoading: isLoadingBody } = useCollectionProducts('body', 100);
+  const { data: allProducts = [], isLoading: isLoadingAll } = useProducts(250);
+  const { data: fragranceProducts = [], isLoading: isLoadingFragrance } = useCollectionProducts('fragrance', 250);
+  const { data: bodyProducts = [], isLoading: isLoadingBody } = useCollectionProducts('body', 250);
+
+  // Debug logging
+  console.log('📊 Product counts:', {
+    all: allProducts.length,
+    fragrance: fragranceProducts.length,
+    body: bodyProducts.length,
+  });
 
   // Get current products based on selected category
   const { products: unsortedProducts, isLoading } = useMemo(() => {
