@@ -103,12 +103,34 @@ export const Footer = () => {
             </h3>
             <ul className="space-y-2 text-sm sm:text-base text-foreground/80">
               <li>
-                <Link
-                  to="/about"
+                <a
+                  href="https://luminaco.skin/about"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hover:text-foreground transition-colors inline-block py-1"
                 >
                   About Us
-                </Link>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://luminaco.skin/blog"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-foreground transition-colors inline-block py-1"
+                >
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://luminaco.skin/faq"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-foreground transition-colors inline-block py-1"
+                >
+                  FAQ
+                </a>
               </li>
               <li>
                 <Link
@@ -116,14 +138,6 @@ export const Footer = () => {
                   className="hover:text-foreground transition-colors inline-block py-1"
                 >
                   Contact
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/faq"
-                  className="hover:text-foreground transition-colors inline-block py-1"
-                >
-                  FAQ
                 </Link>
               </li>
               <li>
