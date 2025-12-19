@@ -30,13 +30,13 @@ const Index = () => {
       <CartDrawer open={isCartOpen} onOpenChange={setIsCartOpen} />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-pastel-pink to-pastel-pink/80 py-12 sm:py-16 md:py-20 lg:py-24">
+      <section className="relative bg-gradient-to-br from-pastel-pink to-pastel-pink/80 pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-16 sm:pb-20 md:pb-24 lg:pb-28">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6 leading-tight">
               ✨ Lumina Skincare ✨
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-foreground/90 mb-6 sm:mb-8 px-4">
+            <p className="text-lg sm:text-xl md:text-2xl text-foreground/90 mb-6 sm:mb-8 px-4 pb-2">
               Gentle, fragrance-free skincare for sensitive skin
             </p>
             <Button
@@ -89,9 +89,9 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="relative bg-pastel-green py-12 sm:py-16 md:py-20">
+      <section className="relative bg-pastel-green pt-12 sm:pt-16 md:pt-20 pb-16 sm:pb-20 md:pb-24">
         <div className="container mx-auto px-4 sm:px-6">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-foreground mb-8 sm:mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-foreground mb-8 sm:mb-12 pb-2">
             Why Choose Lumina?
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
