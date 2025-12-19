@@ -114,50 +114,31 @@ const ProductListing = () => {
         <ScallopedEdge color="hsl(var(--background))" position="bottom" />
       </section>
 
-      {/* OPTION 1: Category Filter Tabs with Sort Dropdown on Same Line */}
+      {/* Category Filter Tabs */}
       <section className="py-6 sm:py-8 border-b border-border/30">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
-            {/* Category Tabs */}
-            <div className="flex flex-wrap gap-2 sm:gap-3 justify-center lg:justify-start">
-              <Button
-                variant={selectedCategory === 'all' ? 'default' : 'outline'}
-                onClick={() => handleCategoryChange('all')}
-                className="rounded-full px-4 sm:px-6 h-9 sm:h-10 text-sm sm:text-base"
-              >
-                All Products
-              </Button>
-              <Button
-                variant={selectedCategory === 'fragrance' ? 'default' : 'outline'}
-                onClick={() => handleCategoryChange('fragrance')}
-                className="rounded-full px-4 sm:px-6 h-9 sm:h-10 text-sm sm:text-base"
-              >
-                Fragrance
-              </Button>
-              <Button
-                variant={selectedCategory === 'body' ? 'default' : 'outline'}
-                onClick={() => handleCategoryChange('body')}
-                className="rounded-full px-4 sm:px-6 h-9 sm:h-10 text-sm sm:text-base"
-              >
-                Bath & Body
-              </Button>
-            </div>
-
-            {/* Sort Dropdown - OPTION 1 */}
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-foreground/70 whitespace-nowrap">Sort by:</span>
-              <Select value={sortOption} onValueChange={handleSortChange}>
-                <SelectTrigger className="w-[180px] rounded-full h-9 sm:h-10">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="alphabetical-asc">A-Z</SelectItem>
-                  <SelectItem value="alphabetical-desc">Z-A</SelectItem>
-                  <SelectItem value="price-asc">Price: Low to High</SelectItem>
-                  <SelectItem value="price-desc">Price: High to Low</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
+            <Button
+              variant={selectedCategory === 'all' ? 'default' : 'outline'}
+              onClick={() => handleCategoryChange('all')}
+              className="rounded-full px-4 sm:px-6 h-9 sm:h-10 text-sm sm:text-base"
+            >
+              All Products
+            </Button>
+            <Button
+              variant={selectedCategory === 'fragrance' ? 'default' : 'outline'}
+              onClick={() => handleCategoryChange('fragrance')}
+              className="rounded-full px-4 sm:px-6 h-9 sm:h-10 text-sm sm:text-base"
+            >
+              Fragrance
+            </Button>
+            <Button
+              variant={selectedCategory === 'body' ? 'default' : 'outline'}
+              onClick={() => handleCategoryChange('body')}
+              className="rounded-full px-4 sm:px-6 h-9 sm:h-10 text-sm sm:text-base"
+            >
+              Bath & Body
+            </Button>
           </div>
         </div>
       </section>
@@ -165,14 +146,14 @@ const ProductListing = () => {
       {/* Products Section */}
       <section className="py-12 sm:py-16 md:py-20">
         <div className="container mx-auto px-4 sm:px-6">
-          {/* Product Count and Sort Dropdown - OPTION 2 */}
+          {/* Product Count and Sort Dropdown */}
           {!isLoading && totalProducts > 0 && (
             <div className="flex flex-col sm:flex-row items-center justify-between mb-6 sm:mb-8 gap-4">
               <p className="text-sm sm:text-base text-foreground/70">
                 Showing {startIndex + 1}-{Math.min(endIndex, totalProducts)} of {totalProducts} products
               </p>
 
-              {/* Sort Dropdown - OPTION 2 */}
+              {/* Sort Dropdown */}
               <div className="flex items-center gap-2">
                 <span className="text-sm text-foreground/70 whitespace-nowrap">Sort by:</span>
                 <Select value={sortOption} onValueChange={handleSortChange}>
