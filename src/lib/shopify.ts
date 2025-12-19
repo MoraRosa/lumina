@@ -189,6 +189,41 @@ export const GET_COLLECTIONS_QUERY = `
   }
 `;
 
+export const GET_COLLECTION_PRODUCTS_QUERY = `
+  ${PRODUCT_FRAGMENT}
+  query GetCollectionProducts($handle: String!, $first: Int!) {
+    collection(handle: $handle) {
+      id
+      title
+      handle
+      products(first: $first) {
+        edges {
+          node {
+            ...ProductFragment
+            variants(first: 1) {
+              edges {
+                node {
+                  id
+                  title
+                  availableForSale
+                  priceV2 {
+                    amount
+                    currencyCode
+                  }
+                  compareAtPriceV2 {
+                    amount
+                    currencyCode
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const GET_SHOP_POLICIES_QUERY = `
   query GetShopPolicies {
     shop {

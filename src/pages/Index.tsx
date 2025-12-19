@@ -10,11 +10,19 @@ import { MultiScallopEdge } from "@/components/edges/MultiScallopEdge";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Heart, Shield } from "lucide-react";
 import { useProducts } from "@/hooks/useProducts";
+import { useCollectionProducts } from "@/hooks/useCollectionProducts";
 
 const Index = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const navigate = useNavigate();
-  const { data: products = [], isLoading: productsLoading } = useProducts(8);
+
+  // Try to fetch from "home-page" collection first, fallback to all products
+  const { data: homePageProducts = [], isLoading: isLoadingHomePage } = useCollectionProducts('home-page', 8);
+  const { data: allProducts = [], isLoading: isLoadingAll } = useProducts(8);
+
+  // Use home-page collection if it has products, otherwise use all products
+  const products = homePageProducts.length > 0 ? homePageProducts : allProducts;
+  const productsLoading = homePageProducts.length > 0 ? isLoadingHomePage : isLoadingAll;
 
   return (
     <div className="min-h-screen bg-background">
