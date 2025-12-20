@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
@@ -20,13 +20,32 @@ import { Product } from "@/components/ProductCard";
 type Category = 'all' | 'fragrance' | 'body';
 type SortOption = 'alphabetical-asc' | 'alphabetical-desc' | 'price-asc' | 'price-desc';
 
-const PRODUCTS_PER_PAGE = 12;
+// Responsive products per page: 6 on mobile, 12 on desktop
+const getProductsPerPage = () => {
+  if (typeof window === 'undefined') return 12;
+  return window.innerWidth < 768 ? 6 : 12;
+};
 
 const ProductListing = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOption, setSortOption] = useState<SortOption>('alphabetical-asc');
+  const [productsPerPage, setProductsPerPage] = useState(getProductsPerPage());
+
+  // Update products per page on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const newProductsPerPage = getProductsPerPage();
+      if (newProductsPerPage !== productsPerPage) {
+        setProductsPerPage(newProductsPerPage);
+        setCurrentPage(1); // Reset to page 1 when changing products per page
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [productsPerPage]);
 
   // Fetch products based on selected category
   const { data: allProducts = [], isLoading: isLoadingAll } = useProducts(250);
@@ -80,9 +99,9 @@ const ProductListing = () => {
 
   // Calculate pagination
   const totalProducts = products.length;
-  const totalPages = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
-  const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
-  const endIndex = startIndex + PRODUCTS_PER_PAGE;
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
   const currentProducts = products.slice(startIndex, endIndex);
 
   // Reset to page 1 when category changes
