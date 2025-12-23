@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
@@ -7,11 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { ShoppingBag, ArrowLeft, Minus, Plus } from "lucide-react";
+import { ShoppingBag, ArrowLeft, Minus, Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import { useProduct } from "@/hooks/useProduct";
 import { MediaItem } from "@/components/ProductCard";
+import useEmblaCarousel from "embla-carousel-react";
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
@@ -32,6 +34,45 @@ const ProductDetail = () => {
       url,
       altText: product.title,
     })) || []);
+
+  // Embla carousel setup
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: 'start',
+  });
+  const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
+    containScroll: 'keepSnaps',
+    dragFree: true,
+  });
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const onThumbClick = useCallback(
+    (index: number) => {
+      if (!emblaApi || !emblaThumbsApi) return;
+      emblaApi.scrollTo(index);
+    },
+    [emblaApi, emblaThumbsApi]
+  );
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi || !emblaThumbsApi) return;
+    setSelectedMediaIndex(emblaApi.selectedScrollSnap());
+    emblaThumbsApi.scrollTo(emblaApi.selectedScrollSnap());
+  }, [emblaApi, emblaThumbsApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+  }, [emblaApi, onSelect]);
 
   const handleAddToCart = () => {
     if (!product) return;
@@ -101,12 +142,40 @@ const ProductDetail = () => {
     );
   }
 
-  const hasDiscount = product.compareAtPrice && 
-    parseFloat(product.compareAtPrice.replace(/[^0-9.]/g, "")) > 
+  const hasDiscount = product.compareAtPrice &&
+    parseFloat(product.compareAtPrice.replace(/[^0-9.]/g, "")) >
     parseFloat(product.price.replace(/[^0-9.]/g, ""));
+
+  // Get first image for OG tags
+  const ogImage = displayMedia.length > 0 && displayMedia[0].type === 'IMAGE'
+    ? displayMedia[0].url
+    : displayMedia[0]?.previewUrl || 'https://morarosa.github.io/lumina/images/og%20image.png';
+
+  const pageUrl = `https://morarosa.github.io/lumina/products/${handle}`;
+  const description = product.description?.substring(0, 160) || `Shop ${product.title} at Lumina Skincare - Gentle, fragrance-free skincare for sensitive skin.`;
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>{product.title} - Lumina Skincare</title>
+        <meta name="description" content={description} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="product" />
+        <meta property="og:title" content={`${product.title} - Lumina Skincare`} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:price:amount" content={product.price.replace(/[^0-9.]/g, "")} />
+        <meta property="og:price:currency" content="USD" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${product.title} - Lumina Skincare`} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+      </Helmet>
+
       <Navbar onCartClick={() => setIsCartOpen(true)} />
       <CartDrawer open={isCartOpen} onOpenChange={setIsCartOpen} />
 
@@ -121,98 +190,138 @@ const ProductDetail = () => {
         </Button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12">
-          {/* Product Media Gallery */}
+          {/* Product Media Gallery with Carousel */}
           <div className="space-y-3 sm:space-y-4">
-            <div className="aspect-square rounded-3xl overflow-hidden bg-muted ring-2 ring-border/20">
-              {displayMedia.length > 0 ? (
-                <>
-                  {displayMedia[selectedMediaIndex].type === 'IMAGE' && (
-                    <img
-                      src={displayMedia[selectedMediaIndex].url}
-                      alt={displayMedia[selectedMediaIndex].altText || product.title}
-                      className="w-full h-full object-cover"
-                    />
-                  )}
-                  {displayMedia[selectedMediaIndex].type === 'VIDEO' && (
-                    <video
-                      src={displayMedia[selectedMediaIndex].url}
-                      poster={displayMedia[selectedMediaIndex].previewUrl}
-                      controls
-                      className="w-full h-full object-cover"
-                      playsInline
-                    >
-                      Your browser does not support the video tag.
-                    </video>
-                  )}
-                  {displayMedia[selectedMediaIndex].type === 'MODEL_3D' && (
-                    <div className="w-full h-full flex flex-col items-center justify-center bg-muted">
-                      <model-viewer
-                        src={displayMedia[selectedMediaIndex].url}
-                        alt={displayMedia[selectedMediaIndex].altText || product.title}
-                        poster={displayMedia[selectedMediaIndex].previewUrl}
-                        auto-rotate
-                        camera-controls
-                        style={{ width: '100%', height: '100%' }}
-                      />
-                    </div>
-                  )}
-                  {displayMedia[selectedMediaIndex].type === 'EXTERNAL_VIDEO' && (
-                    <div className="w-full h-full">
-                      <iframe
-                        src={displayMedia[selectedMediaIndex].embedUrl}
-                        title={displayMedia[selectedMediaIndex].altText || product.title}
-                        className="w-full h-full"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                  )}
-                </>
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <ShoppingBag className="h-16 w-16 sm:h-24 sm:w-24 text-muted-foreground" />
-                </div>
-              )}
-            </div>
-            {displayMedia.length > 1 && (
-              <div className="grid grid-cols-4 gap-2 sm:gap-3">
-                {displayMedia.map((media, index) => (
-                  <button
-                    key={media.id}
-                    onClick={() => setSelectedMediaIndex(index)}
-                    className={`aspect-square rounded-xl sm:rounded-2xl overflow-hidden border-2 transition-all hover:scale-105 ${
-                      selectedMediaIndex === index
-                        ? "border-primary ring-2 ring-primary/30"
-                        : "border-transparent hover:border-border"
-                    }`}
-                  >
-                    {media.type === 'IMAGE' && (
-                      <img
-                        src={media.url}
-                        alt={media.altText || `${product.title} ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    )}
-                    {(media.type === 'VIDEO' || media.type === 'MODEL_3D' || media.type === 'EXTERNAL_VIDEO') && media.previewUrl && (
-                      <div className="relative w-full h-full">
-                        <img
-                          src={media.previewUrl}
-                          alt={media.altText || `${product.title} ${index + 1}`}
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                          <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center">
-                            {media.type === 'VIDEO' || media.type === 'EXTERNAL_VIDEO' ? (
-                              <div className="w-0 h-0 border-l-8 border-l-black border-y-4 border-y-transparent ml-1" />
-                            ) : (
-                              <span className="text-xs font-bold">3D</span>
-                            )}
-                          </div>
+            {/* Main Carousel */}
+            <div className="relative group">
+              <div className="overflow-hidden rounded-3xl" ref={emblaRef}>
+                <div className="flex touch-pan-y">
+                  {displayMedia.length > 0 ? (
+                    displayMedia.map((media, index) => (
+                      <div key={media.id} className="flex-[0_0_100%] min-w-0">
+                        <div className="aspect-square bg-muted ring-2 ring-border/20 rounded-3xl overflow-hidden">
+                          {media.type === 'IMAGE' && (
+                            <img
+                              src={media.url}
+                              alt={media.altText || product.title}
+                              className="w-full h-full object-cover"
+                              draggable={false}
+                            />
+                          )}
+                          {media.type === 'VIDEO' && (
+                            <video
+                              src={media.url}
+                              poster={media.previewUrl}
+                              controls
+                              className="w-full h-full object-cover"
+                              playsInline
+                            >
+                              Your browser does not support the video tag.
+                            </video>
+                          )}
+                          {media.type === 'MODEL_3D' && (
+                            <div className="w-full h-full flex flex-col items-center justify-center bg-muted">
+                              <model-viewer
+                                src={media.url}
+                                alt={media.altText || product.title}
+                                poster={media.previewUrl}
+                                auto-rotate
+                                camera-controls
+                                style={{ width: '100%', height: '100%' }}
+                              />
+                            </div>
+                          )}
+                          {media.type === 'EXTERNAL_VIDEO' && (
+                            <div className="w-full h-full">
+                              <iframe
+                                src={media.embedUrl}
+                                title={media.altText || product.title}
+                                className="w-full h-full"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                              />
+                            </div>
+                          )}
                         </div>
                       </div>
-                    )}
-                  </button>
-                ))}
+                    ))
+                  ) : (
+                    <div className="flex-[0_0_100%] min-w-0">
+                      <div className="aspect-square bg-muted ring-2 ring-border/20 rounded-3xl overflow-hidden flex items-center justify-center">
+                        <ShoppingBag className="h-16 w-16 sm:h-24 sm:w-24 text-muted-foreground" />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Navigation Arrows */}
+              {displayMedia.length > 1 && (
+                <>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={scrollPrev}
+                    className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={scrollNext}
+                    className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-white/90 hover:bg-white shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
+                  </Button>
+                </>
+              )}
+            </div>
+
+            {/* Thumbnail Carousel */}
+            {displayMedia.length > 1 && (
+              <div className="overflow-hidden" ref={emblaThumbsRef}>
+                <div className="flex gap-2 sm:gap-3">
+                  {displayMedia.map((media, index) => (
+                    <button
+                      key={media.id}
+                      onClick={() => onThumbClick(index)}
+                      className={`flex-[0_0_23%] sm:flex-[0_0_23%] min-w-0 aspect-square rounded-xl sm:rounded-2xl overflow-hidden border-2 transition-all hover:scale-105 ${
+                        selectedMediaIndex === index
+                          ? "border-primary ring-2 ring-primary/30"
+                          : "border-transparent hover:border-border"
+                      }`}
+                    >
+                      {media.type === 'IMAGE' && (
+                        <img
+                          src={media.url}
+                          alt={media.altText || `${product.title} ${index + 1}`}
+                          className="w-full h-full object-cover"
+                          draggable={false}
+                        />
+                      )}
+                      {(media.type === 'VIDEO' || media.type === 'MODEL_3D' || media.type === 'EXTERNAL_VIDEO') && media.previewUrl && (
+                        <div className="relative w-full h-full">
+                          <img
+                            src={media.previewUrl}
+                            alt={media.altText || `${product.title} ${index + 1}`}
+                            className="w-full h-full object-cover"
+                            draggable={false}
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white/90 flex items-center justify-center">
+                              {media.type === 'VIDEO' || media.type === 'EXTERNAL_VIDEO' ? (
+                                <div className="w-0 h-0 border-l-6 sm:border-l-8 border-l-black border-y-3 sm:border-y-4 border-y-transparent ml-0.5 sm:ml-1" />
+                              ) : (
+                                <span className="text-[10px] sm:text-xs font-bold">3D</span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
           </div>

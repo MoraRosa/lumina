@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
@@ -120,8 +121,32 @@ const ProductListing = () => {
     setCurrentPage(1);
   };
 
+  const categoryTitle = selectedCategory === 'fragrance'
+    ? 'Fragrance Line'
+    : selectedCategory === 'body'
+    ? 'Bath & Body Line'
+    : 'All Products';
+
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>{categoryTitle} - Lumina Skincare</title>
+        <meta name="description" content="Shop our gentle, fragrance-free skincare collection designed for sensitive skin. Browse our Fragrance Line and Bath & Body Line." />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={`${categoryTitle} - Lumina Skincare`} />
+        <meta property="og:description" content="Shop our gentle, fragrance-free skincare collection designed for sensitive skin." />
+        <meta property="og:url" content="https://morarosa.github.io/lumina/products/" />
+        <meta property="og:image" content="https://morarosa.github.io/lumina/images/og%20image.png" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${categoryTitle} - Lumina Skincare`} />
+        <meta name="twitter:description" content="Shop our gentle, fragrance-free skincare collection designed for sensitive skin." />
+        <meta name="twitter:image" content="https://morarosa.github.io/lumina/images/og%20image.png" />
+      </Helmet>
+
       <Navbar onCartClick={() => setIsCartOpen(true)} />
       <CartDrawer open={isCartOpen} onOpenChange={setIsCartOpen} />
 

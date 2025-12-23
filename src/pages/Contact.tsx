@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
@@ -80,6 +81,24 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Contact Us - Lumina Skincare</title>
+        <meta name="description" content="Get in touch with Lumina Skincare. We'd love to hear from you! Send us a message and we'll respond as soon as possible." />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Contact Us - Lumina Skincare" />
+        <meta property="og:description" content="Get in touch with Lumina Skincare. We'd love to hear from you!" />
+        <meta property="og:url" content="https://morarosa.github.io/lumina/contact/" />
+        <meta property="og:image" content="https://morarosa.github.io/lumina/images/og%20image.png" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Contact Us - Lumina Skincare" />
+        <meta name="twitter:description" content="Get in touch with Lumina Skincare. We'd love to hear from you!" />
+        <meta name="twitter:image" content="https://morarosa.github.io/lumina/images/og%20image.png" />
+      </Helmet>
+
       <Navbar onCartClick={() => setIsCartOpen(true)} />
       <CartDrawer open={isCartOpen} onOpenChange={setIsCartOpen} />
 
