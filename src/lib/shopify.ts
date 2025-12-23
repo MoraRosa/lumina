@@ -80,7 +80,7 @@ export const PRODUCT_FRAGMENT = `
         currencyCode
       }
     }
-    images(first: 5) {
+    images(first: 50) {
       edges {
         node {
           id
@@ -88,6 +88,55 @@ export const PRODUCT_FRAGMENT = `
           altText
           width
           height
+        }
+      }
+    }
+    media(first: 50) {
+      edges {
+        node {
+          mediaContentType
+          alt
+          ... on MediaImage {
+            id
+            image {
+              url
+              altText
+              width
+              height
+            }
+          }
+          ... on Video {
+            id
+            sources {
+              url
+              mimeType
+              format
+              height
+              width
+            }
+            previewImage {
+              url
+            }
+          }
+          ... on Model3d {
+            id
+            sources {
+              url
+              mimeType
+              format
+            }
+            previewImage {
+              url
+            }
+          }
+          ... on ExternalVideo {
+            id
+            embedUrl
+            host
+            previewImage {
+              url
+            }
+          }
         }
       }
     }

@@ -5,6 +5,22 @@ import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 
+export type MediaContentType = 'IMAGE' | 'VIDEO' | 'MODEL_3D' | 'EXTERNAL_VIDEO';
+
+export interface MediaItem {
+  id: string;
+  type: MediaContentType;
+  url: string;
+  altText?: string;
+  previewUrl?: string;
+  width?: number;
+  height?: number;
+  mimeType?: string;
+  format?: string;
+  embedUrl?: string;
+  host?: string;
+}
+
 export interface Product {
   id: string;
   title: string;
@@ -14,6 +30,7 @@ export interface Product {
   compareAtPrice?: string;
   image?: string;
   images?: string[];
+  media?: MediaItem[];
   variantId: string;
   availableForSale: boolean;
   handle: string;

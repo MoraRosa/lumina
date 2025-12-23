@@ -11,16 +11,27 @@ import { ShoppingBag, ArrowLeft, Minus, Plus } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import { useProduct } from "@/hooks/useProduct";
+import { MediaItem } from "@/components/ProductCard";
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
   const navigate = useNavigate();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  const [selectedImage, setSelectedImage] = useState(0);
+  const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
   const addItem = useCartStore((state) => state.addItem);
 
   const { data: product, isLoading } = useProduct(handle);
+
+  // Combine images and media for display
+  const allMedia: MediaItem[] = product?.media || [];
+  const displayMedia = allMedia.length > 0 ? allMedia :
+    (product?.images?.map((url, idx) => ({
+      id: `img-${idx}`,
+      type: 'IMAGE' as const,
+      url,
+      altText: product.title,
+    })) || []);
 
   const handleAddToCart = () => {
     if (!product) return;
@@ -110,38 +121,96 @@ const ProductDetail = () => {
         </Button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12">
-          {/* Product Images */}
+          {/* Product Media Gallery */}
           <div className="space-y-3 sm:space-y-4">
             <div className="aspect-square rounded-3xl overflow-hidden bg-muted ring-2 ring-border/20">
-              {product.images && product.images.length > 0 ? (
-                <img
-                  src={product.images[selectedImage]}
-                  alt={product.title}
-                  className="w-full h-full object-cover"
-                />
+              {displayMedia.length > 0 ? (
+                <>
+                  {displayMedia[selectedMediaIndex].type === 'IMAGE' && (
+                    <img
+                      src={displayMedia[selectedMediaIndex].url}
+                      alt={displayMedia[selectedMediaIndex].altText || product.title}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                  {displayMedia[selectedMediaIndex].type === 'VIDEO' && (
+                    <video
+                      src={displayMedia[selectedMediaIndex].url}
+                      poster={displayMedia[selectedMediaIndex].previewUrl}
+                      controls
+                      className="w-full h-full object-cover"
+                      playsInline
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                  )}
+                  {displayMedia[selectedMediaIndex].type === 'MODEL_3D' && (
+                    <div className="w-full h-full flex flex-col items-center justify-center bg-muted">
+                      <model-viewer
+                        src={displayMedia[selectedMediaIndex].url}
+                        alt={displayMedia[selectedMediaIndex].altText || product.title}
+                        poster={displayMedia[selectedMediaIndex].previewUrl}
+                        auto-rotate
+                        camera-controls
+                        style={{ width: '100%', height: '100%' }}
+                      />
+                    </div>
+                  )}
+                  {displayMedia[selectedMediaIndex].type === 'EXTERNAL_VIDEO' && (
+                    <div className="w-full h-full">
+                      <iframe
+                        src={displayMedia[selectedMediaIndex].embedUrl}
+                        title={displayMedia[selectedMediaIndex].altText || product.title}
+                        className="w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  )}
+                </>
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
                   <ShoppingBag className="h-16 w-16 sm:h-24 sm:w-24 text-muted-foreground" />
                 </div>
               )}
             </div>
-            {product.images && product.images.length > 1 && (
+            {displayMedia.length > 1 && (
               <div className="grid grid-cols-4 gap-2 sm:gap-3">
-                {product.images.map((image, index) => (
+                {displayMedia.map((media, index) => (
                   <button
-                    key={index}
-                    onClick={() => setSelectedImage(index)}
+                    key={media.id}
+                    onClick={() => setSelectedMediaIndex(index)}
                     className={`aspect-square rounded-xl sm:rounded-2xl overflow-hidden border-2 transition-all hover:scale-105 ${
-                      selectedImage === index
+                      selectedMediaIndex === index
                         ? "border-primary ring-2 ring-primary/30"
                         : "border-transparent hover:border-border"
                     }`}
                   >
-                    <img
-                      src={image}
-                      alt={`${product.title} ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
+                    {media.type === 'IMAGE' && (
+                      <img
+                        src={media.url}
+                        alt={media.altText || `${product.title} ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                    {(media.type === 'VIDEO' || media.type === 'MODEL_3D' || media.type === 'EXTERNAL_VIDEO') && media.previewUrl && (
+                      <div className="relative w-full h-full">
+                        <img
+                          src={media.previewUrl}
+                          alt={media.altText || `${product.title} ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                          <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center">
+                            {media.type === 'VIDEO' || media.type === 'EXTERNAL_VIDEO' ? (
+                              <div className="w-0 h-0 border-l-8 border-l-black border-y-4 border-y-transparent ml-1" />
+                            ) : (
+                              <span className="text-xs font-bold">3D</span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </button>
                 ))}
               </div>
