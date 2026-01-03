@@ -50,7 +50,9 @@ const Contact = () => {
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
       if (!serviceId || !templateId || !publicKey) {
-        console.warn("EmailJS not configured. Message:", data);
+        if (import.meta.env.DEV) {
+          console.warn("EmailJS not configured. Message:", data);
+        }
         toast.success("Message received! We'll get back to you soon ✨");
         reset();
         return;

@@ -173,11 +173,11 @@ export const useCollectionProducts = (collectionHandle: string, limit: number = 
     queryKey: ['collection-products', collectionHandle, limit],
     queryFn: async () => {
       if (!isShopifyConfigured()) {
-        console.warn('Shopify not configured, returning empty products array');
+        if (import.meta.env.DEV) {
+          console.warn('Shopify not configured, returning empty products array');
+        }
         return [];
       }
-
-      console.log(`🛍️ Fetching products from collection: ${collectionHandle}`);
 
       try {
         const { data, errors } = await shopifyClient.request<ShopifyCollectionProductsResponse>(
@@ -193,11 +193,11 @@ export const useCollectionProducts = (collectionHandle: string, limit: number = 
         }
 
         if (!data?.collection?.products?.edges) {
-          console.warn(`⚠️ No products found in collection: ${collectionHandle}`);
+          if (import.meta.env.DEV) {
+            console.warn(`⚠️ No products found in collection: ${collectionHandle}`);
+          }
           return [];
         }
-
-        console.log(`✅ Successfully fetched ${data.collection.products.edges.length} products from collection: ${collectionHandle}`);
 
         return data.collection.products.edges.map(edge => transformShopifyProduct(edge.node));
       } catch (error) {

@@ -168,11 +168,11 @@ export const useProducts = (limit: number = 20) => {
     queryKey: ['products', limit],
     queryFn: async () => {
       if (!isShopifyConfigured()) {
-        console.warn('Shopify not configured, returning empty products array');
+        if (import.meta.env.DEV) {
+          console.warn('Shopify not configured, returning empty products array');
+        }
         return [];
       }
-
-      console.log('🛍️ Fetching products from Shopify...');
 
       try {
         const { data, errors } = await shopifyClient.request<ShopifyProductsResponse>(
@@ -182,8 +182,6 @@ export const useProducts = (limit: number = 20) => {
           }
         );
 
-        console.log('📦 Raw Shopify response:', { data, errors });
-
         if (errors) {
           console.error('❌ Shopify API errors:', errors);
           throw new Error('Failed to fetch products from Shopify');
@@ -191,15 +189,7 @@ export const useProducts = (limit: number = 20) => {
 
         if (!data?.products?.edges) {
           console.warn('⚠️ No products found in Shopify response');
-          console.log('Response data:', data);
           return [];
-        }
-
-        console.log(`✅ Successfully fetched ${data.products.edges.length} products from Shopify`);
-
-        // Log first product to see what data we're getting
-        if (data.products.edges.length > 0) {
-          console.log('📝 Sample product data:', data.products.edges[0].node);
         }
 
         return data.products.edges.map(edge => transformShopifyProduct(edge.node));

@@ -66,7 +66,9 @@ export const useCartStore = create<CartStore>()(
       migrate: (persistedState: any, version: number) => {
         // If store domain changed, clear the cart
         if (persistedState?.storeVersion !== CURRENT_STORE) {
-          console.log('🔄 Store changed, clearing old cart data');
+          if (import.meta.env.DEV) {
+            console.log('🔄 Store changed, clearing old cart data');
+          }
           localStorage.removeItem('lumina-shopify-cart-id');
           return {
             items: [],

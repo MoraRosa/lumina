@@ -5,12 +5,15 @@ const storeDomain = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN;
 const storefrontAccessToken = import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
 const apiVersion = import.meta.env.VITE_SHOPIFY_API_VERSION || '2025-07';
 
-console.log('🔧 Shopify Config:', {
-  storeDomain: storeDomain ? `${storeDomain.substring(0, 10)}...` : 'NOT SET',
-  hasToken: !!storefrontAccessToken,
-  tokenLength: storefrontAccessToken?.length || 0,
-  apiVersion,
-});
+// Only log in development mode
+if (import.meta.env.DEV) {
+  console.log('🔧 Shopify Config:', {
+    storeDomain: storeDomain ? `${storeDomain.substring(0, 10)}...` : 'NOT SET',
+    hasToken: !!storefrontAccessToken,
+    tokenLength: storefrontAccessToken?.length || 0,
+    apiVersion,
+  });
+}
 
 if (!storeDomain || !storefrontAccessToken) {
   console.warn(

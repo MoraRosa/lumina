@@ -45,7 +45,9 @@ export const Footer = () => {
         newsletterEmails.push(data.email);
         localStorage.setItem('newsletter_emails', JSON.stringify(newsletterEmails));
         toast.success("Thanks for subscribing! We'll be in touch soon ✨");
-        console.log('Newsletter signup:', data.email);
+        if (import.meta.env.DEV) {
+          console.log('Newsletter signup:', data.email);
+        }
       }
     } catch (error) {
       console.error('Newsletter subscription error:', error);

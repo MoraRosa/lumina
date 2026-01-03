@@ -60,13 +60,6 @@ const ProductListing = () => {
   const { data: fragranceProducts = [], isLoading: isLoadingFragrance } = useCollectionProducts('fragrance', 250);
   const { data: bodyProducts = [], isLoading: isLoadingBody } = useCollectionProducts('body', 250);
 
-  // Debug logging
-  console.log('📊 Product counts:', {
-    all: allProducts.length,
-    fragrance: fragranceProducts.length,
-    body: bodyProducts.length,
-  });
-
   // Get current products based on selected category
   const { products: unsortedProducts, isLoading } = useMemo(() => {
     switch (selectedCategory) {

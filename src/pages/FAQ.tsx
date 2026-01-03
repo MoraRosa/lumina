@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
@@ -116,12 +117,12 @@ const FAQ = () => {
               <p className="text-foreground/80 mb-6">
                 We're here to help! Reach out to our team and we'll get back to you as soon as possible.
               </p>
-              <a
-                href="/contact"
+              <Link
+                to="/contact"
                 className="inline-block bg-foreground text-background px-8 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity"
               >
                 Contact Us
-              </a>
+              </Link>
             </div>
           </div>
         </div>
