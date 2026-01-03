@@ -18,7 +18,7 @@ export const Navbar = ({ onCartClick }: NavbarProps) => {
           <Link to="/" className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity">
             <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center flex-shrink-0">
               <img
-                src="/lumina/images/Lumina.png"
+                src="/images/Lumina.png"
                 alt="Lumina Logo"
                 className="w-full h-full object-contain"
               />

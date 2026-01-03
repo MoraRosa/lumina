@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -28,11 +29,14 @@ const getProductsPerPage = () => {
 };
 
 const ProductListing = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<Category>('all');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sortOption, setSortOption] = useState<SortOption>('alphabetical-asc');
   const [productsPerPage, setProductsPerPage] = useState(getProductsPerPage());
+
+  // Get state from URL params or use defaults
+  const selectedCategory = (searchParams.get('category') as Category) || 'all';
+  const currentPage = parseInt(searchParams.get('page') || '1', 10);
+  const sortOption = (searchParams.get('sort') as SortOption) || 'alphabetical-asc';
 
   // Update products per page on window resize
   useEffect(() => {
@@ -40,13 +44,16 @@ const ProductListing = () => {
       const newProductsPerPage = getProductsPerPage();
       if (newProductsPerPage !== productsPerPage) {
         setProductsPerPage(newProductsPerPage);
-        setCurrentPage(1); // Reset to page 1 when changing products per page
+        // Reset to page 1 when changing products per page
+        const newParams = new URLSearchParams(searchParams);
+        newParams.set('page', '1');
+        setSearchParams(newParams);
       }
     };
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [productsPerPage]);
+  }, [productsPerPage, searchParams, setSearchParams]);
 
   // Fetch products based on selected category
   const { data: allProducts = [], isLoading: isLoadingAll } = useProducts(250);
@@ -105,20 +112,35 @@ const ProductListing = () => {
   const endIndex = startIndex + productsPerPage;
   const currentProducts = products.slice(startIndex, endIndex);
 
+  // Update URL params when state changes
+  const updateParams = (updates: { category?: Category; page?: number; sort?: SortOption }) => {
+    const newParams = new URLSearchParams(searchParams);
+
+    if (updates.category !== undefined) {
+      newParams.set('category', updates.category);
+    }
+    if (updates.page !== undefined) {
+      newParams.set('page', updates.page.toString());
+    }
+    if (updates.sort !== undefined) {
+      newParams.set('sort', updates.sort);
+    }
+
+    setSearchParams(newParams);
+  };
+
   // Reset to page 1 when category changes
   const handleCategoryChange = (category: Category) => {
-    setSelectedCategory(category);
-    setCurrentPage(1);
+    updateParams({ category, page: 1 });
   };
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    updateParams({ page });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSortChange = (value: SortOption) => {
-    setSortOption(value);
-    setCurrentPage(1);
+    updateParams({ sort: value, page: 1 });
   };
 
   const categoryTitle = selectedCategory === 'fragrance'
