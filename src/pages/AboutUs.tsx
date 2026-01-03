@@ -12,20 +12,20 @@ const AboutUs = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>About Us - Lumina Skincare</title>
-        <meta name="description" content="Learn about Lumina Skincare - a Calgary-based startup launched in December 2024, dedicated to gentle, fragrance-free skincare for sensitive skin." />
-        
+        <title>About Us - Lumina</title>
+        <meta name="description" content="Lumina is a clean-inspired self-care and fragrance brand. Every product is independently formulated, handcrafted, and designed in-house with intention and care." />
+
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="About Us - Lumina Skincare" />
-        <meta property="og:description" content="Learn about Lumina Skincare - a Calgary-based startup dedicated to gentle, fragrance-free skincare." />
+        <meta property="og:title" content="About Us - Lumina" />
+        <meta property="og:description" content="Clean-inspired, handcrafted self-care and fragrance. Independently formulated and designed in-house." />
         <meta property="og:url" content="https://luminaco.skin/about/" />
         <meta property="og:image" content="https://luminaco.skin/images/og%20image.png" />
-        
+
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="About Us - Lumina Skincare" />
-        <meta name="twitter:description" content="Learn about Lumina Skincare - a Calgary-based startup dedicated to gentle, fragrance-free skincare." />
+        <meta name="twitter:title" content="About Us - Lumina" />
+        <meta name="twitter:description" content="Clean-inspired, handcrafted self-care and fragrance. Independently formulated and designed in-house." />
         <meta name="twitter:image" content="https://luminaco.skin/images/og%20image.png" />
       </Helmet>
 
@@ -40,7 +40,7 @@ const AboutUs = () => {
               ✨ About Lumina ✨
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-foreground/90 px-4">
-              Your journey to gentle, effective skincare starts here
+              Clean-inspired self-care and fragrance, rooted in comfort, intention, and thoughtful craftsmanship
             </p>
           </div>
         </div>
@@ -56,56 +56,124 @@ const AboutUs = () => {
             </h2>
             <div className="prose prose-lg max-w-none">
               <p className="text-base sm:text-lg text-foreground/80 mb-6 leading-relaxed">
-                {/* PLACEHOLDER: User will provide their brand story */}
-                Founded in Calgary, Alberta in December 2024, Lumina Skincare was born from a simple belief: 
-                everyone deserves skincare that's gentle, effective, and free from unnecessary irritants.
+                Lumina is a clean-inspired self-care and fragrance brand rooted in comfort, intention, and thoughtful craftsmanship.
               </p>
               <p className="text-base sm:text-lg text-foreground/80 mb-6 leading-relaxed">
-                {/* PLACEHOLDER: User will provide more content */}
-                As a Calgary-based startup, we're proud to serve customers across Canada with products 
-                designed specifically for sensitive skin. Our fragrance-free, allergen-free formulas are 
-                crafted with care to nourish and protect your skin.
+                Every Lumina product is independently formulated, made, and designed in-house — from the formulas themselves
+                to the packaging, labels, and artwork that surround them. The brand was created for those who value calm,
+                familiarity, and clarity in their daily routines.
+              </p>
+              <p className="text-base sm:text-lg text-foreground/80 mb-6 leading-relaxed">
+                Lumina draws inspiration from cozy, nostalgic moments and translates them into modern, minimal products that
+                feel refined yet approachable. The focus is not on excess or trend-driven beauty, but on creating everyday
+                essentials that feel considered, honest, and easy to return to.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Our Values Section */}
+      {/* Our Process Section */}
       <section className="py-12 sm:py-16 md:py-20 bg-pastel-purple/10">
         <div className="container mx-auto px-4 sm:px-6">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">
-            What We Stand For
+            Our Process
+          </h2>
+          <div className="max-w-4xl mx-auto space-y-6">
+            <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
+              All Lumina products are hand-crafted in small batches, using original formulations developed entirely in-house.
+            </p>
+            <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
+              Skincare and body care products are fragrance-free and designed with everyday comfort in mind, using
+              cosmetic-grade ingredients selected for performance, texture, and consistency.
+            </p>
+            <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
+              Lumina's fragrance line is composed of concentrated fragrance oil blends, formulated without dilution oils
+              or solvents. Each scent is intentionally developed to feel cohesive, balanced, and personal rather than overpowering.
+            </p>
+            <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
+              In addition to formulation and production, all packaging design — including labels, artwork, and paper goods —
+              is created, printed, and assembled in-house. This hands-on approach allows for close attention to quality,
+              detail, and brand integrity at every stage.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Pillars Section */}
+      <section className="py-12 sm:py-16 md:py-20">
+        <div className="container mx-auto px-4 sm:px-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">
+            Our Pillars
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
-            <div className="bg-background rounded-3xl p-6 sm:p-8 text-center">
+            <div className="bg-pastel-pink/10 rounded-3xl p-6 sm:p-8 text-center">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-pastel-pink flex items-center justify-center">
                 <Heart className="h-8 w-8 text-foreground" />
               </div>
-              <h3 className="text-xl font-bold mb-3">Gentle Care</h3>
+              <h3 className="text-xl font-bold mb-3">Fragrance-Free Care</h3>
               <p className="text-foreground/80">
-                Formulated for sensitive skin with fragrance-free, allergen-free ingredients
+                Skincare and body care formulated without added fragrance, designed for everyday comfort and sensitive skin
               </p>
             </div>
 
-            <div className="bg-background rounded-3xl p-6 sm:p-8 text-center">
+            <div className="bg-pastel-green/10 rounded-3xl p-6 sm:p-8 text-center">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-pastel-green flex items-center justify-center">
                 <Sparkles className="h-8 w-8 text-foreground" />
               </div>
-              <h3 className="text-xl font-bold mb-3">Quality First</h3>
+              <h3 className="text-xl font-bold mb-3">Intentional Scent</h3>
               <p className="text-foreground/80">
-                Premium ingredients and careful formulation for effective results
+                Concentrated fragrance oil blends developed in-house, balanced and personal without being overpowering
               </p>
             </div>
 
-            <div className="bg-background rounded-3xl p-6 sm:p-8 text-center">
+            <div className="bg-pastel-purple/10 rounded-3xl p-6 sm:p-8 text-center">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-pastel-purple flex items-center justify-center">
                 <Shield className="h-8 w-8 text-foreground" />
               </div>
-              <h3 className="text-xl font-bold mb-3">Transparency</h3>
+              <h3 className="text-xl font-bold mb-3">Made In-House</h3>
               <p className="text-foreground/80">
-                Clear ingredient lists and honest communication about our products
+                Independently formulated, handcrafted, and designed from formulation to packaging with full creative control
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Materials & Values Section */}
+      <section className="py-12 sm:py-16 md:py-20 bg-pastel-pink/10">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12">
+              What We Use
+            </h2>
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-xl font-bold mb-3">Materials</h3>
+                <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
+                  Lumina uses cosmetic-grade ingredients commonly found in modern personal care and fragrance formulations.
+                  Skincare and body care products include humectants, emollients, gentle surfactants, and plant-derived oils
+                  and butters, and are formulated without added fragrance. The fragrance line uses concentrated fragrance oil
+                  blends designed for direct wear and personal scent application.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold mb-3">Packaging</h3>
+                <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
+                  Lumina packaging combines glass and plastic components sourced for product safety and durability. All packaging
+                  design — including labels, artwork, and cardstock boxes — is designed, printed, and assembled in-house. Paper
+                  materials are selected intentionally for structure, finish, and visual consistency with the brand's clean,
+                  minimal aesthetic. Packaging is recyclable where facilities exist.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold mb-3">Our Values</h3>
+                <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
+                  Lumina is a clean-inspired brand focused on clarity and transparency. Products are formulated using cosmetic-grade
+                  ingredients, are not tested on animals, and are produced without added fragrance in the skincare and body care line.
+                  Lumina does not currently hold third-party certifications.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -116,12 +184,11 @@ const AboutUs = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
-              Based in Calgary, Serving Canada
+              Canadian Brand
             </h2>
             <p className="text-base sm:text-lg text-foreground/80 mb-4">
-              We're a proud Calgary, Alberta startup that launched in December 2024. 
-              We ship our gentle skincare products across Canada, bringing effective, 
-              fragrance-free solutions to sensitive skin everywhere.
+              Lumina is proudly based in Canada, serving customers nationwide with handcrafted,
+              clean-inspired self-care and fragrance products.
             </p>
           </div>
         </div>

@@ -17,24 +17,32 @@ const FAQ = () => {
 
   const faqs = [
     {
+      question: "What makes Lumina different?",
+      answer: "Every Lumina product is independently formulated, handcrafted, and designed in-house — from the formulas themselves to the packaging, labels, and artwork. We offer both fragrance-free skincare and body care, alongside a carefully developed fragrance line, giving you full control over how scent shows up in your routine."
+    },
+    {
+      question: "Are your products handmade?",
+      answer: "Yes. All Lumina products are hand-crafted in small batches using original formulations developed entirely in-house. This hands-on approach allows for close attention to quality, detail, and brand integrity at every stage."
+    },
+    {
+      question: "What does 'clean-inspired' mean?",
+      answer: "Lumina is a clean-inspired brand focused on clarity and transparency. We use cosmetic-grade ingredients, formulate without added fragrance in our skincare and body care line, and do not test on animals. We do not currently hold third-party certifications."
+    },
+    {
+      question: "Are your skincare products fragrance-free?",
+      answer: "Yes. All Lumina skincare and body care products are formulated without added fragrance and designed with everyday comfort in mind. Our fragrance line is separate, offering concentrated fragrance oil blends for those who want intentional scent."
+    },
+    {
+      question: "What ingredients do you use?",
+      answer: "Lumina uses cosmetic-grade ingredients selected for performance, texture, and consistency. Skincare and body care products include humectants, emollients, gentle surfactants, and plant-derived oils and butters. Our fragrance line uses concentrated fragrance oil blends formulated without dilution oils or solvents."
+    },
+    {
+      question: "Do you design your own packaging?",
+      answer: "Yes. All packaging design — including labels, artwork, and cardstock boxes — is created, printed, and assembled in-house. This allows us to maintain a cohesive, minimal aesthetic and ensure quality at every touchpoint."
+    },
+    {
       question: "Do you ship across Canada?",
-      answer: "Yes! We ship Canada-wide. All orders are processed and shipped from our Calgary, Alberta location."
-    },
-    {
-      question: "Where are you based?",
-      answer: "We're a Calgary, Alberta-based startup, proudly serving customers across Canada since December 2024."
-    },
-    {
-      question: "When did Lumina launch?",
-      answer: "Lumina Skincare officially launched in December 2024. We're a new startup dedicated to bringing gentle, fragrance-free skincare to sensitive skin."
-    },
-    {
-      question: "Are your products really fragrance-free?",
-      answer: "Yes! All Lumina products are completely fragrance-free and formulated specifically for sensitive skin. We avoid common allergens and irritants."
-    },
-    {
-      question: "What makes Lumina different from other skincare brands?",
-      answer: "We focus exclusively on gentle, allergen-free formulas designed for sensitive skin. Our products are fragrance-free, carefully formulated, and made with premium ingredients."
+      answer: "Yes! We ship Canada-wide. All orders are processed and shipped from our Canadian location."
     },
     {
       question: "How long does shipping take?",
@@ -46,27 +54,27 @@ const FAQ = () => {
     },
     {
       question: "Are your products tested on animals?",
-      answer: "No, Lumina Skincare is cruelty-free. We never test our products on animals."
+      answer: "No. Lumina products are not tested on animals."
     },
   ];
 
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>FAQ - Lumina Skincare</title>
-        <meta name="description" content="Frequently asked questions about Lumina Skincare. Learn about shipping, our products, and our Calgary-based company." />
-        
+        <title>FAQ - Lumina</title>
+        <meta name="description" content="Frequently asked questions about Lumina. Learn about our handcrafted products, formulations, and shipping." />
+
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="FAQ - Lumina Skincare" />
-        <meta property="og:description" content="Frequently asked questions about Lumina Skincare products and shipping." />
+        <meta property="og:title" content="FAQ - Lumina" />
+        <meta property="og:description" content="Frequently asked questions about Lumina's handcrafted self-care and fragrance products." />
         <meta property="og:url" content="https://luminaco.skin/faq/" />
         <meta property="og:image" content="https://luminaco.skin/images/og%20image.png" />
-        
+
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="FAQ - Lumina Skincare" />
-        <meta name="twitter:description" content="Frequently asked questions about Lumina Skincare products and shipping." />
+        <meta name="twitter:title" content="FAQ - Lumina" />
+        <meta name="twitter:description" content="Frequently asked questions about Lumina's handcrafted self-care and fragrance products." />
         <meta name="twitter:image" content="https://luminaco.skin/images/og%20image.png" />
       </Helmet>
 
@@ -81,7 +89,7 @@ const FAQ = () => {
               ✨ Frequently Asked Questions ✨
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-foreground/90 px-4">
-              Find answers to common questions about Lumina Skincare
+              Find answers to common questions about Lumina
             </p>
           </div>
         </div>
