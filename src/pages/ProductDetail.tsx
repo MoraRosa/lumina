@@ -149,9 +149,9 @@ const ProductDetail = () => {
   // Get first image for OG tags
   const ogImage = displayMedia.length > 0 && displayMedia[0].type === 'IMAGE'
     ? displayMedia[0].url
-    : displayMedia[0]?.previewUrl || 'https://morarosa.github.io/lumina/images/og%20image.png';
+    : displayMedia[0]?.previewUrl || 'https://luminaco.skin/images/og%20image.png';
 
-  const pageUrl = `https://morarosa.github.io/lumina/products/${handle}`;
+  const pageUrl = `https://luminaco.skin/products/${handle}`;
   const description = product.description?.substring(0, 160) || `Shop ${product.title} at Lumina Skincare - Gentle, fragrance-free skincare for sensitive skin.`;
 
   return (

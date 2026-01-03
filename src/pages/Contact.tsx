@@ -89,14 +89,14 @@ const Contact = () => {
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Contact Us - Lumina Skincare" />
         <meta property="og:description" content="Get in touch with Lumina Skincare. We'd love to hear from you!" />
-        <meta property="og:url" content="https://morarosa.github.io/lumina/contact/" />
-        <meta property="og:image" content="https://morarosa.github.io/lumina/images/og%20image.png" />
+        <meta property="og:url" content="https://luminaco.skin/contact/" />
+        <meta property="og:image" content="https://luminaco.skin/images/og%20image.png" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Contact Us - Lumina Skincare" />
         <meta name="twitter:description" content="Get in touch with Lumina Skincare. We'd love to hear from you!" />
-        <meta name="twitter:image" content="https://morarosa.github.io/lumina/images/og%20image.png" />
+        <meta name="twitter:image" content="https://luminaco.skin/images/og%20image.png" />
       </Helmet>
 
       <Navbar onCartClick={() => setIsCartOpen(true)} />

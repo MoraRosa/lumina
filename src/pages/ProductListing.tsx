@@ -137,14 +137,14 @@ const ProductListing = () => {
         <meta property="og:type" content="website" />
         <meta property="og:title" content={`${categoryTitle} - Lumina Skincare`} />
         <meta property="og:description" content="Shop our gentle, fragrance-free skincare collection designed for sensitive skin." />
-        <meta property="og:url" content="https://morarosa.github.io/lumina/products/" />
-        <meta property="og:image" content="https://morarosa.github.io/lumina/images/og%20image.png" />
+        <meta property="og:url" content="https://luminaco.skin/products/" />
+        <meta property="og:image" content="https://luminaco.skin/images/og%20image.png" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${categoryTitle} - Lumina Skincare`} />
         <meta name="twitter:description" content="Shop our gentle, fragrance-free skincare collection designed for sensitive skin." />
-        <meta name="twitter:image" content="https://morarosa.github.io/lumina/images/og%20image.png" />
+        <meta name="twitter:image" content="https://luminaco.skin/images/og%20image.png" />
       </Helmet>
 
       <Navbar onCartClick={() => setIsCartOpen(true)} />
