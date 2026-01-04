@@ -42,7 +42,7 @@ const FAQ = () => {
     },
     {
       question: "Do you ship across Canada?",
-      answer: "Yes! We ship Canada-wide. All orders are processed and shipped from our Canadian location."
+      answer: "Yes! We ship Canada-wide. All orders are processed and shipped from our Calgary, Alberta location."
     },
     {
       question: "How long does shipping take?",
