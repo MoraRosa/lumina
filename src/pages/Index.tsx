@@ -32,12 +32,12 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-pastel-pink to-pastel-pink/80 pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-16 sm:pb-20 md:pb-24 lg:pb-28">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-3xl mx-auto">
+          <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6 leading-tight">
-              ✨ Lumina Skincare ✨
+              Self-care, made with intention.
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-foreground/90 mb-6 sm:mb-8 px-4 pb-2">
-              Gentle, fragrance-free skincare for sensitive skin
+            <p className="text-base sm:text-lg md:text-xl text-foreground/90 mb-6 sm:mb-8 px-4 leading-relaxed max-w-3xl mx-auto">
+              Lumina creates clean-inspired bath, body, and fragrance essentials designed to feel calm, comforting, and easy to return to. From fragrance-free daily care to thoughtfully composed scent, each product is made in-house to support simple rituals that feel familiar, grounded, and quietly special.
             </p>
             <Button
               size="lg"
@@ -92,34 +92,34 @@ const Index = () => {
       <section className="relative bg-pastel-green pt-12 sm:pt-16 md:pt-20 pb-16 sm:pb-20 md:pb-24">
         <div className="container mx-auto px-4 sm:px-6">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-foreground mb-8 sm:mb-12 pb-2">
-            Why Choose Lumina?
+            Our Pillars
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
             <div className="bg-background/50 backdrop-blur-sm rounded-3xl p-6 sm:p-8 text-center hover:bg-background/60 transition-colors">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-accent flex items-center justify-center mx-auto mb-4">
-                <Sparkles className="h-7 w-7 sm:h-8 sm:w-8" />
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-pastel-pink flex items-center justify-center mx-auto mb-4">
+                <Heart className="h-7 w-7 sm:h-8 sm:w-8 text-foreground" />
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">Fragrance-Free</h3>
+              <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">Fragrance-Free Care</h3>
               <p className="text-sm sm:text-base text-foreground/80">
-                No irritating fragrances, just pure skincare goodness
+                Skincare and body care formulated without added fragrance, designed for everyday comfort and sensitive skin
               </p>
             </div>
             <div className="bg-background/50 backdrop-blur-sm rounded-3xl p-6 sm:p-8 text-center hover:bg-background/60 transition-colors">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-accent flex items-center justify-center mx-auto mb-4">
-                <Heart className="h-7 w-7 sm:h-8 sm:w-8" />
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-pastel-pink flex items-center justify-center mx-auto mb-4">
+                <Sparkles className="h-7 w-7 sm:h-8 sm:w-8 text-foreground" />
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">Sensitive Skin</h3>
+              <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">Intentional Scent</h3>
               <p className="text-sm sm:text-base text-foreground/80">
-                Formulated specifically for dry and sensitive skin types
+                Concentrated fragrance oil blends developed in-house, balanced and personal without being overpowering
               </p>
             </div>
             <div className="bg-background/50 backdrop-blur-sm rounded-3xl p-6 sm:p-8 text-center hover:bg-background/60 transition-colors sm:col-span-2 md:col-span-1">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-accent flex items-center justify-center mx-auto mb-4">
-                <Shield className="h-7 w-7 sm:h-8 sm:w-8" />
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-pastel-pink flex items-center justify-center mx-auto mb-4">
+                <Shield className="h-7 w-7 sm:h-8 sm:w-8 text-foreground" />
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">Allergen-Free</h3>
+              <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">Handcrafted in Calgary</h3>
               <p className="text-sm sm:text-base text-foreground/80">
-                Free from common allergens and irritants
+                Every product is independently formulated, made, and designed in-house with intention and care
               </p>
             </div>
           </div>
@@ -135,13 +135,10 @@ const Index = () => {
               About Lumina
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-foreground/90 mb-4 sm:mb-6 leading-relaxed">
-              We believe everyone deserves skincare that works with their skin, not against it.
-              That's why we created Lumina - a line of gentle, effective products designed
-              specifically for sensitive skin.
+              Lumina is a clean-inspired self-care and fragrance brand rooted in comfort, intention, and thoughtful craftsmanship.
             </p>
             <p className="text-base sm:text-lg md:text-xl text-foreground/90 leading-relaxed">
-              Every product is carefully formulated without fragrances, common irritants,
-              or allergens. Just pure, nourishing ingredients that help your skin thrive.
+              Every Lumina product is independently formulated, made, and designed in-house, from the formulas themselves to the packaging, labels, and artwork. We offer both fragrance-free skincare and body care, alongside a carefully developed fragrance line, giving you full control over how scent shows up in your routine.
             </p>
           </div>
         </div>
@@ -153,17 +150,17 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6 leading-tight">
-              Ready to Transform Your Skincare Routine?
+              Ready to explore?
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-foreground/90 mb-6 sm:mb-8">
-              Join thousands of happy customers with sensitive skin
+              Discover products designed to feel calm, comforting, and easy to return to
             </p>
             <Button
               size="lg"
               className="rounded-full px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg shadow-lg hover:shadow-xl transition-shadow"
               onClick={() => navigate('/products')}
             >
-              Start Shopping
+              Shop Now
             </Button>
           </div>
         </div>
