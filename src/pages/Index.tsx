@@ -88,6 +88,78 @@ const Index = () => {
         <ZigzagEdge color="hsl(var(--pastel-green))" position="bottom" />
       </section>
 
+      {/* What People Are Saying Section */}
+      <section className="relative bg-pastel-green py-12 sm:py-16 md:py-20">
+        <div className="container mx-auto px-4 sm:px-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-foreground mb-4 sm:mb-6">
+            What People Are Saying
+          </h2>
+          <p className="text-center text-base sm:text-lg text-foreground/80 mb-8 sm:mb-12 max-w-2xl mx-auto">
+            See what our customers are sharing about their Lumina experience
+          </p>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+              {/* YouTube Video Embed */}
+              <div className="bg-background/50 backdrop-blur-sm rounded-3xl p-4 sm:p-6 shadow-lg">
+                <div className="relative w-full" style={{ paddingBottom: '177.78%' }}>
+                  <iframe
+                    className="absolute top-0 left-0 w-full h-full rounded-2xl"
+                    src="https://www.youtube.com/embed/tjsSynxBSkI"
+                    title="Lumina Skin products review by Planet Zabany"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+                <div className="mt-4 text-center">
+                  <p className="text-sm text-foreground/70">
+                    Review by <span className="font-semibold">@PlanetZabany</span>
+                  </p>
+                </div>
+              </div>
+
+              {/* Quote and CTA */}
+              <div className="text-center md:text-left">
+                <div className="bg-background/60 backdrop-blur-sm rounded-3xl p-6 sm:p-8 mb-6 shadow-sm">
+                  <div className="text-4xl sm:text-5xl text-pastel-pink-medium mb-4">"</div>
+                  <p className="text-lg sm:text-xl text-foreground/90 italic mb-4 leading-relaxed">
+                    Lumina Skin products arrived so Happy new year or whatever
+                  </p>
+                  <p className="text-sm sm:text-base text-foreground/70 font-semibold">
+                    — Planet Zabany
+                  </p>
+                </div>
+
+                <div className="bg-background/40 backdrop-blur-sm rounded-3xl p-6 sm:p-8">
+                  <p className="text-base sm:text-lg text-foreground/80 mb-4">
+                    Have you tried Lumina? Share your experience and tag us!
+                  </p>
+                  <div className="flex flex-wrap gap-3 justify-center md:justify-start">
+                    <a
+                      href="https://www.instagram.com/luminaco.skin/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-pastel-pink rounded-full text-sm font-medium hover:bg-pastel-pink-medium transition-colors"
+                    >
+                      📷 Instagram
+                    </a>
+                    <a
+                      href="https://www.tiktok.com/@luminaco.skin"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-pastel-pink rounded-full text-sm font-medium hover:bg-pastel-pink-medium transition-colors"
+                    >
+                      🎵 TikTok
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <MultiScallopEdge color="hsl(var(--pastel-pink))" position="bottom" />
+      </section>
+
       {/* Features Section */}
       <section className="relative bg-pastel-green pt-12 sm:pt-16 md:pt-20 pb-16 sm:pb-20 md:pb-24">
         <div className="container mx-auto px-4 sm:px-6">
