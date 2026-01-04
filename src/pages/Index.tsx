@@ -4,9 +4,6 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
 import { ProductGrid } from "@/components/ProductGrid";
-import { ScallopedEdge } from "@/components/edges/ScallopedEdge";
-import { ZigzagEdge } from "@/components/edges/ZigzagEdge";
-import { MultiScallopEdge } from "@/components/edges/MultiScallopEdge";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Heart, Shield } from "lucide-react";
 import { useProducts } from "@/hooks/useProducts";
@@ -25,12 +22,12 @@ const Index = () => {
   const productsLoading = homePageProducts.length > 0 ? isLoadingHomePage : isLoadingAll;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Navbar onCartClick={() => setIsCartOpen(true)} />
       <CartDrawer open={isCartOpen} onOpenChange={setIsCartOpen} />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-pastel-pink to-pastel-pink/80 pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-16 sm:pb-20 md:pb-24 lg:pb-28">
+      <section className="relative bg-white pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-16 sm:pb-20 md:pb-24 lg:pb-28">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6 leading-tight">
@@ -48,14 +45,13 @@ const Index = () => {
             </Button>
           </div>
         </div>
-        <ScallopedEdge color="hsl(var(--secondary))" position="bottom" />
       </section>
 
       {/* Products Section */}
-      <section className="relative bg-secondary py-12 sm:py-16 md:py-20">
+      <section className="relative bg-gray-50 py-12 sm:py-16 md:py-20">
         <div className="container mx-auto px-4 sm:px-6">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-foreground mb-8 sm:mb-12">
-            ✨ Featured Products ✨
+            Featured Products
           </h2>
           {products.length > 0 ? (
             <>
@@ -85,11 +81,10 @@ const Index = () => {
             </div>
           )}
         </div>
-        <ZigzagEdge color="hsl(var(--pastel-green))" position="bottom" />
       </section>
 
       {/* What People Are Saying Section */}
-      <section className="relative bg-pastel-green py-12 sm:py-16 md:py-20">
+      <section className="relative bg-white py-12 sm:py-16 md:py-20">
         <div className="container mx-auto px-4 sm:px-6">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-foreground mb-4 sm:mb-6">
             What People Are Saying
@@ -101,7 +96,7 @@ const Index = () => {
           <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               {/* YouTube Video Embed */}
-              <div className="bg-background/50 backdrop-blur-sm rounded-3xl p-4 sm:p-6 shadow-lg">
+              <div className="bg-gray-50 rounded-3xl p-4 sm:p-6 shadow-sm">
                 <div className="relative w-full" style={{ paddingBottom: '177.78%' }}>
                   <iframe
                     className="absolute top-0 left-0 w-full h-full rounded-2xl"
@@ -120,7 +115,7 @@ const Index = () => {
 
               {/* Quote and CTA */}
               <div className="text-center md:text-left">
-                <div className="bg-background/60 backdrop-blur-sm rounded-3xl p-6 sm:p-8 mb-6 shadow-sm">
+                <div className="bg-gray-50 rounded-3xl p-6 sm:p-8 mb-6">
                   <div className="text-4xl sm:text-5xl text-pastel-pink-medium mb-4">"</div>
                   <p className="text-lg sm:text-xl text-foreground/90 italic mb-4 leading-relaxed">
                     Lumina Skin products arrived so Happy new year or whatever
@@ -130,7 +125,7 @@ const Index = () => {
                   </p>
                 </div>
 
-                <div className="bg-background/40 backdrop-blur-sm rounded-3xl p-6 sm:p-8">
+                <div className="bg-gray-50 rounded-3xl p-6 sm:p-8">
                   <p className="text-base sm:text-lg text-foreground/80 mb-4">
                     Have you tried Lumina? Share your experience and tag us!
                   </p>
@@ -157,17 +152,16 @@ const Index = () => {
             </div>
           </div>
         </div>
-        <MultiScallopEdge color="hsl(var(--pastel-pink))" position="bottom" />
       </section>
 
       {/* Features Section */}
-      <section className="relative bg-pastel-green pt-12 sm:pt-16 md:pt-20 pb-16 sm:pb-20 md:pb-24">
+      <section className="relative bg-gray-50 py-12 sm:py-16 md:py-20">
         <div className="container mx-auto px-4 sm:px-6">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-foreground mb-8 sm:mb-12 pb-2">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-foreground mb-8 sm:mb-12">
             Our Pillars
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
-            <div className="bg-background/50 backdrop-blur-sm rounded-3xl p-6 sm:p-8 text-center hover:bg-background/60 transition-colors">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 text-center shadow-sm hover:shadow-md transition-shadow">
               <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-pastel-pink flex items-center justify-center mx-auto mb-4">
                 <Heart className="h-7 w-7 sm:h-8 sm:w-8 text-foreground" />
               </div>
@@ -176,7 +170,7 @@ const Index = () => {
                 Skincare and body care formulated without added fragrance, designed for everyday comfort and sensitive skin
               </p>
             </div>
-            <div className="bg-background/50 backdrop-blur-sm rounded-3xl p-6 sm:p-8 text-center hover:bg-background/60 transition-colors">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 text-center shadow-sm hover:shadow-md transition-shadow">
               <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-pastel-pink flex items-center justify-center mx-auto mb-4">
                 <Sparkles className="h-7 w-7 sm:h-8 sm:w-8 text-foreground" />
               </div>
@@ -185,7 +179,7 @@ const Index = () => {
                 Concentrated fragrance oil blends developed in-house, balanced and personal without being overpowering
               </p>
             </div>
-            <div className="bg-background/50 backdrop-blur-sm rounded-3xl p-6 sm:p-8 text-center hover:bg-background/60 transition-colors sm:col-span-2 md:col-span-1">
+            <div className="bg-white rounded-3xl p-6 sm:p-8 text-center shadow-sm hover:shadow-md transition-shadow sm:col-span-2 md:col-span-1">
               <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-pastel-pink flex items-center justify-center mx-auto mb-4">
                 <Shield className="h-7 w-7 sm:h-8 sm:w-8 text-foreground" />
               </div>
@@ -196,11 +190,10 @@ const Index = () => {
             </div>
           </div>
         </div>
-        <MultiScallopEdge color="hsl(var(--pastel-pink))" position="bottom" />
       </section>
 
       {/* About Section */}
-      <section className="relative bg-pastel-pink py-12 sm:py-16 md:py-20">
+      <section className="relative bg-white py-12 sm:py-16 md:py-20">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6">
@@ -214,11 +207,10 @@ const Index = () => {
             </p>
           </div>
         </div>
-        <ScallopedEdge color="hsl(var(--pastel-green))" position="bottom" />
       </section>
 
       {/* CTA Section */}
-      <section className="bg-pastel-green py-12 sm:py-16 md:py-20">
+      <section className="bg-gray-50 py-12 sm:py-16 md:py-20">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6 leading-tight">
