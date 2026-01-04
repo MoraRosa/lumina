@@ -3,18 +3,13 @@ import { Helmet } from "react-helmet-async";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
-import { ScallopedEdge } from "@/components/edges/ScallopedEdge";
 import { Heart, Sparkles, Shield } from "lucide-react";
 
 const AboutUs = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background relative">
-      {/* Subtle background pattern overlay */}
-      <div className="fixed inset-0 bg-pattern-plus pointer-events-none" />
-
-      <div className="relative z-10">
+    <div className="min-h-screen bg-pattern-checkered">
       <Helmet>
         <title>About Us - Lumina</title>
         <meta name="description" content="Lumina is a clean-inspired self-care and fragrance brand. Every product is independently formulated, handcrafted, and designed in-house with intention and care." />
@@ -37,7 +32,7 @@ const AboutUs = () => {
       <CartDrawer open={isCartOpen} onOpenChange={setIsCartOpen} />
 
       {/* Header Section */}
-      <section className="relative bg-gradient-to-br from-pastel-pink to-pastel-pink/80 pt-12 sm:pt-16 md:pt-20 pb-16 sm:pb-20 md:pb-24">
+      <section className="relative pt-12 sm:pt-16 md:pt-20 pb-16 sm:pb-20 md:pb-24">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-3 sm:mb-4 leading-tight">
@@ -48,7 +43,6 @@ const AboutUs = () => {
             </p>
           </div>
         </div>
-        <ScallopedEdge color="hsl(var(--background))" position="bottom" />
       </section>
 
       {/* Our Story Section */}
@@ -231,7 +225,6 @@ const AboutUs = () => {
       </section>
 
       <Footer />
-      </div>
     </div>
   );
 };
