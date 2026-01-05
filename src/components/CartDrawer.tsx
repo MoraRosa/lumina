@@ -37,13 +37,17 @@ export const CartDrawer = ({ open, onOpenChange }: CartDrawerProps) => {
       return;
     }
 
-    console.log('🛒 Starting checkout process...');
+    if (import.meta.env.DEV) {
+      console.log('🛒 Starting checkout process...');
+    }
     setIsCheckingOut(true);
     try {
       // Always create a fresh checkout with current cart items
       const url = await syncAndCheckout();
       if (url) {
-        console.log('✅ Redirecting to checkout...');
+        if (import.meta.env.DEV) {
+          console.log('✅ Redirecting to checkout...');
+        }
         window.location.href = url;
       } else {
         console.error('❌ No checkout URL returned');

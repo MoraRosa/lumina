@@ -64,11 +64,15 @@ export async function subscribeToNewsletter(data: NewsletterSignupData): Promise
     }
   };
 
-  console.log('📤 Sending newsletter signup request:', variables);
+  if (import.meta.env.DEV) {
+    console.log('📤 Sending newsletter signup request:', variables);
+  }
 
   const response = await shopifyClient.request(mutation, { variables });
 
-  console.log('📥 Response received:', response);
+  if (import.meta.env.DEV) {
+    console.log('📥 Response received:', response);
+  }
 
   // Check for GraphQL errors
   if (response.errors && response.errors.length > 0) {
@@ -94,7 +98,9 @@ export async function subscribeToNewsletter(data: NewsletterSignupData): Promise
 
     // Check if customer already exists
     if (errors.some((e: any) => e.code === 'TAKEN' || e.message.includes('taken'))) {
-      console.log('ℹ️ Customer already exists:', data.email);
+      if (import.meta.env.DEV) {
+        console.log('ℹ️ Customer already exists:', data.email);
+      }
       // Still return true - they're already in the system
       return true;
     }
@@ -103,8 +109,10 @@ export async function subscribeToNewsletter(data: NewsletterSignupData): Promise
     throw new Error(errors[0].message);
   }
 
-  console.log('✅ Newsletter signup successful in Shopify:', data.email);
-  console.log('📧 Customer ID:', result.customerCreate.customer.id);
+  if (import.meta.env.DEV) {
+    console.log('✅ Newsletter signup successful in Shopify:', data.email);
+    console.log('📧 Customer ID:', result.customerCreate.customer.id);
+  }
 
   return true;
 }
@@ -152,7 +160,9 @@ export async function submitContactForm(data: ContactFormData): Promise<boolean>
     }
   };
 
-  console.log('📤 Creating customer in Shopify for contact form:', data.email);
+  if (import.meta.env.DEV) {
+    console.log('📤 Creating customer in Shopify for contact form:', data.email);
+  }
 
   const response = await shopifyClient.request(mutation, { variables });
 
@@ -179,7 +189,9 @@ export async function submitContactForm(data: ContactFormData): Promise<boolean>
 
     // Customer might already exist - that's okay
     if (errors.some((e: any) => e.code === 'TAKEN' || e.message.includes('taken'))) {
-      console.log('ℹ️ Customer already exists in Shopify');
+      if (import.meta.env.DEV) {
+        console.log('ℹ️ Customer already exists in Shopify');
+      }
       return true;
     }
 
@@ -187,9 +199,11 @@ export async function submitContactForm(data: ContactFormData): Promise<boolean>
     throw new Error(errors[0].message);
   }
 
-  console.log('✅ Customer created in Shopify:', result.customerCreate.customer.id);
-  console.log('⚠️ Note: Message content is NOT stored in Shopify (API limitation)');
-  console.log('💡 Consider using Shopify Inbox or a third-party form service for message storage');
+  if (import.meta.env.DEV) {
+    console.log('✅ Customer created in Shopify:', result.customerCreate.customer.id);
+    console.log('⚠️ Note: Message content is NOT stored in Shopify (API limitation)');
+    console.log('💡 Consider using Shopify Inbox or a third-party form service for message storage');
+  }
 
   return true;
 }

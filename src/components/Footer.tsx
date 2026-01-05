@@ -130,6 +130,22 @@ export const Footer = () => {
                   Return Policy
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/privacy"
+                  className="hover:text-foreground transition-colors inline-block py-1"
+                >
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/terms"
+                  className="hover:text-foreground transition-colors inline-block py-1"
+                >
+                  Terms of Service
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

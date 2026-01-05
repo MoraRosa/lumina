@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Homepage -->
+  <url>
+    <loc>https://luminaco.skin/</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Products Page -->
+  <url>
+    <loc>https://luminaco.skin/products</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- About Page -->
+  <url>
+    <loc>https://luminaco.skin/about</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Contact Page -->
+  <url>
+    <loc>https://luminaco.skin/contact</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- FAQ Page -->
+  <url>
+    <loc>https://luminaco.skin/faq</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Shipping Policy -->
+  <url>
+    <loc>https://luminaco.skin/shipping</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Return Policy -->
+  <url>
+    <loc>https://luminaco.skin/returns</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <!-- Privacy Policy (to be added) -->
+  <url>
+    <loc>https://luminaco.skin/privacy</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <!-- Terms of Service (to be added) -->
+  <url>
+    <loc>https://luminaco.skin/terms</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <!-- Note: Individual product pages will be dynamically indexed by search engines -->
+  <!-- You can add specific product URLs here if needed -->
+</urlset>
+
