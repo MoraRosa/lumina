@@ -22,17 +22,19 @@ const TermsOfService = () => {
       <Navbar onCartClick={() => setIsCartOpen(true)} />
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 pt-24 pb-12">
-        <div className="container mx-auto px-4 sm:px-6 text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-4">
-            Terms of Service
-          </h1>
-          <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-            Last Updated: January 5, 2026
-          </p>
+      {/* Header Section */}
+      <section className="relative bg-gradient-to-br from-pastel-purple to-pastel-purple/80 pt-12 sm:pt-16 md:pt-20 pb-16 sm:pb-20 md:pb-24">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-3 sm:mb-4 leading-tight">
+              📜 Terms of Service
+            </h1>
+            <p className="text-base sm:text-lg md:text-xl text-foreground/90 px-4 pb-2">
+              Last Updated: January 5, 2026
+            </p>
+          </div>
         </div>
-        <ScallopedEdge position="bottom" />
+        <ScallopedEdge color="hsl(var(--background))" position="bottom" />
       </section>
 
       {/* Content Section */}

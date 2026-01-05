@@ -21,7 +21,7 @@ const ReturnPolicy = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-3 sm:mb-4 leading-tight">
-              🔄 Return Policy
+              🤝 Return Policy
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-foreground/90 px-4 pb-2">
               Our commitment to your satisfaction

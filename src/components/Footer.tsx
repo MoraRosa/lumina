@@ -53,7 +53,7 @@ export const Footer = () => {
           {/* Newsletter Section */}
           <div className="md:col-span-2">
             <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-3 sm:mb-4">
-              Stay Glowing ✨
+              Stay Glowing
             </h3>
             <p className="text-sm sm:text-base text-foreground/80 mb-4">
               Subscribe to our newsletter for skincare tips, new product
@@ -89,7 +89,7 @@ export const Footer = () => {
             <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-3 sm:mb-4">
               Quick Links
             </h3>
-            <ul className="space-y-2 text-sm sm:text-base text-foreground/80">
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:text-base text-foreground/80">
               <li>
                 <Link
                   to="/about"
