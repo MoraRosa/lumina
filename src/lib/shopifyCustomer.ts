@@ -1,20 +1,30 @@
 /**
- * Shopify Customer API Integration
+ * Newsletter & Contact Form - Shopify Integration
  *
  * This module handles newsletter signups and contact form submissions
- * by creating customer records via Shopify Storefront API.
+ * by creating customers directly in Shopify via the Storefront API.
  *
- * NOTE: Shopify Storefront API doesn't support creating customers with tags or notes.
- * We store submissions locally and you can manually import them to Shopify.
+ * REQUIRED: Your Storefront Access Token must have the
+ * 'unauthenticated_write_customers' scope enabled.
+ *
+ * To enable this scope:
+ * 1. Go to Shopify Admin → Settings → Apps and sales channels
+ * 2. Click "Develop apps" → Select your app
+ * 3. Click "Configuration" → "Storefront API integration"
+ * 4. Check "unauthenticated_write_customers" scope
+ * 5. Save and reinstall the access token
+ *
+ * Note: Contact form messages are NOT stored (Storefront API limitation).
+ * Consider using Shopify Inbox or a third-party service for message storage.
  */
 
-import { storefrontClient } from './shopify';
+import { shopifyClient } from './shopify';
 
-interface NewsletterSignupData {
+export interface NewsletterSignupData {
   email: string;
 }
 
-interface ContactFormData {
+export interface ContactFormData {
   name: string;
   email: string;
   subject: string;
@@ -23,150 +33,166 @@ interface ContactFormData {
 
 /**
  * Subscribe to newsletter
- * Stores locally for manual import to Shopify
+ * Creates a customer in Shopify with email marketing consent
  */
 export async function subscribeToNewsletter(data: NewsletterSignupData): Promise<boolean> {
-  try {
-    // Store locally
-    const signups = JSON.parse(localStorage.getItem('newsletter_signups') || '[]');
-    signups.push({
+  const mutation = `
+    mutation customerCreate($input: CustomerCreateInput!) {
+      customerCreate(input: $input) {
+        customer {
+          id
+          email
+          acceptsMarketing
+        }
+        customerUserErrors {
+          code
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  // Generate a random password (customer won't use it, but Shopify requires it)
+  const randomPassword = Math.random().toString(36).slice(-12) + Math.random().toString(36).slice(-12);
+
+  const variables = {
+    input: {
       email: data.email,
-      subscribedAt: new Date().toISOString(),
-      source: 'website-newsletter',
-    });
-    localStorage.setItem('newsletter_signups', JSON.stringify(signups));
+      acceptsMarketing: true,
+      password: randomPassword
+    }
+  };
 
-    console.log('✅ Newsletter signup stored locally:', data.email);
-    console.log('📋 Total signups:', signups.length);
+  console.log('📤 Sending newsletter signup request:', variables);
 
-    return true;
-  } catch (error) {
-    console.error('Newsletter signup error:', error);
-    throw error;
+  const response = await shopifyClient.request(mutation, { variables });
+
+  console.log('📥 Response received:', response);
+
+  // Check for GraphQL errors
+  if (response.errors && response.errors.length > 0) {
+    console.error('❌ GraphQL errors:', response.errors);
+    throw new Error(response.errors[0].message || 'Failed to create customer');
   }
+
+  // Check if response has data
+  if (!response.data) {
+    console.error('❌ No data in response:', response);
+    throw new Error('Failed to create customer - no data returned from Shopify');
+  }
+
+  const result = response.data as any;
+
+  if (!result.customerCreate) {
+    console.error('❌ No customerCreate in response:', result);
+    throw new Error('Failed to create customer - invalid response structure');
+  }
+
+  if (result.customerCreate.customerUserErrors && result.customerCreate.customerUserErrors.length > 0) {
+    const errors = result.customerCreate.customerUserErrors;
+
+    // Check if customer already exists
+    if (errors.some((e: any) => e.code === 'TAKEN' || e.message.includes('taken'))) {
+      console.log('ℹ️ Customer already exists:', data.email);
+      // Still return true - they're already in the system
+      return true;
+    }
+
+    console.error('❌ Shopify customer creation errors:', errors);
+    throw new Error(errors[0].message);
+  }
+
+  console.log('✅ Newsletter signup successful in Shopify:', data.email);
+  console.log('📧 Customer ID:', result.customerCreate.customer.id);
+
+  return true;
 }
 
 /**
  * Submit contact form
- * Stores locally for manual import to Shopify
+ * Creates customer in Shopify with contact details
+ * Note: Message content is NOT stored (Storefront API doesn't support notes)
+ * Consider using Shopify Inbox or a third-party service for message storage
  */
 export async function submitContactForm(data: ContactFormData): Promise<boolean> {
-  try {
-    // Store locally
-    const submissions = JSON.parse(localStorage.getItem('contact_submissions') || '[]');
-    submissions.push({
-      name: data.name,
+  const mutation = `
+    mutation customerCreate($input: CustomerCreateInput!) {
+      customerCreate(input: $input) {
+        customer {
+          id
+          email
+          firstName
+          lastName
+        }
+        customerUserErrors {
+          code
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  // Generate a random password (customer won't use it, but Shopify requires it)
+  const randomPassword = Math.random().toString(36).slice(-12) + Math.random().toString(36).slice(-12);
+
+  // Split name into first and last name
+  const nameParts = data.name.trim().split(' ');
+  const firstName = nameParts[0] || data.name;
+  const lastName = nameParts.slice(1).join(' ') || '.'; // Use '.' if no last name provided
+
+  const variables = {
+    input: {
       email: data.email,
-      subject: data.subject,
-      message: data.message,
-      submittedAt: new Date().toISOString(),
-      source: 'website-contact-form',
-    });
-    localStorage.setItem('contact_submissions', JSON.stringify(submissions));
+      firstName: firstName,
+      lastName: lastName,
+      acceptsMarketing: false, // Don't auto-subscribe contact form users
+      password: randomPassword
+    }
+  };
 
-    console.log('✅ Contact form stored locally');
-    console.log('📋 Total submissions:', submissions.length);
+  console.log('📤 Creating customer in Shopify for contact form:', data.email);
 
-    return true;
-  } catch (error) {
-    console.error('Contact form submission error:', error);
-    throw error;
-  }
-}
+  const response = await shopifyClient.request(mutation, { variables });
 
-/**
- * Get all newsletter signups (for manual import to Shopify)
- */
-export function getNewsletterSignups(): Array<{ email: string; subscribedAt: string; source: string }> {
-  return JSON.parse(localStorage.getItem('newsletter_signups') || '[]');
-}
-
-/**
- * Get all contact form submissions (for manual import to Shopify)
- */
-export function getContactSubmissions(): Array<ContactFormData & { submittedAt: string; source: string }> {
-  return JSON.parse(localStorage.getItem('contact_submissions') || '[]');
-}
-
-/**
- * Clear newsletter signups after manual import
- */
-export function clearNewsletterSignups(): void {
-  localStorage.removeItem('newsletter_signups');
-}
-
-/**
- * Clear contact submissions after manual import
- */
-export function clearContactSubmissions(): void {
-  localStorage.removeItem('contact_submissions');
-}
-
-/**
- * Export newsletter signups as CSV for Shopify import
- */
-export function exportNewsletterSignupsCSV(): string {
-  const signups = getNewsletterSignups();
-  if (signups.length === 0) return '';
-
-  const header = 'Email,Subscribed At,Source,Accepts Marketing\n';
-  const rows = signups.map(s =>
-    `${s.email},${s.subscribedAt},${s.source},yes`
-  ).join('\n');
-
-  return header + rows;
-}
-
-/**
- * Export contact submissions as CSV for Shopify import
- */
-export function exportContactSubmissionsCSV(): string {
-  const submissions = getContactSubmissions();
-  if (submissions.length === 0) return '';
-
-  const header = 'Name,Email,Subject,Message,Submitted At,Source\n';
-  const rows = submissions.map(s =>
-    `"${s.name}","${s.email}","${s.subject}","${s.message.replace(/"/g, '""')}",${s.submittedAt},${s.source}`
-  ).join('\n');
-
-  return header + rows;
-}
-
-/**
- * Download newsletter signups as CSV file
- */
-export function downloadNewsletterSignupsCSV(): void {
-  const csv = exportNewsletterSignupsCSV();
-  if (!csv) {
-    alert('No newsletter signups to export');
-    return;
+  // Check for GraphQL errors
+  if (response.errors && response.errors.length > 0) {
+    console.error('❌ GraphQL errors:', response.errors);
+    throw new Error(response.errors[0].message || 'Failed to create customer');
   }
 
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `newsletter-signups-${new Date().toISOString().split('T')[0]}.csv`;
-  a.click();
-  window.URL.revokeObjectURL(url);
-}
-
-/**
- * Download contact submissions as CSV file
- */
-export function downloadContactSubmissionsCSV(): void {
-  const csv = exportContactSubmissionsCSV();
-  if (!csv) {
-    alert('No contact submissions to export');
-    return;
+  if (!response.data) {
+    console.error('❌ No data in response:', response);
+    throw new Error('Failed to create customer - no data returned from Shopify');
   }
 
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `contact-submissions-${new Date().toISOString().split('T')[0]}.csv`;
-  a.click();
-  window.URL.revokeObjectURL(url);
+  const result = response.data as any;
+
+  if (!result.customerCreate) {
+    console.error('❌ No customerCreate in response:', result);
+    throw new Error('Failed to create customer - invalid response structure');
+  }
+
+  if (result.customerCreate.customerUserErrors && result.customerCreate.customerUserErrors.length > 0) {
+    const errors = result.customerCreate.customerUserErrors;
+
+    // Customer might already exist - that's okay
+    if (errors.some((e: any) => e.code === 'TAKEN' || e.message.includes('taken'))) {
+      console.log('ℹ️ Customer already exists in Shopify');
+      return true;
+    }
+
+    console.error('❌ Shopify customer creation errors:', errors);
+    throw new Error(errors[0].message);
+  }
+
+  console.log('✅ Customer created in Shopify:', result.customerCreate.customer.id);
+  console.log('⚠️ Note: Message content is NOT stored in Shopify (API limitation)');
+  console.log('💡 Consider using Shopify Inbox or a third-party form service for message storage');
+
+  return true;
 }
+
+
 

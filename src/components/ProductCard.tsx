@@ -101,6 +101,14 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           <h3 className="font-bold text-base sm:text-lg mb-1.5 sm:mb-2 line-clamp-2 group-hover:text-primary transition-colors leading-tight">
             {product.title}
           </h3>
+
+          {/* Judge.me Star Rating Badge */}
+          <div
+            className="jdgm-widget jdgm-preview-badge mb-2"
+            data-id={product.id}
+            style={{ minHeight: '20px' }}
+          />
+
           <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-2 sm:mb-3 leading-relaxed">
             {product.description}
           </p>

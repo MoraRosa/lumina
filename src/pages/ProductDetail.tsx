@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Navbar } from "@/components/Navbar";
@@ -22,6 +22,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
   const addItem = useCartStore((state) => state.addItem);
+  const judgeReviewsRef = useRef<HTMLDivElement>(null);
 
   const { data: product, isLoading } = useProduct(handle);
 
@@ -92,6 +93,30 @@ const ProductDetail = () => {
 
     setQuantity(1);
   };
+
+  // Initialize Judge.me reviews widget when product loads
+  useEffect(() => {
+    if (!product) return;
+
+    // Wait for Judge.me to load and initialize widgets
+    const initJudgeMe = () => {
+      if (window.jdgm && typeof window.jdgm.customizeBadges === 'function') {
+        try {
+          window.jdgm.customizeBadges();
+        } catch (error) {
+          console.log('Judge.me initialization skipped:', error);
+        }
+      }
+    };
+
+    // Try to initialize immediately if already loaded
+    initJudgeMe();
+
+    // Also try after a short delay to ensure DOM is ready
+    const timer = setTimeout(initJudgeMe, 500);
+
+    return () => clearTimeout(timer);
+  }, [product]);
 
   if (isLoading) {
     return (
@@ -399,6 +424,30 @@ const ProductDetail = () => {
                 This product is currently out of stock
               </p>
             )}
+          </div>
+        </div>
+
+        {/* Judge.me Reviews Section */}
+        <div className="mt-12 sm:mt-16 md:mt-20">
+          <div className="container mx-auto px-4 sm:px-6">
+            <Separator className="mb-8 sm:mb-12" />
+
+            {/* Reviews Widget Container */}
+            <div ref={judgeReviewsRef} className="max-w-5xl mx-auto">
+              {/* Judge.me Review Widget */}
+              <div
+                className="jdgm-widget jdgm-review-widget"
+                data-id={product.id}
+                data-product-title={product.title}
+                data-product-url={`https://luminaco.skin/products/${product.handle}`}
+              >
+                {/* Fallback content while Judge.me loads */}
+                <div className="text-center py-12">
+                  <h2 className="text-2xl sm:text-3xl font-bold mb-4">Customer Reviews</h2>
+                  <p className="text-muted-foreground">Loading reviews...</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
