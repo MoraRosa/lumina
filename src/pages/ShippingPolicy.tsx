@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
@@ -54,16 +55,16 @@ const ShippingPolicy = () => {
                 <ul className="list-disc list-inside space-y-2 ml-4">
                   <li><strong>Standard Shipping:</strong> 5-7 business days</li>
                   <li><strong>Express Shipping:</strong> 2-3 business days</li>
-                  <li><strong>Free Shipping:</strong> On orders over $50</li>
+                  <li><strong>Free Shipping:</strong> On orders over $100</li>
                 </ul>
                 <p>
                   All orders are processed within 1-2 business days. You will receive a tracking number once your order ships.
                 </p>
                 <p>
-                  For more information, please contact us at{" "}
-                  <a href="mailto:support@luminaco.skin" className="text-primary hover:underline">
-                    support@luminaco.skin
-                  </a>
+                  For more information, please{" "}
+                  <Link to="/contact" className="text-primary hover:underline font-semibold">
+                    contact us
+                  </Link>
                 </p>
               </div>
             </div>

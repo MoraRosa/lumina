@@ -170,7 +170,7 @@ const Contact = () => {
             <div className="space-y-6 sm:space-y-8">
               <div>
                 <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">
-                  Contact Information
+                  Get in Touch
                 </h2>
                 <div className="space-y-4 sm:space-y-5">
                   <div className="flex items-start gap-4">
@@ -178,13 +178,10 @@ const Contact = () => {
                       <Mail className="h-5 w-5 sm:h-6 sm:w-6" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-1">Email</h3>
-                      <a
-                        href="mailto:support@luminaco.skin"
-                        className="text-foreground/80 hover:text-foreground transition-colors"
-                      >
-                        support@luminaco.skin
-                      </a>
+                      <h3 className="font-semibold text-foreground mb-1">Contact Form</h3>
+                      <p className="text-foreground/80">
+                        Fill out the form and we'll get back to you within 24-48 hours
+                      </p>
                     </div>
                   </div>
 
