@@ -9,6 +9,7 @@ import { FaTiktok, FaThreads } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { subscribeToNewsletter } from "@/lib/shopifyCustomer";
 
 const newsletterSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -32,29 +33,14 @@ export const Footer = () => {
     setIsSubmitting(true);
 
     try {
-      // Note: Newsletter signup via Shopify Storefront API is not currently supported
-      // The customerCreate mutation requires a password, which defeats the purpose of newsletter-only signup
-      // For now, we'll save the email to localStorage and show a success message
-      // TODO: Integrate with a proper email marketing service (Klaviyo, Mailchimp, etc.) or use Shopify Admin API
-
-      const newsletterEmails = JSON.parse(localStorage.getItem('newsletter_emails') || '[]');
-
-      if (newsletterEmails.includes(data.email)) {
-        toast.info("You're already subscribed! 💌");
-      } else {
-        newsletterEmails.push(data.email);
-        localStorage.setItem('newsletter_emails', JSON.stringify(newsletterEmails));
-        toast.success("Thanks for subscribing! We'll be in touch soon ✨");
-        if (import.meta.env.DEV) {
-          console.log('Newsletter signup:', data.email);
-        }
-      }
+      await subscribeToNewsletter({ email: data.email });
+      toast.success("Thanks for subscribing! Check your email for updates ✨");
+      reset();
     } catch (error) {
       console.error('Newsletter subscription error:', error);
       toast.error('Failed to subscribe. Please try again later.');
     } finally {
       setIsSubmitting(false);
-      reset();
     }
   };
 

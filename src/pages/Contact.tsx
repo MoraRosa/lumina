@@ -12,7 +12,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import emailjs from "@emailjs/browser";
+import { submitContactForm } from "@/lib/shopifyCustomer";
 
 const contactSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
@@ -40,42 +40,12 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      // TODO: Set up EmailJS account and add credentials to .env
-      // VITE_EMAILJS_SERVICE_ID=your_service_id
-      // VITE_EMAILJS_TEMPLATE_ID=your_template_id
-      // VITE_EMAILJS_PUBLIC_KEY=your_public_key
-
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
-      if (!serviceId || !templateId || !publicKey) {
-        if (import.meta.env.DEV) {
-          console.warn("EmailJS not configured. Message:", data);
-        }
-        toast.success("Message received! We'll get back to you soon ✨");
-        reset();
-        return;
-      }
-
-      await emailjs.send(
-        serviceId,
-        templateId,
-        {
-          from_name: data.name,
-          from_email: data.email,
-          subject: data.subject,
-          message: data.message,
-          to_email: "support@luminaco.skin",
-        },
-        publicKey
-      );
-
-      toast.success("Message sent successfully! We'll get back to you soon ✨");
+      await submitContactForm(data);
+      toast.success("Message sent! We'll get back to you soon ✨");
       reset();
     } catch (error) {
       console.error("Failed to send message:", error);
-      toast.error("Failed to send message. Please try again or email us directly.");
+      toast.error("Failed to send message. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
