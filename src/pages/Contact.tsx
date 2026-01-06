@@ -5,51 +5,65 @@ import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
 import { ScallopedEdge } from "@/components/edges/ScallopedEdge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
-import { Mail, MapPin, Phone } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { submitContactForm } from "@/lib/shopifyCustomer";
-
-const contactSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  subject: z.string().min(5, { message: "Subject must be at least 5 characters" }),
-  message: z.string().min(10, { message: "Message must be at least 10 characters" }),
-});
-
-type ContactForm = z.infer<typeof contactSchema>;
+import { MessageCircle, Instagram, Facebook, Youtube } from "lucide-react";
+import { FaTiktok, FaThreads } from "react-icons/fa6";
+import { PinIcon as Pinterest } from "lucide-react";
 
 const Contact = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<ContactForm>({
-    resolver: zodResolver(contactSchema),
-  });
-
-  const onSubmit = async (data: ContactForm) => {
-    setIsSubmitting(true);
-
-    try {
-      await submitContactForm(data);
-      toast.success("Message sent! We'll get back to you soon ✨");
-      reset();
-    } catch (error) {
-      console.error("Failed to send message:", error);
-      toast.error("Failed to send message. Please try again later.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const socialChannels = [
+    {
+      name: "Facebook Messenger",
+      icon: MessageCircle,
+      url: "https://facebook.com/luminacoskin",
+      description: "Chat with us directly",
+      color: "bg-blue-500",
+      primary: true,
+    },
+    {
+      name: "Instagram",
+      icon: Instagram,
+      url: "https://instagram.com/lumaraeofficial",
+      description: "@lumaraeofficial",
+      color: "bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500",
+    },
+    {
+      name: "Facebook",
+      icon: Facebook,
+      url: "https://facebook.com/luminacoskin",
+      description: "@luminacoskin",
+      color: "bg-blue-600",
+    },
+    {
+      name: "TikTok",
+      icon: FaTiktok,
+      url: "https://tiktok.com/@luminacoskin",
+      description: "@luminacoskin",
+      color: "bg-black",
+    },
+    {
+      name: "Threads",
+      icon: FaThreads,
+      url: "https://threads.net/@lumaraeofficial",
+      description: "@lumaraeofficial",
+      color: "bg-gray-800",
+    },
+    {
+      name: "Pinterest",
+      icon: Pinterest,
+      url: "https://pinterest.com/luminacoskin",
+      description: "@luminacoskin",
+      color: "bg-red-600",
+    },
+    {
+      name: "YouTube",
+      icon: Youtube,
+      url: "https://youtube.com/@luminacoskin",
+      description: "@luminacoskin",
+      color: "bg-red-500",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -89,128 +103,83 @@ const Contact = () => {
         <ScallopedEdge color="hsl(var(--background))" position="bottom" />
       </section>
 
-      {/* Contact Form & Info Section */}
+      {/* Primary Contact Section */}
       <section className="py-12 sm:py-16 md:py-20">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 max-w-6xl mx-auto">
-            {/* Contact Form */}
-            <div className="bg-pastel-purple/20 rounded-3xl p-6 sm:p-8 md:p-10">
-              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">
-                Send us a Message
-              </h2>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
-                <div>
-                  <Input
-                    placeholder="Your Name"
-                    className="rounded-full h-11 sm:h-12"
-                    {...register("name")}
-                    disabled={isSubmitting}
-                  />
-                  {errors.name && (
-                    <p className="text-xs sm:text-sm text-destructive mt-1 ml-4">
-                      {errors.name.message}
-                    </p>
-                  )}
-                </div>
+          <div className="max-w-4xl mx-auto text-center mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 sm:mb-6">
+              Let's Chat! 💬
+            </h2>
+            <p className="text-base sm:text-lg text-foreground/80 mb-6 sm:mb-8 max-w-2xl mx-auto">
+              Have a question about our products? Want to know more about Lumina? We'd love to hear from you!
+            </p>
 
-                <div>
-                  <Input
-                    type="email"
-                    placeholder="Your Email"
-                    className="rounded-full h-11 sm:h-12"
-                    {...register("email")}
-                    disabled={isSubmitting}
-                  />
-                  {errors.email && (
-                    <p className="text-xs sm:text-sm text-destructive mt-1 ml-4">
-                      {errors.email.message}
-                    </p>
-                  )}
-                </div>
+            {/* Primary Messenger CTA */}
+            <a
+              href="https://facebook.com/luminacoskin"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block"
+            >
+              <Button
+                size="lg"
+                className="rounded-full px-8 sm:px-12 py-6 sm:py-7 text-lg sm:text-xl shadow-lg hover:shadow-xl transition-all hover:scale-105"
+              >
+                <MessageCircle className="mr-2 h-6 w-6" />
+                Message Us on Facebook
+              </Button>
+            </a>
+            <p className="text-sm text-foreground/60 mt-4">
+              Click "Message" on our page - we typically respond within a few hours!
+            </p>
+          </div>
 
-                <div>
-                  <Input
-                    placeholder="Subject"
-                    className="rounded-full h-11 sm:h-12"
-                    {...register("subject")}
-                    disabled={isSubmitting}
-                  />
-                  {errors.subject && (
-                    <p className="text-xs sm:text-sm text-destructive mt-1 ml-4">
-                      {errors.subject.message}
-                    </p>
-                  )}
-                </div>
+          {/* Alternative Contact Methods */}
+          <div className="max-w-5xl mx-auto">
+            <h3 className="text-xl sm:text-2xl font-bold text-center text-foreground mb-6 sm:mb-8">
+              Or reach us on social media
+            </h3>
 
-                <div>
-                  <Textarea
-                    placeholder="Your Message"
-                    className="rounded-3xl min-h-[150px] resize-none"
-                    {...register("message")}
-                    disabled={isSubmitting}
-                  />
-                  {errors.message && (
-                    <p className="text-xs sm:text-sm text-destructive mt-1 ml-4">
-                      {errors.message.message}
-                    </p>
-                  )}
-                </div>
-
-                <Button
-                  type="submit"
-                  className="w-full rounded-full h-11 sm:h-12 text-base sm:text-lg"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Sending..." : "Send Message ✨"}
-                </Button>
-              </form>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+              {socialChannels.filter(channel => !channel.primary).map((channel) => {
+                const Icon = channel.icon;
+                return (
+                  <a
+                    key={channel.name}
+                    href={channel.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group"
+                  >
+                    <div className="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition-all hover:scale-105">
+                      <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full ${channel.color} flex items-center justify-center mx-auto mb-3 sm:mb-4 group-hover:scale-110 transition-transform`}>
+                        <Icon className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
+                      </div>
+                      <h4 className="font-bold text-foreground text-sm sm:text-base mb-1">
+                        {channel.name}
+                      </h4>
+                      <p className="text-xs sm:text-sm text-foreground/60">
+                        {channel.description}
+                      </p>
+                    </div>
+                  </a>
+                );
+              })}
             </div>
+          </div>
 
-            {/* Contact Info */}
-            <div className="space-y-6 sm:space-y-8">
-              <div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-6">
-                  Get in Touch
-                </h2>
-                <div className="space-y-4 sm:space-y-5">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pastel-pink flex items-center justify-center flex-shrink-0">
-                      <Mail className="h-5 w-5 sm:h-6 sm:w-6" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-foreground mb-1">Contact Form</h3>
-                      <p className="text-foreground/80">
-                        Fill out the form and we'll get back to you within 24-48 hours
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pastel-purple flex items-center justify-center flex-shrink-0">
-                      <MapPin className="h-5 w-5 sm:h-6 sm:w-6" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-foreground mb-1">Location</h3>
-                      <p className="text-foreground/80">
-                        Canada
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-pastel-green/20 rounded-3xl p-6 sm:p-8">
-                <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-3">
-                  Business Hours
-                </h3>
-                <div className="space-y-2 text-foreground/80">
-                  <p>Monday - Friday: 9:00 AM - 5:00 PM EST</p>
-                  <p>Saturday - Sunday: Closed</p>
-                  <p className="text-sm mt-4">
-                    We typically respond within 24-48 hours during business days.
-                  </p>
-                </div>
-              </div>
+          {/* Business Info */}
+          <div className="max-w-3xl mx-auto mt-12 sm:mt-16">
+            <div className="bg-pastel-pink/10 rounded-3xl p-6 sm:p-8 text-center">
+              <h3 className="text-lg sm:text-xl font-bold text-foreground mb-3 sm:mb-4">
+                📍 Based in Calgary, Alberta
+              </h3>
+              <p className="text-sm sm:text-base text-foreground/80 mb-2">
+                Proudly serving customers across Canada
+              </p>
+              <p className="text-sm sm:text-base text-foreground/80">
+                <strong>Business Hours:</strong> Monday - Friday, 9am - 5pm MST
+              </p>
             </div>
           </div>
         </div>
