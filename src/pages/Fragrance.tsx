@@ -125,9 +125,16 @@ const Fragrance = () => {
       <section className="relative bg-gradient-to-br from-pastel-purple to-pastel-purple/80 pt-12 sm:pt-16 md:pt-20 pb-16 sm:pb-20 md:pb-24">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-3 sm:mb-4 leading-tight">
-              🌸 Fragrance Collection
-            </h1>
+            <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+              <img
+                src="/images/Icons/Fragrance.png"
+                alt="Fragrance Icon"
+                className="h-16 sm:h-20 md:h-24 w-auto -ml-12 sm:-ml-16 md:-ml-20"
+              />
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
+                Fragrance Collection
+              </h1>
+            </div>
             <p className="text-base sm:text-lg md:text-xl text-foreground/90 px-4 pb-2">
               Intentional scent, balanced and personal without being overpowering
             </p>
