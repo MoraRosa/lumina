@@ -113,6 +113,12 @@
         t = b.createElement(e);
         t.async = !0;
         t.src = v;
+        // Handle script loading errors (e.g., blocked by ad blockers)
+        t.onerror = function () {
+          console.warn(
+            "Facebook Pixel could not be loaded (may be blocked by ad blocker)"
+          );
+        };
         s = b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t, s);
       })(
@@ -121,8 +127,14 @@
         "script",
         "https://connect.facebook.net/en_US/fbevents.js"
       );
-      fbq("init", "26125074270423981");
-      fbq("track", "PageView");
+
+      // Safely initialize Facebook Pixel
+      try {
+        fbq("init", "26125074270423981");
+        fbq("track", "PageView");
+      } catch (error) {
+        console.warn("Facebook Pixel initialization failed:", error.message);
+      }
     </script>
     <!-- End Meta Pixel Code -->
   </head>
