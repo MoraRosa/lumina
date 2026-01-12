@@ -5,21 +5,17 @@ import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
 import { ProductGrid } from "@/components/ProductGrid";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Heart, Shield } from "lucide-react";
-import { useProducts } from "@/hooks/useProducts";
 import { useCollectionProducts } from "@/hooks/useCollectionProducts";
 
 const Index = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Try to fetch from "home-page" collection first, fallback to all products
-  const { data: homePageProducts = [], isLoading: isLoadingHomePage } = useCollectionProducts('home-page', 8);
-  const { data: allProducts = [], isLoading: isLoadingAll } = useProducts(8);
+  // Fetch body care products for featured section
+  const { data: bodyProducts = [], isLoading: isLoadingBody } = useCollectionProducts('body', 8);
 
-  // Use home-page collection if it has products, otherwise use all products
-  const products = homePageProducts.length > 0 ? homePageProducts : allProducts;
-  const productsLoading = homePageProducts.length > 0 ? isLoadingHomePage : isLoadingAll;
+  const products = bodyProducts;
+  const productsLoading = isLoadingBody;
 
   return (
     <div className="min-h-screen bg-white">
@@ -47,12 +43,17 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Products Section */}
+      {/* Featured Body Care Products Section */}
       <section className="relative bg-gray-50 py-12 sm:py-16 md:py-20">
         <div className="container mx-auto px-4 sm:px-6">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-foreground mb-8 sm:mb-12">
-            Featured Products
-          </h2>
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6">
+              Fragrance-Free Body Care
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl text-foreground/80 leading-relaxed">
+              Our body care products are formulated <strong>without added fragrance</strong>, designed for everyday comfort and sensitive skin. Pure, gentle care that lets your skin breathe.
+            </p>
+          </div>
           {products.length > 0 ? (
             <>
               <ProductGrid products={products} isLoading={productsLoading} />
@@ -60,9 +61,9 @@ const Index = () => {
                 <Button
                   size="lg"
                   className="rounded-full px-6 sm:px-8 shadow-lg hover:shadow-xl transition-shadow"
-                  onClick={() => navigate('/products')}
+                  onClick={() => navigate('/body-care')}
                 >
-                  View All Products
+                  Shop Body Care
                 </Button>
               </div>
             </>
@@ -80,6 +81,37 @@ const Index = () => {
               )}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Didn't Find What You're Looking For Section */}
+      <section className="relative bg-white py-12 sm:py-16 md:py-20">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 sm:mb-6">
+              Didn't find what you're looking for?
+            </h2>
+            <p className="text-base sm:text-lg text-foreground/80 mb-6 sm:mb-8">
+              We're here to help! Check out our FAQ or get in touch with us directly.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                size="lg"
+                variant="outline"
+                className="rounded-full px-6 sm:px-8 shadow-sm hover:shadow-md transition-shadow"
+                onClick={() => navigate('/faq')}
+              >
+                Visit FAQ
+              </Button>
+              <Button
+                size="lg"
+                className="rounded-full px-6 sm:px-8 shadow-lg hover:shadow-xl transition-shadow"
+                onClick={() => navigate('/contact')}
+              >
+                Contact Us
+              </Button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -154,77 +186,22 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="relative bg-gray-50 py-12 sm:py-16 md:py-20">
-        <div className="container mx-auto px-4 sm:px-6">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-foreground mb-8 sm:mb-12">
-            Our Pillars
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
-            <div className="bg-white rounded-3xl p-6 sm:p-8 text-center shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-pastel-pink flex items-center justify-center mx-auto mb-4">
-                <Heart className="h-7 w-7 sm:h-8 sm:w-8 text-foreground" />
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">Fragrance-Free Care</h3>
-              <p className="text-sm sm:text-base text-foreground/80">
-                Skincare and body care formulated without added fragrance, designed for everyday comfort and sensitive skin
-              </p>
-            </div>
-            <div className="bg-white rounded-3xl p-6 sm:p-8 text-center shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-pastel-pink flex items-center justify-center mx-auto mb-4">
-                <Sparkles className="h-7 w-7 sm:h-8 sm:w-8 text-foreground" />
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">Intentional Scent</h3>
-              <p className="text-sm sm:text-base text-foreground/80">
-                Concentrated fragrance oil blends developed in-house, balanced and personal without being overpowering
-              </p>
-            </div>
-            <div className="bg-white rounded-3xl p-6 sm:p-8 text-center shadow-sm hover:shadow-md transition-shadow sm:col-span-2 md:col-span-1">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-pastel-pink flex items-center justify-center mx-auto mb-4">
-                <Shield className="h-7 w-7 sm:h-8 sm:w-8 text-foreground" />
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">Handcrafted in Calgary</h3>
-              <p className="text-sm sm:text-base text-foreground/80">
-                Every product is independently formulated, made, and designed in-house with intention and care
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section className="relative bg-white py-12 sm:py-16 md:py-20">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6">
-              About Lumina
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl text-foreground/90 mb-4 sm:mb-6 leading-relaxed">
-              Lumina is a clean-inspired self-care and fragrance brand rooted in comfort, intention, and thoughtful craftsmanship.
-            </p>
-            <p className="text-base sm:text-lg md:text-xl text-foreground/90 leading-relaxed">
-              Every Lumina product is independently formulated, made, and designed in-house, from the formulas themselves to the packaging, labels, and artwork. We offer both fragrance-free skincare and body care, alongside a carefully developed fragrance line, giving you full control over how scent shows up in your routine.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
+      {/* Explore Fragrance Collection CTA Section */}
       <section className="bg-gray-50 py-12 sm:py-16 md:py-20">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6 leading-tight">
-              Ready to explore?
+              Explore Fragrance Collection
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-foreground/90 mb-6 sm:mb-8">
-              Discover products designed to feel calm, comforting, and easy to return to
+              Concentrated fragrance oil blends developed in-house, balanced and personal without being overpowering
             </p>
             <Button
               size="lg"
               className="rounded-full px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg shadow-lg hover:shadow-xl transition-shadow"
-              onClick={() => navigate('/products')}
+              onClick={() => navigate('/fragrance')}
             >
-              Shop Now
+              Shop Fragrance
             </Button>
           </div>
         </div>

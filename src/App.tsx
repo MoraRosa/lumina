@@ -8,6 +8,8 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { CookieConsent } from "@/components/CookieConsent";
 import Index from "./pages/Index";
 import ProductListing from "./pages/ProductListing";
+import Fragrance from "./pages/Fragrance";
+import BodyCare from "./pages/BodyCare";
 import ProductDetail from "./pages/ProductDetail";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import ReturnPolicy from "./pages/ReturnPolicy";
@@ -32,6 +34,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/products" element={<ProductListing />} />
+            <Route path="/fragrance" element={<Fragrance />} />
+            <Route path="/body-care" element={<BodyCare />} />
             <Route path="/products/:handle" element={<ProductDetail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<AboutUs />} />
