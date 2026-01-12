@@ -101,14 +101,14 @@ const Index = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="rounded-full px-6 sm:px-8 shadow-sm hover:shadow-md transition-shadow"
+                className="rounded-full px-6 sm:px-8 h-11 sm:h-12 shadow-sm hover:shadow-md transition-shadow"
                 onClick={() => navigate('/faq')}
               >
                 Visit FAQ
               </Button>
               <Button
                 size="lg"
-                className="rounded-full px-6 sm:px-8 shadow-lg hover:shadow-xl transition-shadow"
+                className="rounded-full px-6 sm:px-8 h-11 sm:h-12 shadow-lg hover:shadow-xl transition-shadow"
                 onClick={() => navigate('/contact')}
               >
                 Contact Us

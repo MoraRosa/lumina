@@ -139,14 +139,14 @@ const BodyCare = () => {
       {/* Sort Controls */}
       <section className="py-6 sm:py-8 border-b border-border/30">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-sm sm:text-base text-foreground/70">
               Showing {startIndex + 1}-{Math.min(endIndex, totalProducts)} of {totalProducts} products
             </p>
-            <div className="flex items-center gap-2 w-full sm:w-auto">
+            <div className="flex items-center gap-2">
               <span className="text-sm text-foreground/70 whitespace-nowrap">Sort by:</span>
               <Select value={sortOption} onValueChange={handleSortChange}>
-                <SelectTrigger className="w-full sm:w-[200px] rounded-full">
+                <SelectTrigger className="w-[180px] rounded-full h-9 sm:h-10">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
