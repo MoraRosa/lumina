@@ -27,10 +27,10 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6 leading-tight">
-              Self-care, made with intention.
+              100% Fragrance-Free Skincare & Body Care
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-foreground/90 mb-6 sm:mb-8 px-4 leading-relaxed max-w-3xl mx-auto">
-              Lumina creates clean-inspired bath, body, and fragrance essentials designed to feel calm, comforting, and easy to return to. From fragrance-free daily care to thoughtfully composed scent, each product is made in-house to support simple rituals that feel familiar, grounded, and quietly special.
+              Lumina creates clean-inspired bath and body essentials that are <strong>100% fragrance-free</strong> and perfect for sensitive skin. Each product is made in-house to support simple rituals that feel calm, comforting, and easy to return to.
             </p>
             <Button
               size="lg"
@@ -48,10 +48,10 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6">
-              Fragrance-Free Body Care
+              Featured Products
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-foreground/80 leading-relaxed">
-              Our body care products are formulated <strong>without added fragrance</strong>, designed for everyday comfort and sensitive skin. Pure, gentle care that lets your skin breathe.
+              <strong>100% fragrance-free</strong> skincare and body care formulated for sensitive skin. Pure, gentle care designed for everyday comfort that lets your skin breathe.
             </p>
           </div>
           {products.length > 0 ? (

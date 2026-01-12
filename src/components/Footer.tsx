@@ -45,7 +45,7 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="relative bg-pastel-purple pt-20 sm:pt-24 pb-12 sm:pb-16">
+    <footer className="relative bg-pastel-purple pt-20 sm:pt-24 pb-24 md:pb-16">
       <ScallopedCircleEdge color="hsl(var(--background))" position="top" />
 
       <div className="container mx-auto px-4 sm:px-6">
