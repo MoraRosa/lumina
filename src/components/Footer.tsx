@@ -209,10 +209,15 @@ export const Footer = () => {
             </a>
           </div>
 
-          <p className="text-foreground/70 text-xs sm:text-sm text-center">
-            © {new Date().getFullYear()} Lumina Skincare. All rights reserved.
-            Made with 💖
-          </p>
+          <div className="text-center">
+            <p className="text-foreground/90 text-sm sm:text-base font-semibold italic mb-2">
+              Natural Beauty, Naturally You!
+            </p>
+            <p className="text-foreground/70 text-xs sm:text-sm">
+              © {new Date().getFullYear()} Lumina Skincare. All rights reserved.
+              Made with 💖
+            </p>
+          </div>
         </div>
       </div>
     </footer>

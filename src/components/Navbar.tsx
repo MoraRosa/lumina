@@ -28,9 +28,14 @@ export const Navbar = ({ onCartClick }: NavbarProps) => {
                 className="w-full h-full object-contain"
               />
             </div>
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground tracking-tight">
-              Lumina
-            </h1>
+            <div className="flex flex-col">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground tracking-tight leading-tight">
+                Lumina
+              </h1>
+              <p className="text-[0.6rem] sm:text-xs text-foreground/70 italic leading-tight hidden sm:block">
+                Natural Beauty, Naturally You!
+              </p>
+            </div>
           </Link>
 
           {/* Navigation Links - Hidden on mobile, shown on tablet+ */}

@@ -40,7 +40,7 @@ const AboutUs = () => {
       <section className="relative bg-gradient-to-br from-pastel-purple to-pastel-purple/80 pt-12 sm:pt-16 md:pt-20 pb-16 sm:pb-20 md:pb-24">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-3xl mx-auto">
-            <div className="flex items-center justify-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+            <div className="flex items-center justify-center gap-3 sm:gap-4 mb-2 sm:mb-3">
               <img
                 src="/images/Lumina.png"
                 alt="Lumina Logo"
@@ -50,6 +50,9 @@ const AboutUs = () => {
                 About Lumina
               </h1>
             </div>
+            <p className="text-lg sm:text-xl md:text-2xl text-primary font-semibold mb-3 sm:mb-4 italic">
+              Natural Beauty, Naturally You!
+            </p>
             <p className="text-base sm:text-lg md:text-xl text-foreground/90 px-4 pb-2">
               Clean-inspired self-care and fragrance, rooted in comfort, intention, and thoughtful craftsmanship
             </p>
