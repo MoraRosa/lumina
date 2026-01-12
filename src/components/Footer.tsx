@@ -210,7 +210,7 @@ export const Footer = () => {
           </div>
 
           <div className="text-center">
-            <p className="text-foreground/90 text-sm sm:text-base font-semibold italic mb-2">
+            <p className="text-primary text-sm sm:text-base font-semibold italic mb-2">
               Natural Beauty, Naturally You!
             </p>
             <p className="text-foreground/70 text-xs sm:text-sm">

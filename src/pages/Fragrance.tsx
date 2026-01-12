@@ -168,18 +168,18 @@ const Fragrance = () => {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="mt-12 sm:mt-16 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button
                 variant="outline"
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="rounded-full w-full sm:w-auto"
+                className="rounded-full px-4 sm:px-6 h-10 sm:h-11"
               >
-                <ChevronLeft className="h-4 w-4 mr-2" />
+                <ChevronLeft className="h-4 w-4 mr-1" />
                 Previous
               </Button>
 
-              <div className="flex items-center gap-2">
+              <div className="flex gap-2">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                   <Button
                     key={page}
@@ -196,10 +196,10 @@ const Fragrance = () => {
                 variant="outline"
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="rounded-full w-full sm:w-auto"
+                className="rounded-full px-4 sm:px-6 h-10 sm:h-11"
               >
                 Next
-                <ChevronRight className="h-4 w-4 ml-2" />
+                <ChevronRight className="h-4 w-4 ml-1" />
               </Button>
             </div>
           )}
