@@ -27,7 +27,7 @@ const Index = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-2 sm:mb-3 leading-tight">
-              100% Fragrance-Free Skincare & Body Care
+              Fragrance-Free Skincare & Body Care
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-primary font-semibold mb-4 sm:mb-6 italic">
               Natural Beauty, Naturally You!
