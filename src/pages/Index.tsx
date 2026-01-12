@@ -97,18 +97,18 @@ const Index = () => {
             <p className="text-base sm:text-lg text-foreground/80 mb-6 sm:mb-8">
               We're here to help! Check out our FAQ or get in touch with us directly.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex flex-row gap-3 sm:gap-4 justify-center items-center flex-wrap">
               <Button
                 size="lg"
                 variant="outline"
-                className="rounded-full px-6 sm:px-8 h-11 sm:h-12 shadow-sm hover:shadow-md transition-shadow w-auto"
+                className="rounded-full px-6 sm:px-8 h-11 sm:h-12 shadow-sm hover:shadow-md transition-shadow"
                 onClick={() => navigate('/faq')}
               >
                 Visit FAQ
               </Button>
               <Button
                 size="lg"
-                className="rounded-full px-6 sm:px-8 h-11 sm:h-12 shadow-lg hover:shadow-xl transition-shadow w-auto"
+                className="rounded-full px-6 sm:px-8 h-11 sm:h-12 shadow-lg hover:shadow-xl transition-shadow"
                 onClick={() => navigate('/contact')}
               >
                 Contact Us
