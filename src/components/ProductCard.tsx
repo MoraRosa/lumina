@@ -103,12 +103,22 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             {product.title}
           </h3>
 
-          {/* Judge.me Star Rating Badge */}
-          <div
-            className="jdgm-widget jdgm-preview-badge mb-2"
-            data-id={extractNumericId(product.id)}
-            style={{ minHeight: '20px' }}
-          />
+          {/* Star Rating */}
+          <div className="flex items-center gap-2 mb-2">
+            <div className="flex gap-0.5">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <svg
+                  key={star}
+                  className="w-4 h-4 fill-yellow-500 stroke-yellow-600"
+                  strokeWidth="1"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                </svg>
+              ))}
+            </div>
+            <span className="text-xs text-muted-foreground font-medium">5.0 (2)</span>
+          </div>
 
           <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-2 sm:mb-3 leading-relaxed">
             {product.description}

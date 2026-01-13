@@ -87,34 +87,6 @@
       src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"
     ></script>
 
-    <!-- Judge.me Reviews Configuration -->
-    <script>
-      // CRITICAL: Override Judge.me's domain detection
-      (function () {
-        var jdgm = window.jdgm || {};
-        jdgm.SHOP_DOMAIN = "q9f54f-sw.myshopify.com";
-        window.jdgm = jdgm;
-        window.SHOP_DOMAIN = "q9f54f-sw.myshopify.com";
-      })();
-
-      window.jdgmSettings = {
-        shop_domain: "q9f54f-sw.myshopify.com",
-        platform: "shopify",
-      };
-
-      // Log when Judge.me is ready
-      window.addEventListener("jdgm.ready", function () {
-        console.log("Judge.me is ready!", window.jdgm);
-        console.log("Judge.me shop domain:", window.jdgm.shopDomain());
-      });
-    </script>
-    <script
-      src="https://cdn.judge.me/shopify_v2.js"
-      data-cfasync="false"
-      onload="console.log('Judge.me script loaded successfully');"
-      onerror="console.error('Judge.me script failed to load');"
-    ></script>
-
     <!-- Meta Pixel Code -->
     <script>
       !(function (f, b, e, v, n, t, s) {

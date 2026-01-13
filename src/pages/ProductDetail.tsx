@@ -117,49 +117,7 @@ const ProductDetail = () => {
     setQuantity(1);
   };
 
-  // Initialize Judge.me reviews widget when product loads
-  useEffect(() => {
-    if (!product) return;
 
-    const numericId = extractNumericId(product.id);
-
-    // Initialize Judge.me widget
-    const initJudgeMeWidget = () => {
-      if (window.jdgm) {
-        try {
-          console.log('🔍 Initializing Judge.me widget for product ID:', numericId);
-          console.log('🔍 Shop domain:', window.jdgm.shopDomain());
-
-          if (typeof window.jdgm.initializeWidgets === 'function') {
-            console.log('✅ Calling initializeWidgets...');
-            window.jdgm.initializeWidgets();
-          }
-
-          if (typeof window.jdgm.customizeBadges === 'function') {
-            console.log('✅ Calling customizeBadges...');
-            window.jdgm.customizeBadges();
-          }
-
-          console.log('✨ Judge.me initialization complete');
-        } catch (error) {
-          console.error('❌ Judge.me widget error:', error);
-        }
-      } else {
-        console.warn('⏳ Judge.me not loaded yet');
-      }
-    };
-
-    // Initialize the widget with delays to ensure Judge.me is loaded
-    const timers = [
-      setTimeout(initJudgeMeWidget, 500),
-      setTimeout(initJudgeMeWidget, 1500),
-      setTimeout(initJudgeMeWidget, 3000),
-    ];
-
-    return () => {
-      timers.forEach(timer => clearTimeout(timer));
-    };
-  }, [product]);
 
   if (isLoading) {
     return (
@@ -505,19 +463,33 @@ const ProductDetail = () => {
                 {/* Individual Reviews */}
                 <div className="space-y-6">
                   {hardcodedReviews.map((review) => (
-                    <div key={review.id} className="border-b pb-6 last:border-b-0">
+                    <div key={review.id} className="border rounded-lg p-6 bg-card">
                       <div className="flex items-start gap-4">
                         <div className="flex-1">
-                          {/* Rating Stars */}
-                          <div className="flex gap-1 mb-2">
+                          {/* Author Name - Bold and at top */}
+                          <div className="flex items-center gap-2 mb-3">
+                            <span className="font-bold text-lg">{review.author}</span>
+                            {review.verified && (
+                              <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full bg-green-100 text-green-800">
+                                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                </svg>
+                                Verified Purchase
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Rating Stars - Gold/Black */}
+                          <div className="flex gap-1 mb-3">
                             {[1, 2, 3, 4, 5].map((star) => (
                               <svg
                                 key={star}
-                                className={`w-4 h-4 ${
+                                className={`w-5 h-5 ${
                                   star <= review.rating
-                                    ? 'fill-yellow-400'
-                                    : 'fill-gray-300'
+                                    ? 'fill-yellow-500 stroke-yellow-600'
+                                    : 'fill-gray-200 stroke-gray-300'
                                 }`}
+                                strokeWidth="1"
                                 viewBox="0 0 20 20"
                               >
                                 <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
@@ -527,20 +499,15 @@ const ProductDetail = () => {
 
                           {/* Review Title */}
                           {review.title && (
-                            <h3 className="font-semibold mb-2">{review.title}</h3>
+                            <h3 className="font-semibold mb-2 text-foreground">{review.title}</h3>
                           )}
 
                           {/* Review Content */}
-                          <p className="text-muted-foreground mb-3">{review.content}</p>
+                          <p className="text-foreground leading-relaxed mb-3">{review.content}</p>
 
-                          {/* Author and Date */}
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <span className="font-medium">{review.author}</span>
-                            {review.verified && (
-                              <span className="text-green-600">✓ Verified Purchase</span>
-                            )}
-                            <span>•</span>
-                            <span>{review.date}</span>
+                          {/* Date */}
+                          <div className="text-sm text-muted-foreground">
+                            {review.date}
                           </div>
                         </div>
                       </div>
@@ -549,16 +516,7 @@ const ProductDetail = () => {
                 </div>
               </div>
 
-              {/* Judge.me Review Form (for collecting new reviews) */}
-              <div
-                id={`jdgm-review-widget-${extractNumericId(product.id)}`}
-                className="jdgm-widget jdgm-review-widget"
-                data-id={extractNumericId(product.id)}
-                data-product-title={product.title}
-                data-product-url={`https://luminaco.skin/products/${product.handle}`}
-                data-product-handle={product.handle}
-                data-auto-install="false"
-              ></div>
+
             </div>
           </div>
         </div>
