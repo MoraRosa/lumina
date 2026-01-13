@@ -5,6 +5,7 @@ import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { extractNumericId } from "@/lib/utils";
+import { getProductReviews } from "@/data/reviews";
 
 export type MediaContentType = 'IMAGE' | 'VIDEO' | 'MODEL_3D' | 'EXTERNAL_VIDEO';
 
@@ -46,7 +47,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent navigation when clicking add to cart
-    
+
     if (!product.availableForSale) {
       toast.error("This product is currently out of stock");
       return;
@@ -66,9 +67,12 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     });
   };
 
-  const hasDiscount = product.compareAtPrice && 
-    parseFloat(product.compareAtPrice.replace(/[^0-9.]/g, "")) > 
+  const hasDiscount = product.compareAtPrice &&
+    parseFloat(product.compareAtPrice.replace(/[^0-9.]/g, "")) >
     parseFloat(product.price.replace(/[^0-9.]/g, ""));
+
+  // Get reviews for this product
+  const productReviews = getProductReviews(extractNumericId(product.id));
 
   return (
     <Link to={`/products/${product.handle}`}>
@@ -103,22 +107,30 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             {product.title}
           </h3>
 
-          {/* Star Rating */}
-          <div className="flex items-center gap-2 mb-2">
-            <div className="flex gap-0.5">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <svg
-                  key={star}
-                  className="w-4 h-4 fill-yellow-500 stroke-yellow-600"
-                  strokeWidth="1"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                </svg>
-              ))}
+          {/* Star Rating - Only show if product has reviews */}
+          {productReviews && (
+            <div className="flex items-center gap-2 mb-2">
+              <div className="flex gap-0.5">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <svg
+                    key={star}
+                    className={`w-4 h-4 ${
+                      star <= productReviews.averageRating
+                        ? 'fill-yellow-500 stroke-yellow-600'
+                        : 'fill-gray-200 stroke-gray-300'
+                    }`}
+                    strokeWidth="1"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                  </svg>
+                ))}
+              </div>
+              <span className="text-xs text-muted-foreground font-medium">
+                {productReviews.averageRating.toFixed(1)} ({productReviews.totalReviews})
+              </span>
             </div>
-            <span className="text-xs text-muted-foreground font-medium">5.0 (2)</span>
-          </div>
+          )}
 
           <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-2 sm:mb-3 leading-relaxed">
             {product.description}

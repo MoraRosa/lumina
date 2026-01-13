@@ -15,6 +15,7 @@ import { useProduct } from "@/hooks/useProduct";
 import { MediaItem } from "@/components/ProductCard";
 import useEmblaCarousel from "embla-carousel-react";
 import { extractNumericId } from "@/lib/utils";
+import { getProductReviews } from "@/data/reviews";
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
@@ -27,27 +28,8 @@ const ProductDetail = () => {
 
   const { data: product, isLoading } = useProduct(handle);
 
-  // Hardcoded reviews as a workaround for Judge.me free plan limitations
-  const hardcodedReviews = [
-    {
-      id: 1,
-      author: "Yaqub",
-      rating: 5,
-      title: "",
-      content: "Lumina Body Butter truly lives up to its name. It rises to the challenge of winter dryness with quiet confidence, keeping the skin smooth, supple, and comfortably moisturized throughout the entire day.",
-      date: "3 hours ago",
-      verified: true,
-    },
-    {
-      id: 2,
-      author: "RJ",
-      rating: 5,
-      title: "",
-      content: "Great texture and I love it!",
-      date: "1 hour ago",
-      verified: true,
-    },
-  ];
+  // Get reviews for this product from centralized data
+  const productReviews = product ? getProductReviews(extractNumericId(product.id)) : null;
 
   // Combine images and media for display
   const allMedia: MediaItem[] = product?.media || [];
@@ -437,32 +419,38 @@ const ProductDetail = () => {
             <div ref={judgeReviewsRef} className="max-w-5xl mx-auto">
               <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center">Customer Reviews</h2>
 
-              {/* Custom Reviews Display */}
-              <div className="mb-8">
-                {/* Average Rating Summary */}
-                <div className="flex items-center justify-center gap-4 mb-8 pb-6 border-b">
-                  <div className="text-center">
-                    <div className="text-4xl font-bold mb-2">5.0</div>
-                    <div className="flex gap-1 mb-2">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <svg
-                          key={star}
-                          className="w-5 h-5 fill-yellow-400"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                        </svg>
-                      ))}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      Based on {hardcodedReviews.length} reviews
+              {/* Custom Reviews Display - Only show if product has reviews */}
+              {productReviews ? (
+                <div className="mb-8">
+                  {/* Average Rating Summary */}
+                  <div className="flex items-center justify-center gap-4 mb-8 pb-6 border-b">
+                    <div className="text-center">
+                      <div className="text-4xl font-bold mb-2">{productReviews.averageRating.toFixed(1)}</div>
+                      <div className="flex gap-1 mb-2">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <svg
+                            key={star}
+                            className={`w-5 h-5 ${
+                              star <= productReviews.averageRating
+                                ? 'fill-yellow-500 stroke-yellow-600'
+                                : 'fill-gray-200 stroke-gray-300'
+                            }`}
+                            strokeWidth="1"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                          </svg>
+                        ))}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        Based on {productReviews.totalReviews} {productReviews.totalReviews === 1 ? 'review' : 'reviews'}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Individual Reviews */}
-                <div className="space-y-6">
-                  {hardcodedReviews.map((review) => (
+                  {/* Individual Reviews */}
+                  <div className="space-y-6">
+                    {productReviews.reviews.map((review) => (
                     <div key={review.id} className="border rounded-lg p-6 bg-card">
                       <div className="flex items-start gap-4">
                         <div className="flex-1">
@@ -512,11 +500,15 @@ const ProductDetail = () => {
                         </div>
                       </div>
                     </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-
-
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-muted-foreground text-lg">No reviews yet</p>
+                  <p className="text-sm text-muted-foreground mt-2">Be the first to share your experience!</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
