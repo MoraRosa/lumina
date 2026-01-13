@@ -4,6 +4,7 @@ import { ShoppingBag } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
+import { extractNumericId } from "@/lib/utils";
 
 export type MediaContentType = 'IMAGE' | 'VIDEO' | 'MODEL_3D' | 'EXTERNAL_VIDEO';
 
@@ -105,7 +106,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           {/* Judge.me Star Rating Badge */}
           <div
             className="jdgm-widget jdgm-preview-badge mb-2"
-            data-id={product.id}
+            data-id={extractNumericId(product.id)}
             style={{ minHeight: '20px' }}
           />
 

@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { useProduct } from "@/hooks/useProduct";
 import { MediaItem } from "@/components/ProductCard";
 import useEmblaCarousel from "embla-carousel-react";
+import { extractNumericId } from "@/lib/utils";
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
@@ -25,6 +26,28 @@ const ProductDetail = () => {
   const judgeReviewsRef = useRef<HTMLDivElement>(null);
 
   const { data: product, isLoading } = useProduct(handle);
+
+  // Hardcoded reviews as a workaround for Judge.me free plan limitations
+  const hardcodedReviews = [
+    {
+      id: 1,
+      author: "Yaqub",
+      rating: 5,
+      title: "",
+      content: "Lumina Body Butter truly lives up to its name. It rises to the challenge of winter dryness with quiet confidence, keeping the skin smooth, supple, and comfortably moisturized throughout the entire day.",
+      date: "3 hours ago",
+      verified: true,
+    },
+    {
+      id: 2,
+      author: "RJ",
+      rating: 5,
+      title: "",
+      content: "Great texture and I love it!",
+      date: "1 hour ago",
+      verified: true,
+    },
+  ];
 
   // Combine images and media for display
   const allMedia: MediaItem[] = product?.media || [];
@@ -98,24 +121,44 @@ const ProductDetail = () => {
   useEffect(() => {
     if (!product) return;
 
-    // Wait for Judge.me to load and initialize widgets
-    const initJudgeMe = () => {
-      if (window.jdgm && typeof window.jdgm.customizeBadges === 'function') {
+    const numericId = extractNumericId(product.id);
+
+    // Initialize Judge.me widget
+    const initJudgeMeWidget = () => {
+      if (window.jdgm) {
         try {
-          window.jdgm.customizeBadges();
+          console.log('🔍 Initializing Judge.me widget for product ID:', numericId);
+          console.log('🔍 Shop domain:', window.jdgm.shopDomain());
+
+          if (typeof window.jdgm.initializeWidgets === 'function') {
+            console.log('✅ Calling initializeWidgets...');
+            window.jdgm.initializeWidgets();
+          }
+
+          if (typeof window.jdgm.customizeBadges === 'function') {
+            console.log('✅ Calling customizeBadges...');
+            window.jdgm.customizeBadges();
+          }
+
+          console.log('✨ Judge.me initialization complete');
         } catch (error) {
-          console.log('Judge.me initialization skipped:', error);
+          console.error('❌ Judge.me widget error:', error);
         }
+      } else {
+        console.warn('⏳ Judge.me not loaded yet');
       }
     };
 
-    // Try to initialize immediately if already loaded
-    initJudgeMe();
+    // Initialize the widget with delays to ensure Judge.me is loaded
+    const timers = [
+      setTimeout(initJudgeMeWidget, 500),
+      setTimeout(initJudgeMeWidget, 1500),
+      setTimeout(initJudgeMeWidget, 3000),
+    ];
 
-    // Also try after a short delay to ensure DOM is ready
-    const timer = setTimeout(initJudgeMe, 500);
-
-    return () => clearTimeout(timer);
+    return () => {
+      timers.forEach(timer => clearTimeout(timer));
+    };
   }, [product]);
 
   if (isLoading) {
@@ -434,19 +477,88 @@ const ProductDetail = () => {
 
             {/* Reviews Widget Container */}
             <div ref={judgeReviewsRef} className="max-w-5xl mx-auto">
-              {/* Judge.me Review Widget */}
-              <div
-                className="jdgm-widget jdgm-review-widget"
-                data-id={product.id}
-                data-product-title={product.title}
-                data-product-url={`https://luminaco.skin/products/${product.handle}`}
-              >
-                {/* Fallback content while Judge.me loads */}
-                <div className="text-center py-12">
-                  <h2 className="text-2xl sm:text-3xl font-bold mb-4">Customer Reviews</h2>
-                  <p className="text-muted-foreground">Loading reviews...</p>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center">Customer Reviews</h2>
+
+              {/* Custom Reviews Display */}
+              <div className="mb-8">
+                {/* Average Rating Summary */}
+                <div className="flex items-center justify-center gap-4 mb-8 pb-6 border-b">
+                  <div className="text-center">
+                    <div className="text-4xl font-bold mb-2">5.0</div>
+                    <div className="flex gap-1 mb-2">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <svg
+                          key={star}
+                          className="w-5 h-5 fill-yellow-400"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      Based on {hardcodedReviews.length} reviews
+                    </div>
+                  </div>
+                </div>
+
+                {/* Individual Reviews */}
+                <div className="space-y-6">
+                  {hardcodedReviews.map((review) => (
+                    <div key={review.id} className="border-b pb-6 last:border-b-0">
+                      <div className="flex items-start gap-4">
+                        <div className="flex-1">
+                          {/* Rating Stars */}
+                          <div className="flex gap-1 mb-2">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <svg
+                                key={star}
+                                className={`w-4 h-4 ${
+                                  star <= review.rating
+                                    ? 'fill-yellow-400'
+                                    : 'fill-gray-300'
+                                }`}
+                                viewBox="0 0 20 20"
+                              >
+                                <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                              </svg>
+                            ))}
+                          </div>
+
+                          {/* Review Title */}
+                          {review.title && (
+                            <h3 className="font-semibold mb-2">{review.title}</h3>
+                          )}
+
+                          {/* Review Content */}
+                          <p className="text-muted-foreground mb-3">{review.content}</p>
+
+                          {/* Author and Date */}
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <span className="font-medium">{review.author}</span>
+                            {review.verified && (
+                              <span className="text-green-600">✓ Verified Purchase</span>
+                            )}
+                            <span>•</span>
+                            <span>{review.date}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
+
+              {/* Judge.me Review Form (for collecting new reviews) */}
+              <div
+                id={`jdgm-review-widget-${extractNumericId(product.id)}`}
+                className="jdgm-widget jdgm-review-widget"
+                data-id={extractNumericId(product.id)}
+                data-product-title={product.title}
+                data-product-url={`https://luminaco.skin/products/${product.handle}`}
+                data-product-handle={product.handle}
+                data-auto-install="false"
+              ></div>
             </div>
           </div>
         </div>
