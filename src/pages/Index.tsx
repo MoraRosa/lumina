@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -6,16 +6,38 @@ import { CartDrawer } from "@/components/CartDrawer";
 import { ProductGrid } from "@/components/ProductGrid";
 import { Button } from "@/components/ui/button";
 import { useCollectionProducts } from "@/hooks/useCollectionProducts";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Index = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const navigate = useNavigate();
 
   // Fetch body care products for featured section
   const { data: bodyProducts = [], isLoading: isLoadingBody } = useCollectionProducts('body', 8);
 
+  // Fetch fragrance products for carousel
+  const { data: fragranceProducts = [], isLoading: isLoadingFragrance } = useCollectionProducts('fragrance', 5);
+
   const products = bodyProducts;
   const productsLoading = isLoadingBody;
+
+  // Auto-advance fragrance carousel every 5 seconds
+  useEffect(() => {
+    if (fragranceProducts.length === 0) return;
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % fragranceProducts.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [fragranceProducts.length]);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % fragranceProducts.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + fragranceProducts.length) % fragranceProducts.length);
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -38,7 +60,7 @@ const Index = () => {
             <Button
               size="lg"
               className="rounded-full px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg shadow-lg hover:shadow-xl transition-shadow"
-              onClick={() => navigate('/products')}
+              onClick={() => navigate('/body-care')}
             >
               Shop Now
             </Button>
@@ -189,23 +211,88 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Explore Fragrance Collection CTA Section */}
+      {/* Explore Fragrance Collection - Option 3 Carousel */}
       <section className="bg-gray-50 py-12 sm:py-16 md:py-20">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6 leading-tight">
-              Explore Fragrance Collection
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl text-foreground/90 mb-6 sm:mb-8">
-              Concentrated fragrance oil blends developed in-house, balanced and personal without being overpowering
-            </p>
-            <Button
-              size="lg"
-              className="rounded-full px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg shadow-lg hover:shadow-xl transition-shadow"
-              onClick={() => navigate('/fragrance')}
-            >
-              Shop Fragrance
-            </Button>
+          <div className="relative bg-white rounded-2xl overflow-hidden shadow-lg max-w-5xl mx-auto">
+            {/* Carousel Images */}
+            <div className="relative h-[300px] sm:h-[350px] md:h-[400px]">
+              {isLoadingFragrance ? (
+                <div className="w-full h-full bg-gray-200 animate-pulse flex items-center justify-center">
+                  <p className="text-foreground/60">Loading fragrance products...</p>
+                </div>
+              ) : fragranceProducts.length > 0 ? (
+                <>
+                  {fragranceProducts.map((product, index) => (
+                    <div
+                      key={product.id}
+                      className={`absolute inset-0 transition-opacity duration-700 ${
+                        index === currentSlide ? 'opacity-100' : 'opacity-0'
+                      }`}
+                    >
+                      <img
+                        src={product.image}
+                        alt={product.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ))}
+
+                  {/* Navigation Arrows */}
+                  <button
+                    onClick={prevSlide}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full transition-colors shadow-md"
+                    aria-label="Previous product"
+                  >
+                    <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+                  </button>
+                  <button
+                    onClick={nextSlide}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full transition-colors shadow-md"
+                    aria-label="Next product"
+                  >
+                    <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
+                  </button>
+                </>
+              ) : (
+                <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                  <p className="text-foreground/60">No fragrance products available</p>
+                </div>
+              )}
+            </div>
+
+            {/* Text Content Below */}
+            <div className="p-6 sm:p-8 md:p-12 text-center">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6 leading-tight">
+                Explore Fragrance Collection
+              </h2>
+              <p className="text-base sm:text-lg md:text-xl text-foreground/90 mb-6 sm:mb-8 max-w-2xl mx-auto">
+                Concentrated fragrance oil blends developed in-house, balanced and personal without being overpowering
+              </p>
+              <Button
+                size="lg"
+                className="rounded-full px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg shadow-lg hover:shadow-xl transition-shadow"
+                onClick={() => navigate('/fragrance')}
+              >
+                Shop Fragrance
+              </Button>
+
+              {/* Dots */}
+              {fragranceProducts.length > 0 && (
+                <div className="flex gap-2 justify-center mt-6">
+                  {fragranceProducts.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        index === currentSlide ? 'bg-primary w-8' : 'bg-primary/30'
+                      }`}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>

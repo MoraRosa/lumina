@@ -92,6 +92,14 @@ export const Footer = () => {
             <ul className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:text-base text-foreground/80">
               <li>
                 <Link
+                  to="/products"
+                  className="hover:text-foreground transition-colors inline-block py-1"
+                >
+                  Shop All
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/about"
                   className="hover:text-foreground transition-colors inline-block py-1"
                 >
