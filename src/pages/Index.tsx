@@ -17,7 +17,7 @@ const Index = () => {
   const { data: bodyProducts = [], isLoading: isLoadingBody } = useCollectionProducts('body', 8);
 
   // Fetch fragrance products for carousel
-  const { data: fragranceProducts = [], isLoading: isLoadingFragrance } = useCollectionProducts('fragrance', 5);
+  const { data: fragranceProducts = [], isLoading: isLoadingFragrance } = useCollectionProducts('fragrance', 10);
 
   const products = bodyProducts;
   const productsLoading = isLoadingBody;
@@ -264,7 +264,7 @@ const Index = () => {
             {/* Text Content Below */}
             <div className="p-6 sm:p-8 md:p-12 text-center">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6 leading-tight">
-                Explore Fragrance Collection
+                Explore Our Fragrance Collection
               </h2>
               <p className="text-base sm:text-lg md:text-xl text-foreground/90 mb-6 sm:mb-8 max-w-2xl mx-auto">
                 Concentrated fragrance oil blends developed in-house, balanced and personal without being overpowering
