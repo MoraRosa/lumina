@@ -73,7 +73,7 @@ const AboutUs = () => {
                 Skincare doesn't need to perform gymnastics to be worthwhile.
               </p>
               <p className="text-base sm:text-lg text-foreground/80 mb-6 leading-relaxed">
-                It doesn't need to multitask, overpower, or promise the impossible. Sometimes, it just needs to do one thing well and do it thoughtfully.
+                It doesn't need to multitask, overpower, or promise the impossible. Sometimes, it just needs to do one thing well  and do it thoughtfully.
               </p>
               <p className="text-base sm:text-lg text-foreground/80 mb-6 leading-relaxed">
                 That belief is at the heart of Lumina.
@@ -98,7 +98,7 @@ const AboutUs = () => {
             </h2>
             <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 sm:p-10 md:p-12 shadow-sm border border-pastel-green/10">
               <p className="text-base sm:text-lg text-foreground/80 mb-6 leading-relaxed">
-                For years, I struggled with persistent, uncomfortable skin issues that no product seemed to help. After countless appointments and trial-and-error solutions, misdiagnoses and being mis-medicated, what finally worked wasn't a miracle formula.
+                For years, I struggled with persistent, uncomfortable skin issues that no product seemed to help. After countless appointments and trial-and-error solutions 1 misdiagnoses and and being mis medicated what finally worked wasn't a miracle formula.
               </p>
               <p className="text-base sm:text-lg text-foreground/80 mb-6 leading-relaxed">
                 It was simplicity.
@@ -107,7 +107,7 @@ const AboutUs = () => {
                 Stepping back, removing what didn't serve my skin, and paying attention to how it actually responded.
               </p>
               <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
-                That experience shaped how I think about skincare today. I'm not anti-science, anti-ingredients, or anti-fragrance as a concept. I simply believe skincare should be purposeful. A body butter can just be a body butter. A cleanser can just cleanse. If you want fragrance, exfoliation, or actives, that should be a choice, not something bundled into every step.
+                That experience shaped how I think about skincare today. I'm not anti-science, anti-ingredients, or anti-fragrance as a concept. I simply believe skincare should be purposeful. A body butter can just be a body butter. A cleanser can just cleanse. If you want fragrance, exfoliation, or actives, that should be a choice not something bundled into every step.
               </p>
             </div>
           </div>
@@ -126,7 +126,7 @@ const AboutUs = () => {
                 Every Lumina product is formulated with intention. Ingredients are chosen carefully, formulas are kept focused, and everything is made to feel comforting, not overwhelming.
               </p>
               <p className="text-base sm:text-lg text-foreground/80 mb-6 leading-relaxed">
-                Our body butters are deeply moisturizing without being greasy, designed especially for dry skin and harsh winters, without unnecessary complexity.
+                Our body butters are deeply moisturizing without being greasy designed especially for dry skin and harsh winters, without unnecessary complexity.
               </p>
               <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
                 Nothing is added for the sake of marketing. Each product has a clear role, and it does that job well.
@@ -148,7 +148,7 @@ const AboutUs = () => {
                 Calm. Comfortable. Taken care of.
               </p>
               <p className="text-base sm:text-lg text-foreground/80 mb-6 leading-relaxed">
-                Like clean sheets, fresh pajamas, and a quiet moment where everything feels in order. Not perfumed, not overstimulated, just at ease in your own skin.
+                Like clean sheets, fresh pajamas, and a quiet moment where everything feels in order. Not perfumed, not overstimulated just at ease in your own skin.
               </p>
               <p className="text-base sm:text-lg text-foreground/80 leading-relaxed italic">
                 If this way of thinking resonates with you, Lumina might be for you.
@@ -170,7 +170,7 @@ const AboutUs = () => {
                 <span className="text-2xl">✨</span>
               </div>
               <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
-                All Lumina products are hand-crafted in small batches, using original formulations developed entirely in-house. From the formulas themselves to the packaging, labels, and artwork, everything is created here.
+                All Lumina products are hand-crafted in small batches, using original formulations developed entirely in-house. From the formulas themselves to the packaging, labels, and artwork everything is created here.
               </p>
             </div>
 
@@ -188,7 +188,7 @@ const AboutUs = () => {
                 <span className="text-2xl">🌸</span>
               </div>
               <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
-                Our fragrance line is composed of concentrated fragrance oil blends, formulated without dilution oils or solvents. Each scent is intentionally developed to feel cohesive, balanced, and personal rather than overpowering.
+                Our fragrance line is composed of concentrated fragrance oil blends, formulated without dilution oils or solvents. Each scent is intentionally developed to feel cohesive, balanced, and personal without being overpowering.
               </p>
             </div>
 
@@ -217,7 +217,7 @@ const AboutUs = () => {
               </div>
               <h3 className="text-xl font-bold mb-3">Fragrance-Free Care</h3>
               <p className="text-foreground/80">
-                Our skincare and body care are formulated without added fragrance, designed for everyday comfort, sensitive skin, and anyone who prefers their products to just work without announcing themselves.
+                Our skincare and body care are formulated without added fragrance designed for everyday comfort, sensitive skin, and anyone who prefers their products to just work without announcing themselves.
               </p>
             </div>
 
@@ -227,7 +227,7 @@ const AboutUs = () => {
               </div>
               <h3 className="text-xl font-bold mb-3">Intentional Scent</h3>
               <p className="text-foreground/80">
-                When we do create fragrance, it's concentrated, carefully balanced, and developed in-house. Our fragrance oils are personal without being overpowering, meant to feel like an extension of you, not a statement.
+                When we do create fragrance, it's concentrated, carefully balanced, and developed in-house. Our fragrance oils are personal without being overpowering meant to feel like an extension of you, not a statement.
               </p>
             </div>
 
@@ -237,7 +237,7 @@ const AboutUs = () => {
               </div>
               <h3 className="text-xl font-bold mb-3">Made In-House</h3>
               <p className="text-foreground/80">
-                Everything, from formulation to packaging design, is created here. This hands-on approach gives us full creative control and allows us to maintain the quality, consistency, and intention behind every product.
+                Everything from formulation to packaging design is created here. This hands-on approach gives us full creative control and allows us to maintain the quality, consistency, and intention behind every product.
               </p>
             </div>
           </div>
@@ -258,7 +258,7 @@ const AboutUs = () => {
                   Ingredients
                 </h3>
                 <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
-                  We use cosmetic-grade ingredients commonly found in modern personal care and fragrance formulations. Our skincare and body care products include humectants, emollients, gentle surfactants, and plant-derived oils and butters, all formulated without added fragrance. Our fragrance line uses concentrated fragrance oil blends designed for direct wear and personal scent application.
+                  We use cosmetic-grade ingredients commonly found in modern personal care and fragrance formulations. Our skincare and body care products include humectants, emollients, gentle surfactants, and plant-derived oils and butters all formulated without added fragrance. Our fragrance line uses concentrated fragrance oil blends designed for direct wear and personal scent application.
                 </p>
               </div>
               <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-sm border border-pastel-green/10">
@@ -267,7 +267,7 @@ const AboutUs = () => {
                   Packaging
                 </h3>
                 <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
-                  Our packaging combines glass and plastic components sourced for product safety and durability. All design work, including labels, artwork, and cardstock boxes, is created, printed, and assembled in-house. We select paper materials intentionally for structure, finish, and visual consistency. Packaging is recyclable where facilities exist.
+                  Our packaging combines glass and plastic components sourced for product safety and durability. All design work including labels, artwork, and cardstock boxes is created, printed, and assembled in-house. We select paper materials intentionally for structure, finish, and visual consistency. Packaging is recyclable where facilities exist.
                 </p>
               </div>
               <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-sm border border-pastel-green/10">
@@ -276,7 +276,7 @@ const AboutUs = () => {
                   Our Values
                 </h3>
                 <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
-                  Lumina is a clean-inspired brand focused on clarity and transparency. Our products are formulated using cosmetic-grade ingredients, are not tested on animals, and our skincare and body care line is produced without added fragrance. We don't currently hold third-party certifications. We're focused on making products that work and being honest about what they are.
+                  Lumina is a clean-inspired brand focused on clarity and transparency. Our products are formulated using cosmetic-grade ingredients, are not tested on animals, and our skincare and body care line is produced without added fragrance. We don't currently hold third-party certifications we're focused on making products that work and being honest about what they are.
                 </p>
               </div>
             </div>
