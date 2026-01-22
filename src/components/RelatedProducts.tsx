@@ -87,6 +87,9 @@ export const RelatedProducts = ({ currentProductId, currentProductHandle }: Rela
                       loading="lazy"
                     />
                     {!product.availableForSale && (
+                      <div className="absolute inset-0 bg-black/40" />
+                    )}
+                    {!product.availableForSale && (
                       <Badge
                         variant="secondary"
                         className="absolute top-2 right-2 text-[10px] sm:text-xs px-1.5 py-0.5"
