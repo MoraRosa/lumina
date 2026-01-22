@@ -254,45 +254,46 @@ const Fragrance = () => {
           </div>
 
           {/* Filters */}
-          <div className="mb-6 flex flex-wrap gap-3 items-center">
-            <span className="text-sm text-foreground/70 font-medium">Filters:</span>
+          <div className="mb-6">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-sm text-foreground/70 font-medium">Filters:</span>
+              {(priceRange || availability) && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleClearFilters}
+                  className="h-7 px-2 text-xs"
+                >
+                  Clear All
+                </Button>
+              )}
+            </div>
+            <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-3">
+              {/* Price Range Filter */}
+              <Select value={priceRange} onValueChange={handlePriceRangeChange}>
+                <SelectTrigger className="rounded-full h-9 sm:h-10 text-sm">
+                  <SelectValue placeholder="Price Range" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Prices</SelectItem>
+                  <SelectItem value="under-25">Under $25</SelectItem>
+                  <SelectItem value="25-50">$25 - $50</SelectItem>
+                  <SelectItem value="over-50">Over $50</SelectItem>
+                </SelectContent>
+              </Select>
 
-            {/* Price Range Filter */}
-            <Select value={priceRange} onValueChange={handlePriceRangeChange}>
-              <SelectTrigger className="w-[160px] rounded-full h-9 sm:h-10">
-                <SelectValue placeholder="Price Range" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Prices</SelectItem>
-                <SelectItem value="under-25">Under $25</SelectItem>
-                <SelectItem value="25-50">$25 - $50</SelectItem>
-                <SelectItem value="over-50">Over $50</SelectItem>
-              </SelectContent>
-            </Select>
-
-            {/* Availability Filter */}
-            <Select value={availability} onValueChange={handleAvailabilityChange}>
-              <SelectTrigger className="w-[160px] rounded-full h-9 sm:h-10">
-                <SelectValue placeholder="Availability" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Products</SelectItem>
-                <SelectItem value="in-stock">In Stock</SelectItem>
-                <SelectItem value="out-of-stock">Out of Stock</SelectItem>
-              </SelectContent>
-            </Select>
-
-            {/* Clear Filters Button */}
-            {(priceRange || availability) && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleClearFilters}
-                className="rounded-full h-9 sm:h-10 px-4"
-              >
-                Clear Filters
-              </Button>
-            )}
+              {/* Availability Filter */}
+              <Select value={availability} onValueChange={handleAvailabilityChange}>
+                <SelectTrigger className="rounded-full h-9 sm:h-10 text-sm">
+                  <SelectValue placeholder="Availability" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Products</SelectItem>
+                  <SelectItem value="in-stock">In Stock</SelectItem>
+                  <SelectItem value="out-of-stock">Out of Stock</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           {/* Sort Controls and Product Count */}

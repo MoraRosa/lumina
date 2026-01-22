@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { CookieConsent } from "@/components/CookieConsent";
+import { PromoBanner } from "@/components/PromoBanner";
 import Index from "./pages/Index";
 import ProductListing from "./pages/ProductListing";
 import Fragrance from "./pages/Fragrance";
@@ -36,6 +37,7 @@ const App = () => (
           }}
         >
           <ScrollToTop />
+          <PromoBanner />
           <CookieConsent />
           <Routes>
             <Route path="/" element={<Index />} />
