@@ -16,6 +16,7 @@ import { MediaItem } from "@/components/ProductCard";
 import useEmblaCarousel from "embla-carousel-react";
 import { extractNumericId } from "@/lib/utils";
 import { getProductReviews } from "@/data/reviews";
+import { RelatedProducts } from "@/components/RelatedProducts";
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
@@ -513,6 +514,14 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Related Products Section */}
+      {product && (
+        <RelatedProducts
+          currentProductId={product.id}
+          currentProductHandle={product.handle}
+        />
+      )}
 
       <Footer />
     </div>
