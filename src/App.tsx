@@ -7,6 +7,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { CookieConsent } from "@/components/CookieConsent";
 import { PromoBanner } from "@/components/PromoBanner";
+import { BackToTop } from "@/components/BackToTop";
 import Index from "./pages/Index";
 import ProductListing from "./pages/ProductListing";
 import Fragrance from "./pages/Fragrance";
@@ -38,6 +39,7 @@ const App = () => (
         >
           <ScrollToTop />
           <PromoBanner />
+          <BackToTop />
           <CookieConsent />
           <Routes>
             <Route path="/" element={<Index />} />
