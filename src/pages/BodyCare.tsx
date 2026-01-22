@@ -8,7 +8,8 @@ import { ProductGrid } from "@/components/ProductGrid";
 import { ScallopedEdge } from "@/components/edges/ScallopedEdge";
 import { useCollectionProducts } from "@/hooks/useCollectionProducts";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { ChevronLeft, ChevronRight, Search, X } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -31,6 +32,7 @@ const BodyCare = () => {
 
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
   const sortOption = (searchParams.get('sort') as SortOption) || 'alphabetical-asc';
+  const searchQuery = searchParams.get('search') || '';
 
   useEffect(() => {
     const handleResize = () => {
@@ -50,29 +52,39 @@ const BodyCare = () => {
   const { data: bodyProducts = [], isLoading } = useCollectionProducts('body', 250);
 
   const products = useMemo(() => {
-    const sorted = [...bodyProducts];
+    // First, filter by search query
+    let filtered = [...bodyProducts];
 
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(product =>
+        product.title.toLowerCase().includes(query) ||
+        product.description.toLowerCase().includes(query)
+      );
+    }
+
+    // Then, sort the filtered results
     switch (sortOption) {
       case 'alphabetical-asc':
-        return sorted.sort((a, b) => a.title.localeCompare(b.title));
+        return filtered.sort((a, b) => a.title.localeCompare(b.title));
       case 'alphabetical-desc':
-        return sorted.sort((a, b) => b.title.localeCompare(a.title));
+        return filtered.sort((a, b) => b.title.localeCompare(a.title));
       case 'price-asc':
-        return sorted.sort((a, b) => {
+        return filtered.sort((a, b) => {
           const priceA = parseFloat(a.price.replace('$', ''));
           const priceB = parseFloat(b.price.replace('$', ''));
           return priceA - priceB;
         });
       case 'price-desc':
-        return sorted.sort((a, b) => {
+        return filtered.sort((a, b) => {
           const priceA = parseFloat(a.price.replace('$', ''));
           const priceB = parseFloat(b.price.replace('$', ''));
           return priceB - priceA;
         });
       default:
-        return sorted;
+        return filtered;
     }
-  }, [bodyProducts, sortOption]);
+  }, [bodyProducts, sortOption, searchQuery]);
 
   const totalProducts = products.length;
   const totalPages = Math.ceil(totalProducts / productsPerPage);
@@ -80,7 +92,7 @@ const BodyCare = () => {
   const endIndex = startIndex + productsPerPage;
   const currentProducts = products.slice(startIndex, endIndex);
 
-  const updateParams = (updates: { page?: number; sort?: SortOption }) => {
+  const updateParams = (updates: { page?: number; sort?: SortOption; search?: string }) => {
     const newParams = new URLSearchParams(searchParams);
 
     if (updates.page !== undefined) {
@@ -88,6 +100,13 @@ const BodyCare = () => {
     }
     if (updates.sort !== undefined) {
       newParams.set('sort', updates.sort);
+    }
+    if (updates.search !== undefined) {
+      if (updates.search) {
+        newParams.set('search', updates.search);
+      } else {
+        newParams.delete('search');
+      }
     }
 
     setSearchParams(newParams);
@@ -100,6 +119,14 @@ const BodyCare = () => {
 
   const handleSortChange = (value: SortOption) => {
     updateParams({ sort: value, page: 1 });
+  };
+
+  const handleSearchChange = (value: string) => {
+    updateParams({ search: value, page: 1 });
+  };
+
+  const handleClearSearch = () => {
+    updateParams({ search: '', page: 1 });
   };
 
   return (
@@ -143,12 +170,37 @@ const BodyCare = () => {
         <ScallopedEdge color="hsl(var(--background))" position="bottom" />
       </section>
 
-      {/* Sort Controls */}
+      {/* Search and Sort Controls */}
       <section className="py-6 sm:py-8 border-b border-border/30">
         <div className="container mx-auto px-4 sm:px-6">
+          {/* Search Bar */}
+          <div className="mb-6">
+            <div className="relative max-w-md mx-auto sm:mx-0">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/40" />
+              <Input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                className="pl-10 pr-10 rounded-full h-10 sm:h-11"
+              />
+              {searchQuery && (
+                <button
+                  onClick={handleClearSearch}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/40 hover:text-foreground transition-colors"
+                  aria-label="Clear search"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Sort Controls and Product Count */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-sm sm:text-base text-foreground/70">
               Showing {startIndex + 1}-{Math.min(endIndex, totalProducts)} of {totalProducts} products
+              {searchQuery && <span className="font-semibold"> for "{searchQuery}"</span>}
             </p>
             <div className="flex items-center gap-2">
               <span className="text-sm text-foreground/70 whitespace-nowrap">Sort by:</span>

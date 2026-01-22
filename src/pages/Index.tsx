@@ -10,33 +10,55 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Index = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(0);
   const navigate = useNavigate();
 
-  // Fetch body care products for featured section
-  const { data: bodyProducts = [], isLoading: isLoadingBody } = useCollectionProducts('body', 8);
+  // Fetch body care products for hero carousel and featured section
+  const { data: bodyProducts = [], isLoading: isLoadingBody } = useCollectionProducts('body', 10);
 
-  // Fetch fragrance products for carousel
+  // Fetch fragrance products for fragrance carousel
   const { data: fragranceProducts = [], isLoading: isLoadingFragrance } = useCollectionProducts('fragrance', 10);
 
-  const products = bodyProducts;
+  const products = bodyProducts.slice(0, 8); // Featured products (first 8)
   const productsLoading = isLoadingBody;
+
+  // State for hero carousel (body care)
+  const [heroSlide, setHeroSlide] = useState(0);
+
+  // State for fragrance carousel
+  const [fragranceSlide, setFragranceSlide] = useState(0);
+
+  // Auto-advance hero carousel every 5 seconds
+  useEffect(() => {
+    if (bodyProducts.length === 0) return;
+    const timer = setInterval(() => {
+      setHeroSlide((prev) => (prev + 1) % bodyProducts.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [bodyProducts.length]);
 
   // Auto-advance fragrance carousel every 5 seconds
   useEffect(() => {
     if (fragranceProducts.length === 0) return;
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % fragranceProducts.length);
+      setFragranceSlide((prev) => (prev + 1) % fragranceProducts.length);
     }, 5000);
     return () => clearInterval(timer);
   }, [fragranceProducts.length]);
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % fragranceProducts.length);
+  const nextHeroSlide = () => {
+    setHeroSlide((prev) => (prev + 1) % bodyProducts.length);
   };
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + fragranceProducts.length) % fragranceProducts.length);
+  const prevHeroSlide = () => {
+    setHeroSlide((prev) => (prev - 1 + bodyProducts.length) % bodyProducts.length);
+  };
+
+  const nextFragranceSlide = () => {
+    setFragranceSlide((prev) => (prev + 1) % fragranceProducts.length);
+  };
+
+  const prevFragranceSlide = () => {
+    setFragranceSlide((prev) => (prev - 1 + fragranceProducts.length) % fragranceProducts.length);
   };
 
   return (
@@ -44,28 +66,98 @@ const Index = () => {
       <Navbar onCartClick={() => setIsCartOpen(true)} />
       <CartDrawer open={isCartOpen} onOpenChange={setIsCartOpen} />
 
-      {/* Hero Section */}
-      <section className="relative bg-white pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-16 sm:pb-20 md:pb-24 lg:pb-28">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-2 sm:mb-3 leading-tight">
-              Fragrance-Free Skincare & Body Care
-            </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-primary font-semibold mb-4 sm:mb-6 italic">
-              Natural Beauty, Naturally You!
-            </p>
-            <p className="text-base sm:text-lg md:text-xl text-foreground/90 mb-6 sm:mb-8 px-4 leading-relaxed max-w-3xl mx-auto">
-              Lumina creates clean-inspired bath and body essentials that are <strong>100% fragrance-free</strong> and perfect for sensitive skin. Each product is made in-house to support simple rituals that feel calm, comforting, and easy to return to.
-            </p>
-            <Button
-              size="lg"
-              className="rounded-full px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg shadow-lg hover:shadow-xl transition-shadow"
-              onClick={() => navigate('/body-care')}
+      {/* Hero Section - Option 4: Full-Width Carousel (Body Care) */}
+      <section className="relative w-full h-[500px] sm:h-[600px] md:h-[700px] lg:h-[800px] overflow-hidden">
+        {bodyProducts.length > 0 ? (
+          <>
+            {/* Carousel Images */}
+            {bodyProducts.map((product, index) => (
+              <div
+                key={product.id}
+                className={`absolute inset-0 transition-opacity duration-700 ${
+                  index === heroSlide ? 'opacity-100' : 'opacity-0'
+                }`}
+              >
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  className="w-full h-full object-cover"
+                />
+                {/* Gradient overlay for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+              </div>
+            ))}
+
+            {/* Minimal Text Overlay - Bottom Left */}
+            <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 md:p-12 text-white z-10">
+              <div className="max-w-2xl">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-3">
+                  Fragrance-Free Skincare & Body Care
+                </h1>
+                <p className="text-lg sm:text-xl mb-4 sm:mb-6 italic font-bold text-green-300">
+                  Natural Beauty, Naturally You!
+                </p>
+                <Button
+                  size="lg"
+                  className="rounded-full px-6 sm:px-8"
+                  onClick={() => navigate('/body-care')}
+                >
+                  Shop Now
+                </Button>
+              </div>
+            </div>
+
+            {/* Navigation Arrows */}
+            <button
+              onClick={prevHeroSlide}
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 hover:bg-white flex items-center justify-center transition-all hover:scale-110 shadow-lg"
+              aria-label="Previous slide"
             >
-              Shop Now
-            </Button>
+              <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6 text-foreground" />
+            </button>
+            <button
+              onClick={nextHeroSlide}
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 hover:bg-white flex items-center justify-center transition-all hover:scale-110 shadow-lg"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 text-foreground" />
+            </button>
+
+            {/* Dot Indicators - Bottom Right */}
+            <div className="absolute bottom-4 sm:bottom-6 right-6 sm:right-8 z-20 flex gap-2">
+              {bodyProducts.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setHeroSlide(index)}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    index === heroSlide
+                      ? 'bg-white w-8'
+                      : 'bg-white/50 hover:bg-white/75'
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-pastel-purple to-pastel-pink flex items-center justify-center">
+            <div className="text-center max-w-4xl mx-auto px-4 sm:px-6">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 sm:mb-3 leading-tight drop-shadow-lg">
+                Fragrance-Free Skincare & Body Care
+              </h1>
+              <p className="text-lg sm:text-xl md:text-2xl text-white font-semibold mb-6 sm:mb-8 italic drop-shadow-lg">
+                Natural Beauty, Naturally You!
+              </p>
+              <Button
+                size="lg"
+                className="rounded-full px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                onClick={() => navigate('/body-care')}
+              >
+                Shop Now
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
       </section>
 
       {/* Featured Body Care Products Section */}
@@ -76,7 +168,7 @@ const Index = () => {
               Featured Products
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-foreground/80 leading-relaxed">
-              <strong>100% fragrance-free</strong> skincare and body care formulated for sensitive skin. Pure, gentle care designed for everyday comfort that lets your skin breathe.
+              Lumina creates clean-inspired bath and body essentials that are <strong>100% fragrance-free</strong> and perfect for sensitive skin. Pure, gentle care designed for everyday comfort that lets your skin breathe. Each product is made in-house to support simple rituals that feel calm, comforting, and easy to return to.
             </p>
           </div>
           {products.length > 0 ? (
@@ -227,7 +319,7 @@ const Index = () => {
                     <div
                       key={product.id}
                       className={`absolute inset-0 transition-opacity duration-700 ${
-                        index === currentSlide ? 'opacity-100' : 'opacity-0'
+                        index === fragranceSlide ? 'opacity-100' : 'opacity-0'
                       }`}
                     >
                       <img
@@ -240,14 +332,14 @@ const Index = () => {
 
                   {/* Navigation Arrows */}
                   <button
-                    onClick={prevSlide}
+                    onClick={prevFragranceSlide}
                     className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full transition-colors shadow-md"
                     aria-label="Previous product"
                   >
                     <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
                   </button>
                   <button
-                    onClick={nextSlide}
+                    onClick={nextFragranceSlide}
                     className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full transition-colors shadow-md"
                     aria-label="Next product"
                   >
@@ -283,9 +375,9 @@ const Index = () => {
                   {fragranceProducts.map((_, index) => (
                     <button
                       key={index}
-                      onClick={() => setCurrentSlide(index)}
+                      onClick={() => setFragranceSlide(index)}
                       className={`w-2 h-2 rounded-full transition-all ${
-                        index === currentSlide ? 'bg-primary w-8' : 'bg-primary/30'
+                        index === fragranceSlide ? 'bg-primary w-8' : 'bg-primary/30'
                       }`}
                       aria-label={`Go to slide ${index + 1}`}
                     />
