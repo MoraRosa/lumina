@@ -12,19 +12,22 @@ interface RelatedProductsProps {
 }
 
 export const RelatedProducts = ({ currentProductId, currentProductHandle }: RelatedProductsProps) => {
-  // Determine collection based on product handle or default to body
-  const collectionHandle = useMemo(() => {
-    // Check if product is in fragrance collection
-    if (currentProductHandle.toLowerCase().includes('fragrance') ||
-        currentProductHandle.toLowerCase().includes('perfume') ||
-        currentProductHandle.toLowerCase().includes('cologne')) {
-      return 'fragrance';
-    }
-    // Default to body for all other products (body care collection)
-    return 'body';
-  }, [currentProductHandle]);
+  // Fetch from both collections
+  const { data: bodyProducts = [] } = useCollectionProducts('body', 20);
+  const { data: fragranceProducts = [] } = useCollectionProducts('fragrance', 20);
 
-  const { data: collectionProducts, isLoading } = useCollectionProducts(collectionHandle, 20);
+  // Determine which collection this product belongs to
+  const { collectionProducts, isLoading } = useMemo(() => {
+    // Check if current product is in fragrance collection
+    const isInFragrance = fragranceProducts.some(p => p.id === currentProductId);
+
+    if (isInFragrance) {
+      return { collectionProducts: fragranceProducts, isLoading: false };
+    }
+
+    // Otherwise, it's in body collection
+    return { collectionProducts: bodyProducts, isLoading: false };
+  }, [bodyProducts, fragranceProducts, currentProductId]);
 
   // Filter out current product and shuffle all remaining products
   const relatedProducts = useMemo(() => {
@@ -97,7 +100,7 @@ export const RelatedProducts = ({ currentProductId, currentProductHandle }: Rela
                   </h3>
                   <div className="flex items-center gap-1.5">
                     <p className="text-xs sm:text-sm font-semibold">{product.price}</p>
-                    {product.compareAtPrice && (
+                    {product.compareAtPrice && product.compareAtPrice !== '$0.00' && (
                       <p className="text-[10px] sm:text-xs text-muted-foreground line-through">
                         {product.compareAtPrice}
                       </p>
