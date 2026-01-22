@@ -39,6 +39,8 @@ const ProductListing = () => {
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
   const sortOption = (searchParams.get('sort') as SortOption) || 'alphabetical-asc';
   const searchQuery = searchParams.get('search') || '';
+  const priceRange = searchParams.get('priceRange') || '';
+  const availability = searchParams.get('availability') || '';
 
   // Update products per page on window resize
   useEffect(() => {
@@ -87,6 +89,35 @@ const ProductListing = () => {
       );
     }
 
+    // Filter by price range
+    if (priceRange) {
+      filtered = filtered.filter(product => {
+        const price = parseFloat(product.price.replace('$', ''));
+        switch (priceRange) {
+          case 'under-25':
+            return price < 25;
+          case '25-50':
+            return price >= 25 && price <= 50;
+          case 'over-50':
+            return price > 50;
+          default:
+            return true;
+        }
+      });
+    }
+
+    // Filter by availability
+    if (availability) {
+      filtered = filtered.filter(product => {
+        if (availability === 'in-stock') {
+          return product.availableForSale;
+        } else if (availability === 'out-of-stock') {
+          return !product.availableForSale;
+        }
+        return true;
+      });
+    }
+
     // Then, sort the filtered results
     switch (sortOption) {
       case 'alphabetical-asc':
@@ -108,7 +139,7 @@ const ProductListing = () => {
       default:
         return filtered;
     }
-  }, [unsortedProducts, sortOption, searchQuery]);
+  }, [unsortedProducts, sortOption, searchQuery, priceRange, availability]);
 
   // Calculate pagination
   const totalProducts = products.length;
@@ -118,7 +149,7 @@ const ProductListing = () => {
   const currentProducts = products.slice(startIndex, endIndex);
 
   // Update URL params when state changes
-  const updateParams = (updates: { category?: Category; page?: number; sort?: SortOption; search?: string }) => {
+  const updateParams = (updates: { category?: Category; page?: number; sort?: SortOption; search?: string; priceRange?: string; availability?: string }) => {
     const newParams = new URLSearchParams(searchParams);
 
     if (updates.category !== undefined) {
@@ -135,6 +166,20 @@ const ProductListing = () => {
         newParams.set('search', updates.search);
       } else {
         newParams.delete('search');
+      }
+    }
+    if (updates.priceRange !== undefined) {
+      if (updates.priceRange) {
+        newParams.set('priceRange', updates.priceRange);
+      } else {
+        newParams.delete('priceRange');
+      }
+    }
+    if (updates.availability !== undefined) {
+      if (updates.availability) {
+        newParams.set('availability', updates.availability);
+      } else {
+        newParams.delete('availability');
       }
     }
 
@@ -161,6 +206,18 @@ const ProductListing = () => {
 
   const handleClearSearch = () => {
     updateParams({ search: '', page: 1 });
+  };
+
+  const handlePriceRangeChange = (value: string) => {
+    updateParams({ priceRange: value, page: 1 });
+  };
+
+  const handleAvailabilityChange = (value: string) => {
+    updateParams({ availability: value, page: 1 });
+  };
+
+  const handleClearFilters = () => {
+    updateParams({ priceRange: '', availability: '', page: 1 });
   };
 
   const categoryTitle = selectedCategory === 'fragrance'
@@ -260,6 +317,48 @@ const ProductListing = () => {
                 </button>
               )}
             </div>
+          </div>
+
+          {/* Filters */}
+          <div className="mb-6 sm:mb-8 flex flex-wrap gap-3 items-center">
+            <span className="text-sm text-foreground/70 font-medium">Filters:</span>
+
+            {/* Price Range Filter */}
+            <Select value={priceRange} onValueChange={handlePriceRangeChange}>
+              <SelectTrigger className="w-[160px] rounded-full h-9 sm:h-10">
+                <SelectValue placeholder="Price Range" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Prices</SelectItem>
+                <SelectItem value="under-25">Under $25</SelectItem>
+                <SelectItem value="25-50">$25 - $50</SelectItem>
+                <SelectItem value="over-50">Over $50</SelectItem>
+              </SelectContent>
+            </Select>
+
+            {/* Availability Filter */}
+            <Select value={availability} onValueChange={handleAvailabilityChange}>
+              <SelectTrigger className="w-[160px] rounded-full h-9 sm:h-10">
+                <SelectValue placeholder="Availability" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Products</SelectItem>
+                <SelectItem value="in-stock">In Stock</SelectItem>
+                <SelectItem value="out-of-stock">Out of Stock</SelectItem>
+              </SelectContent>
+            </Select>
+
+            {/* Clear Filters Button */}
+            {(priceRange || availability) && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleClearFilters}
+                className="rounded-full h-9 sm:h-10 px-4"
+              >
+                Clear Filters
+              </Button>
+            )}
           </div>
 
           {/* Product Count and Sort Dropdown */}
