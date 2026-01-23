@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 
 const STORAGE_KEY = 'lumina_recently_viewed';
-const MAX_ITEMS = 12; // Store up to 12 recently viewed products
+const MAX_ITEMS = 6; // Store up to 6 recently viewed products (FIFO)
 
 interface RecentlyViewedProduct {
   id: string;

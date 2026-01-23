@@ -43,7 +43,7 @@ export const RecentlyViewed = ({ currentProductId, limit = 4 }: RecentlyViewedPr
   }
 
   return (
-    <section className="py-12 sm:py-16 bg-background">
+    <section className="py-12 sm:py-16">
       <div className="container mx-auto px-4 sm:px-6">
         <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-10">
           Recently Viewed

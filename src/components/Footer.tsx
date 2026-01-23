@@ -4,7 +4,7 @@ import { ScallopedCircleEdge } from "./edges/ScallopedCircleEdge";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { toast } from "sonner";
-import { Youtube, PinIcon as Pinterest, Instagram, Facebook } from "lucide-react";
+import { Youtube, PinIcon as Pinterest, Instagram, Facebook, RefreshCw } from "lucide-react";
 import { FaTiktok, FaThreads } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -42,6 +42,14 @@ export const Footer = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleClearCache = () => {
+    toast.info("Clearing cache...");
+    localStorage.clear();
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
   };
 
   return (
@@ -86,9 +94,19 @@ export const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-3 sm:mb-4">
-              Quick Links
-            </h3>
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <h3 className="text-xl sm:text-2xl font-bold text-foreground">
+                Quick Links
+              </h3>
+              <button
+                onClick={handleClearCache}
+                className="text-foreground/60 hover:text-foreground transition-colors"
+                aria-label="Clear cache"
+                title="Clear cache and reload"
+              >
+                <RefreshCw className="h-5 w-5" />
+              </button>
+            </div>
             <ul className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:text-base text-foreground/80">
               <li>
                 <Link
