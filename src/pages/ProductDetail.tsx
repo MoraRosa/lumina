@@ -19,6 +19,9 @@ import { getProductReviews } from "@/data/reviews";
 import { RelatedProducts } from "@/components/RelatedProducts";
 import { RecentlyViewed } from "@/components/RecentlyViewed";
 import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { useCollectionProducts } from "@/hooks/useCollectionProducts";
+import { useMemo } from "react";
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
@@ -31,6 +34,27 @@ const ProductDetail = () => {
   const { addRecentlyViewed } = useRecentlyViewed();
 
   const { data: product, isLoading } = useProduct(handle);
+
+  // Fetch from both collections to determine which one this product belongs to
+  const { data: bodyProducts = [] } = useCollectionProducts('body', 20);
+  const { data: fragranceProducts = [] } = useCollectionProducts('fragrance', 20);
+
+  // Determine collection for breadcrumbs
+  const productCollection = useMemo(() => {
+    if (!product) return null;
+
+    const isInFragrance = fragranceProducts.some(p => p.id === product.id);
+    if (isInFragrance) {
+      return { name: 'Fragrance', path: '/fragrance' };
+    }
+
+    const isInBody = bodyProducts.some(p => p.id === product.id);
+    if (isInBody) {
+      return { name: 'Body Care', path: '/body-care' };
+    }
+
+    return null;
+  }, [product, bodyProducts, fragranceProducts]);
 
   // Track product view in recently viewed
   useEffect(() => {
@@ -199,6 +223,16 @@ const ProductDetail = () => {
       <CartDrawer open={isCartOpen} onOpenChange={setIsCartOpen} />
 
       <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        {/* Breadcrumbs */}
+        {productCollection && (
+          <Breadcrumbs
+            items={[
+              { label: productCollection.name, href: productCollection.path },
+              { label: product.title },
+            ]}
+          />
+        )}
+
         <Button
           variant="ghost"
           onClick={() => navigate(-1)}
