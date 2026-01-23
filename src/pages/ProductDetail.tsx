@@ -17,6 +17,8 @@ import useEmblaCarousel from "embla-carousel-react";
 import { extractNumericId } from "@/lib/utils";
 import { getProductReviews } from "@/data/reviews";
 import { RelatedProducts } from "@/components/RelatedProducts";
+import { RecentlyViewed } from "@/components/RecentlyViewed";
+import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
@@ -26,8 +28,16 @@ const ProductDetail = () => {
   const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
   const addItem = useCartStore((state) => state.addItem);
   const judgeReviewsRef = useRef<HTMLDivElement>(null);
+  const { addRecentlyViewed } = useRecentlyViewed();
 
   const { data: product, isLoading } = useProduct(handle);
+
+  // Track product view in recently viewed
+  useEffect(() => {
+    if (product) {
+      addRecentlyViewed(product.id, product.handle);
+    }
+  }, [product, addRecentlyViewed]);
 
   // Get reviews for this product from centralized data
   const productReviews = product ? getProductReviews(extractNumericId(product.id)) : null;
@@ -514,6 +524,11 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Recently Viewed Section */}
+      {product && (
+        <RecentlyViewed currentProductId={product.id} limit={4} />
+      )}
 
       {/* Related Products Section */}
       {product && (

@@ -7,6 +7,7 @@ import { ProductGrid } from "@/components/ProductGrid";
 import { Button } from "@/components/ui/button";
 import { useCollectionProducts } from "@/hooks/useCollectionProducts";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { RecentlyViewed } from "@/components/RecentlyViewed";
 
 const Index = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -200,6 +201,9 @@ const Index = () => {
           )}
         </div>
       </section>
+
+      {/* Recently Viewed Section */}
+      <RecentlyViewed limit={4} />
 
       {/* Didn't Find What You're Looking For Section */}
       <section className="relative bg-white py-12 sm:py-16 md:py-20">
