@@ -143,9 +143,6 @@ export const NewsletterPopup = () => {
               By subscribing, you agree to receive marketing emails. You can unsubscribe at any time.
             </p>
           </div>
-
-          {/* Bottom accent */}
-          <div className="h-2 bg-gradient-to-r from-pastel-purple via-pastel-pink to-pastel-green rounded-b-3xl" />
         </div>
       </div>
     </>
