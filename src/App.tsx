@@ -8,6 +8,7 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { CookieConsent } from "@/components/CookieConsent";
 import { PromoBanner } from "@/components/PromoBanner";
 import { BackToTop } from "@/components/BackToTop";
+import { NewsletterPopup } from "@/components/NewsletterPopup";
 import Index from "./pages/Index";
 import ProductListing from "./pages/ProductListing";
 import Fragrance from "./pages/Fragrance";
@@ -40,6 +41,7 @@ const App = () => (
           <PromoBanner />
           <BackToTop />
           <CookieConsent />
+          <NewsletterPopup />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/products" element={<ProductListing />} />
