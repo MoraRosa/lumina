@@ -42,7 +42,7 @@ export const CookieConsent = () => {
   if (!showBanner) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6 animate-in slide-in-from-bottom duration-500">
+    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 pb-20 sm:pb-6 animate-in slide-in-from-bottom duration-500">
       <div className="max-w-6xl mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-border/50 overflow-hidden">
         <div className="relative p-6 sm:p-8">
           {/* Close button */}

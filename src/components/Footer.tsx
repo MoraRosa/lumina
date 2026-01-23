@@ -94,19 +94,9 @@ export const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <div className="flex items-center justify-between mb-3 sm:mb-4">
-              <h3 className="text-xl sm:text-2xl font-bold text-foreground">
-                Quick Links
-              </h3>
-              <button
-                onClick={handleClearCache}
-                className="text-foreground/60 hover:text-foreground transition-colors"
-                aria-label="Clear cache"
-                title="Clear cache and reload"
-              >
-                <RefreshCw className="h-5 w-5" />
-              </button>
-            </div>
+            <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-3 sm:mb-4">
+              Quick Links
+            </h3>
             <ul className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:text-base text-foreground/80">
               <li>
                 <Link
@@ -171,6 +161,17 @@ export const Footer = () => {
                 >
                   Terms of Service
                 </Link>
+              </li>
+              <li className="col-start-2 flex items-center">
+                <button
+                  onClick={handleClearCache}
+                  className="text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2 py-1"
+                  aria-label="Clear cache"
+                  title="Clear cache and reload"
+                >
+                  <RefreshCw className="h-4 w-4" />
+                  <span>Clear Cache</span>
+                </button>
               </li>
             </ul>
           </div>
