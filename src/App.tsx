@@ -14,6 +14,7 @@ import ProductListing from "./pages/ProductListing";
 import Fragrance from "./pages/Fragrance";
 import BodyCare from "./pages/BodyCare";
 import ProductDetail from "./pages/ProductDetail";
+import Favorites from "./pages/Favorites";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import ReturnPolicy from "./pages/ReturnPolicy";
 import Contact from "./pages/Contact";
@@ -48,6 +49,7 @@ const App = () => (
             <Route path="/fragrance" element={<Fragrance />} />
             <Route path="/body-care" element={<BodyCare />} />
             <Route path="/products/:handle" element={<ProductDetail />} />
+            <Route path="/favorites" element={<Favorites />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/faq" element={<FAQ />} />

@@ -1,6 +1,7 @@
-import { ShoppingBag, Sparkles, Heart, Info, Mail, Home } from "lucide-react";
+import { ShoppingBag, Sparkles, Heart, Info, Mail, Home, Droplet } from "lucide-react";
 import { Button } from "./ui/button";
 import { useCartStore } from "@/stores/cartStore";
+import { useFavoritesStore } from "@/stores/favoritesStore";
 import { Link, useLocation } from "react-router-dom";
 
 interface NavbarProps {
@@ -10,6 +11,8 @@ interface NavbarProps {
 export const Navbar = ({ onCartClick }: NavbarProps) => {
   const items = useCartStore((state) => state.items);
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const favoriteItems = useFavoritesStore((state) => state.items);
+  const favoriteCount = favoriteItems.length;
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;
@@ -66,21 +69,41 @@ export const Navbar = ({ onCartClick }: NavbarProps) => {
             </Link>
           </div>
 
-          {/* Cart Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onCartClick}
-            className="relative hover:bg-primary/20 rounded-full transition-all duration-300 h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0"
-            aria-label={`Shopping cart with ${itemCount} items`}
-          >
-            <ShoppingBag className="h-5 w-5 sm:h-6 sm:w-6" />
-            {itemCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-accent text-foreground text-xs font-bold rounded-full h-5 w-5 sm:h-6 sm:w-6 flex items-center justify-center animate-scale-in">
-                {itemCount}
-              </span>
-            )}
-          </Button>
+          {/* Favorites & Cart Buttons */}
+          <div className="flex items-center gap-2">
+            {/* Favorites Button */}
+            <Link to="/favorites">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative hover:bg-primary/20 rounded-full transition-all duration-300 h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0"
+                aria-label={`Favorites with ${favoriteCount} items`}
+              >
+                <Heart className="h-5 w-5 sm:h-6 sm:w-6" />
+                {favoriteCount > 0 && (
+                  <span className="absolute -top-1 -right-1 text-red-500 text-xs font-bold flex items-center justify-center animate-scale-in">
+                    {favoriteCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
+
+            {/* Cart Button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onCartClick}
+              className="relative hover:bg-primary/20 rounded-full transition-all duration-300 h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0"
+              aria-label={`Shopping cart with ${itemCount} items`}
+            >
+              <ShoppingBag className="h-5 w-5 sm:h-6 sm:w-6" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-accent text-foreground text-xs font-bold rounded-full h-5 w-5 sm:h-6 sm:w-6 flex items-center justify-center animate-scale-in">
+                  {itemCount}
+                </span>
+              )}
+            </Button>
+          </div>
         </div>
 
       </div>
@@ -111,7 +134,7 @@ export const Navbar = ({ onCartClick }: NavbarProps) => {
               : 'text-foreground/70 hover:text-foreground'
           }`}
         >
-          <Heart className="h-5 w-5" />
+          <Droplet className="h-5 w-5" />
           <span className="text-xs font-medium">Body</span>
         </Link>
 
@@ -141,17 +164,24 @@ export const Navbar = ({ onCartClick }: NavbarProps) => {
           <span className="text-xs font-medium">About</span>
         </Link>
 
-        {/* Contact */}
+        {/* Favorites */}
         <Link
-          to="/contact"
-          className={`flex flex-col items-center justify-center gap-1 transition-colors ${
-            isActive('/contact')
+          to="/favorites"
+          className={`relative flex flex-col items-center justify-center gap-1 transition-colors ${
+            isActive('/favorites')
               ? 'text-primary'
               : 'text-foreground/70 hover:text-foreground'
           }`}
         >
-          <Mail className="h-5 w-5" />
-          <span className="text-xs font-medium">Contact</span>
+          <div className="relative">
+            <Heart className="h-5 w-5" />
+            {favoriteCount > 0 && (
+              <span className="absolute -top-1 -right-2 text-red-500 text-[10px] font-bold">
+                {favoriteCount}
+              </span>
+            )}
+          </div>
+          <span className="text-xs font-medium">Favorites</span>
         </Link>
       </div>
     </nav>

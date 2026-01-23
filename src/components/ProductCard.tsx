@@ -1,7 +1,8 @@
 import { Button } from "./ui/button";
 import { Card, CardContent, CardFooter } from "./ui/card";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, Heart } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
+import { useFavoritesStore } from "@/stores/favoritesStore";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { extractNumericId } from "@/lib/utils";
@@ -44,6 +45,8 @@ interface ProductCardProps {
 
 export const ProductCard = ({ product }: ProductCardProps) => {
   const addItem = useCartStore((state) => state.addItem);
+  const { toggleItem, isFavorite } = useFavoritesStore();
+  const isInFavorites = isFavorite(product.id);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent navigation when clicking add to cart
@@ -65,6 +68,25 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     toast.success(`${product.title} added to cart! ✨`, {
       description: "View your cart to checkout",
     });
+  };
+
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent navigation when clicking heart
+
+    const added = toggleItem({
+      id: product.id,
+      handle: product.handle,
+      title: product.title,
+      price: product.price,
+      image: product.image,
+      availableForSale: product.availableForSale,
+    });
+
+    if (added) {
+      toast.success(`${product.title} added to favorites! ❤️`);
+    } else {
+      toast.info(`${product.title} removed from favorites`);
+    }
   };
 
   const hasDiscount = product.compareAtPrice &&
@@ -89,6 +111,22 @@ export const ProductCard = ({ product }: ProductCardProps) => {
               <ShoppingBag className="h-12 w-12 sm:h-16 sm:w-16" />
             </div>
           )}
+
+          {/* Favorite Heart Button */}
+          <button
+            onClick={handleToggleFavorite}
+            className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-white/90 hover:bg-white p-1.5 sm:p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110 active:scale-95 z-10"
+            aria-label={isInFavorites ? "Remove from favorites" : "Add to favorites"}
+          >
+            <Heart
+              className={`h-4 w-4 sm:h-5 sm:w-5 transition-colors ${
+                isInFavorites
+                  ? "fill-red-500 text-red-500"
+                  : "text-foreground/60 hover:text-red-500"
+              }`}
+            />
+          </button>
+
           {hasDiscount && (
             <div className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-destructive text-destructive-foreground px-2 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-lg">
               Sale
