@@ -32,7 +32,7 @@ export const productReviewsData: Record<string, ProductReviews> = {
         rating: 5,
         title: "",
         content: "Lumina Body Butter truly lives up to its name. It rises to the challenge of winter dryness with quiet confidence, keeping the skin smooth, supple, and comfortably moisturized throughout the entire day.",
-        date: "3 hours ago",
+        date: "2026-01-12",
         verified: true,
       },
       {
@@ -41,9 +41,26 @@ export const productReviewsData: Record<string, ProductReviews> = {
         rating: 5,
         title: "",
         content: "Great texture and I love it!",
-        date: "1 hour ago",
+        date: "2026-01-12",
         verified: true,
       },
+    ],
+  },
+  // Bloomé
+  "8117386084406": {
+    productId: "8117386084406",
+    averageRating: 5.0,
+    totalReviews: 1,
+    reviews: [
+      {
+        id: 1,
+        author: "Customer",
+        rating: 5,
+        title: "",
+        content: "The product is great quality and smells amazing!",
+        date: "2026-01-28",
+        verified: true,
+      },  
     ],
   },
   // Add more products here as they get reviews
