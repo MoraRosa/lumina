@@ -1,5 +1,7 @@
 // Product reviews data
 // Add new reviews here as they come in
+// NOTE: Use actual dates in YYYY-MM-DD format. The UI will automatically
+// convert them to relative time (e.g., "today", "2 days ago", "3 weeks ago")
 
 export interface Review {
   id: number;
@@ -7,7 +9,7 @@ export interface Review {
   rating: number;
   title: string;
   content: string;
-  date: string;
+  date: string; // Format: YYYY-MM-DD (e.g., "2026-01-28")
   verified: boolean;
 }
 

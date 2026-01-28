@@ -22,6 +22,7 @@ import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { useCollectionProducts } from "@/hooks/useCollectionProducts";
 import { useMemo } from "react";
+import { getRelativeTime, formatDate } from "@/lib/dateUtils";
 
 const ProductDetail = () => {
   const { handle } = useParams<{ handle: string }>();
@@ -538,9 +539,14 @@ const ProductDetail = () => {
                           {/* Review Content */}
                           <p className="text-foreground leading-relaxed mb-3">{review.content}</p>
 
-                          {/* Date */}
+                          {/* Date - Shows relative time with full date on hover */}
                           <div className="text-sm text-muted-foreground">
-                            {review.date}
+                            <span
+                              className="cursor-help"
+                              title={formatDate(review.date)}
+                            >
+                              {getRelativeTime(review.date)}
+                            </span>
                           </div>
                         </div>
                       </div>
