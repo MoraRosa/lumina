@@ -51,7 +51,7 @@ export const productReviewsData: Record<string, ProductReviews> = {
         author: "Customer",
         rating: 5,
         title: "",
-        content: "My husband is loving this product! He said he'll be using it exclusively for his post-tatoo healling from now on",
+        content: "My husband is loving this product! He said he'll be using it exclusively for his post-tattoo healing from now on",
         date: "2026-02-12",
         verified: true,
       },
