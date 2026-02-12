@@ -46,6 +46,15 @@ export const productReviewsData: Record<string, ProductReviews> = {
         date: "2026-01-12",
         verified: true,
       },
+      {
+        id: 3,
+        author: "Customer",
+        rating: 5,
+        title: "",
+        content: "My husband is loving his product! He said he'll be using it exclusively for his post-tatoo healling from now on",
+        date: "2026-02-12",
+        verified: true,
+      },
     ],
   },
   // Bloomé
