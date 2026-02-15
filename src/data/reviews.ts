@@ -72,6 +72,15 @@ export const productReviewsData: Record<string, ProductReviews> = {
         verified: true,
         images: ["/images/reviews/body-butter/elena-s.jpg"],
       },
+      {
+        id: 5,
+        author: "Customer",
+        rating: 5,
+        title: "Body Butter",
+        content: "The body butter is smooth and feels really nice going on. It glides easily and feels refreshing. I can’t speak to the long-term moisture yet, but I really like it so far.",
+        date: "2026-02-14",
+        verified: true,
+      }
     ],
   },
   // Bloomé
