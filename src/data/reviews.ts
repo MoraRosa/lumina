@@ -48,11 +48,20 @@ export const productReviewsData: Record<string, ProductReviews> = {
       },
       {
         id: 3,
-        author: "Customer",
+        author: "Tim Batty",
         rating: 5,
         title: "",
         content: "My husband is loving this product! He said he'll be using it exclusively for his post-tattoo healing from now on",
         date: "2026-02-12",
+        verified: true,
+      },
+      {
+        id: 3,
+        author: "Elena S",
+        rating: 5,
+        title: "🧴 Body Butter Review",
+        content: "The Body Butter is very smooth, glides over the skin, and is refreshing for sensitive skin. Absolutely love the product!",
+        date: "2026-02-14",
         verified: true,
       },
     ],
@@ -72,7 +81,60 @@ export const productReviewsData: Record<string, ProductReviews> = {
         date: "2026-01-28",
         verified: true,
       },  
+      {
+        id: 2,
+        author: "Elena S",
+        rating: 5,
+        title: "🌸 Bloome",
+        content: "Bloome smells incredible. It gets even better after a few moments and is a long-lasting scent. Absolutely love it!",
+        date: "2026-01-28",
+        verified: true,
+      },  
+      {
+        id: 3,
+        author: "Customer",
+        rating: 5,
+        title: "🌸 Bloome Oil",
+        content: "Bloome smells SO good. I actually like it even more than Coconut Veil! It smells even better after a few minutes of wearing it, and I took it to work — my coworker loved it too. I also really like the roller applicator. It feels smoother and more controlled than a spray.",
+        date: "2026-02-14",
+        verified: true,
+      }, 
+      {
+        id: 4,
+        author: "Customer",
+        rating: 5,
+        title: "Bloome",
+        content: "I’m pretty picky about fragrance pricing and usually compare quantity vs price, but I understand the cost to make it is high. The quality definitely shows.",
+        date: "2026-02-14",
+        verified: true,
+      } 
     ],
+  },
+  // Coconut Veil
+  "8117352202294": {
+    productId: "8117352202294",
+    averageRating: 5.0,
+    totalReviews: 1,
+    reviews: [
+      {
+        id: 1,
+        author: "Elena S",
+        rating: 5,
+        title: "",
+        content: "Coconut Veil smells incredible. It gets even better after a few moments and is a long-lasting scent. Absolutely love it!",
+        date: "2026-02-14",
+        verified: true,
+      },
+      {
+        id: 2,
+        author: "Customer",
+        rating: 5,
+        title: "Coconut Veil",
+        content: "Coconut Veil smells really, really good and gets even better after a few minutes on the skin.",
+        date: "2026-02-14",
+        verified: true,
+      }
+    ]
   },
   // Add more products here as they get reviews
   // "PRODUCT_ID": {
