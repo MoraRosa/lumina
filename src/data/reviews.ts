@@ -33,7 +33,7 @@ export const productReviewsData: Record<string, ProductReviews> = {
   "8001400864822": {
     productId: "8001400864822",
     averageRating: 5.0,
-    totalReviews: 2,
+    totalReviews: 5,
     reviews: [
       {
         id: 1,
@@ -87,7 +87,7 @@ export const productReviewsData: Record<string, ProductReviews> = {
   "8117386084406": {
     productId: "8117386084406",
     averageRating: 5.0,
-    totalReviews: 1,
+    totalReviews: 4,
     reviews: [
       {
         id: 1,
@@ -113,7 +113,7 @@ export const productReviewsData: Record<string, ProductReviews> = {
         author: "Customer",
         rating: 5,
         title: "🌸 Bloome Oil",
-        content: "Bloome smells SO good. I actually like it even more than Coconut Veil! It smells even better after a few minutes of wearing it, and I took it to work — my coworker loved it too. I also really like the roller applicator. It feels smoother and more controlled than a spray.",
+        content: "Bloome smells SO good. I actually like it even more than Coconut Veil! It smells even better after a few minutes of wearing it, and I took it to work and my coworker loved it too. I also really like the roller applicator. It feels smoother and more controlled than a spray.",
         date: "2026-02-14",
         verified: true,
       }, 
@@ -122,7 +122,7 @@ export const productReviewsData: Record<string, ProductReviews> = {
         author: "Customer",
         rating: 5,
         title: "Bloome",
-        content: "I’m pretty picky about fragrance pricing and usually compare quantity vs price, but I understand the cost to make it is high. The quality definitely shows.",
+        content: "I'm pretty picky about fragrance pricing and usually compare quantity vs price, but I understand the cost to make it is high. The quality definitely shows.",
         date: "2026-02-14",
         verified: true,
       } 
@@ -132,7 +132,7 @@ export const productReviewsData: Record<string, ProductReviews> = {
   "8117352202294": {
     productId: "8117352202294",
     averageRating: 5.0,
-    totalReviews: 1,
+    totalReviews: 2,
     reviews: [
       {
         id: 1,
