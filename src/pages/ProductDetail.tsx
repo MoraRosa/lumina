@@ -497,14 +497,14 @@ const ProductDetail = () => {
                   {/* Individual Reviews */}
                   <div className="space-y-6">
                     {productReviews.reviews.map((review) => (
-                    <div key={review.id} className="border rounded-lg p-6 bg-card">
-                      <div className="flex items-start gap-4">
-                        <div className="flex-1">
+                    <div key={review.id} className="border rounded-lg p-6 bg-card min-w-0">
+                      <div className="flex items-start gap-4 min-w-0">
+                        <div className="flex-1 min-w-0">
                           {/* Author Name - Bold and at top */}
                           <div className="flex items-center gap-2 mb-3">
-                            <span className="font-bold text-lg">{review.author}</span>
+                            <span className="font-bold text-lg truncate">{review.author}</span>
                             {review.verified && (
-                              <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full bg-green-100 text-green-800">
+                              <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full bg-green-100 text-green-800 flex-shrink-0">
                                 <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                 </svg>
@@ -538,6 +538,44 @@ const ProductDetail = () => {
 
                           {/* Review Content */}
                           <p className="text-foreground leading-relaxed mb-3">{review.content}</p>
+
+                          {/* Review Images (if exists) */}
+                          {review.images && review.images.length > 0 && (
+                            review.images.length === 1 ? (
+                              // Single image: max width on desktop
+                              <div className="mb-3 max-w-[300px]">
+                                <div className="relative aspect-square rounded-lg overflow-hidden border border-border">
+                                  <img
+                                    src={review.images[0]}
+                                    alt={`Review image by ${review.author}`}
+                                    className="w-full h-full object-cover"
+                                    loading="lazy"
+                                  />
+                                </div>
+                              </div>
+                            ) : (
+                              // Multiple images: horizontal scroll on mobile, grid on desktop
+                              <div className="mb-3 overflow-x-auto scrollbar-hide sm:overflow-x-visible">
+                                <div className={`flex sm:grid gap-2 ${
+                                  review.images.length === 2 ? 'sm:grid-cols-2' : 'sm:grid-cols-3'
+                                }`}>
+                                  {review.images.map((image, imgIndex) => (
+                                    <div
+                                      key={imgIndex}
+                                      className="relative aspect-square rounded-lg overflow-hidden border border-border flex-shrink-0 w-[200px] sm:w-auto"
+                                    >
+                                      <img
+                                        src={image}
+                                        alt={`Review image ${imgIndex + 1} by ${review.author}`}
+                                        className="w-full h-full object-cover"
+                                        loading="lazy"
+                                      />
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )
+                          )}
 
                           {/* Date - Shows relative time with full date on hover */}
                           <div className="text-sm text-muted-foreground">

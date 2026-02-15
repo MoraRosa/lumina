@@ -2,6 +2,12 @@
 // Add new reviews here as they come in
 // NOTE: Use actual dates in YYYY-MM-DD format. The UI will automatically
 // convert them to relative time (e.g., "today", "2 days ago", "3 weeks ago")
+//
+// ADDING REVIEW IMAGES:
+// 1. Save customer images to: public/images/reviews/[product-name]/[image-name].jpg
+// 2. Add image paths to the review's images array: ["/images/reviews/body-butter/customer1.jpg"]
+// 3. Recommended: Optimize images before adding (compress, resize to max 1200px width)
+// 4. Supported formats: .jpg, .png, .webp
 
 export interface Review {
   id: number;
@@ -11,6 +17,7 @@ export interface Review {
   content: string;
   date: string; // Format: YYYY-MM-DD (e.g., "2026-01-28")
   verified: boolean;
+  images?: string[]; // Optional array of image URLs (relative to public folder or absolute URLs)
 }
 
 export interface ProductReviews {
@@ -56,13 +63,14 @@ export const productReviewsData: Record<string, ProductReviews> = {
         verified: true,
       },
       {
-        id: 3,
+        id: 4,
         author: "Elena S",
         rating: 5,
         title: "🧴 Body Butter Review",
         content: "The Body Butter is very smooth, glides over the skin, and is refreshing for sensitive skin. Absolutely love the product!",
         date: "2026-02-14",
         verified: true,
+        images: ["/images/reviews/body-butter/elena-s.jpg"],
       },
     ],
   },
@@ -89,6 +97,7 @@ export const productReviewsData: Record<string, ProductReviews> = {
         content: "Bloome smells incredible. It gets even better after a few moments and is a long-lasting scent. Absolutely love it!",
         date: "2026-01-28",
         verified: true,
+        images: ["/images/reviews/body-butter/elena-s.jpg"]
       },  
       {
         id: 3,
@@ -124,6 +133,7 @@ export const productReviewsData: Record<string, ProductReviews> = {
         content: "Coconut Veil smells incredible. It gets even better after a few moments and is a long-lasting scent. Absolutely love it!",
         date: "2026-02-14",
         verified: true,
+        images: ["/images/reviews/body-butter/elena-s.jpg"]
       },
       {
         id: 2,
