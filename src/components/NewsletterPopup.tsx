@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { subscribeToNewsletter } from "@/lib/shopifyCustomer";
+import { storage } from "@/lib/storage";
 
 const newsletterSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -32,7 +33,7 @@ export const NewsletterPopup = () => {
 
   useEffect(() => {
     // Check if user has already dismissed or subscribed
-    const dismissed = localStorage.getItem(STORAGE_KEY);
+    const dismissed = storage.getItem(STORAGE_KEY);
     if (dismissed) {
       return;
     }
@@ -47,7 +48,7 @@ export const NewsletterPopup = () => {
 
   const handleClose = () => {
     setShowPopup(false);
-    localStorage.setItem(STORAGE_KEY, "dismissed");
+    storage.setItem(STORAGE_KEY, "dismissed");
   };
 
   const onSubmit = async (data: NewsletterForm) => {
@@ -61,7 +62,7 @@ export const NewsletterPopup = () => {
       );
       reset();
       setShowPopup(false);
-      localStorage.setItem(STORAGE_KEY, "subscribed");
+      storage.setItem(STORAGE_KEY, "subscribed");
     } catch (error) {
       console.error("Newsletter subscription error:", error);
       toast.error("Failed to subscribe. Please try again later.");
@@ -148,4 +149,3 @@ export const NewsletterPopup = () => {
     </>
   );
 };
-

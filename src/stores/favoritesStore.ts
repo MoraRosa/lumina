@@ -1,5 +1,19 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage, StateStorage } from 'zustand/middleware';
+import { storage } from '@/lib/storage';
+
+// See cartStore.ts for why this adapter exists -- zustand's persist wants
+// setItem/removeItem to return void, while our storage helper returns
+// booleans for its other callers.
+const zustandStorage: StateStorage = {
+  getItem: (name) => storage.getItem(name),
+  setItem: (name, value) => {
+    storage.setItem(name, value);
+  },
+  removeItem: (name) => {
+    storage.removeItem(name);
+  },
+};
 
 export interface FavoriteItem {
   id: string;
@@ -54,8 +68,8 @@ export const useFavoritesStore = create<FavoritesStore>()(
     }),
     {
       name: 'lumina-favorites',
+      storage: createJSONStorage(() => zustandStorage),
       version: 1,
     }
   )
 );
-

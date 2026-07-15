@@ -1,5 +1,21 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage, StateStorage } from 'zustand/middleware';
+import { storage } from '@/lib/storage';
+
+// zustand's persist middleware expects a narrower StateStorage shape
+// (setItem/removeItem returning void) than our richer storage helper
+// (which returns booleans so its other callers can tell whether a write
+// actually reached localStorage). This adapts one to the other so both
+// sides keep their natural, useful signatures.
+const zustandStorage: StateStorage = {
+  getItem: (name) => storage.getItem(name),
+  setItem: (name, value) => {
+    storage.setItem(name, value);
+  },
+  removeItem: (name) => {
+    storage.removeItem(name);
+  },
+};
 
 export interface CartItem {
   id: string;
@@ -62,6 +78,7 @@ export const useCartStore = create<CartStore>()(
     }),
     {
       name: 'lumina-cart',
+      storage: createJSONStorage(() => zustandStorage),
       version: 1,
       migrate: (persistedState: any, version: number) => {
         // If store domain changed, clear the cart
@@ -69,7 +86,7 @@ export const useCartStore = create<CartStore>()(
           if (import.meta.env.DEV) {
             console.log('🔄 Store changed, clearing old cart data');
           }
-          localStorage.removeItem('lumina-shopify-cart-id');
+          storage.removeItem('lumina-shopify-cart-id');
           return {
             items: [],
             checkoutUrl: null,

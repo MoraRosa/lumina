@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { storage } from "@/lib/storage";
 
 export const CookieConsent = () => {
   const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
     // Check if user has already consented
-    const consent = localStorage.getItem("lumina-cookie-consent");
+    const consent = storage.getItem("lumina-cookie-consent");
     if (!consent) {
       // Show banner after a short delay for better UX
       setTimeout(() => setShowBanner(true), 1000);
@@ -16,7 +17,7 @@ export const CookieConsent = () => {
   }, []);
 
   const handleAccept = () => {
-    localStorage.setItem("lumina-cookie-consent", "accepted");
+    storage.setItem("lumina-cookie-consent", "accepted");
     setShowBanner(false);
     
     // Enable Google Analytics if configured
@@ -28,7 +29,7 @@ export const CookieConsent = () => {
   };
 
   const handleDecline = () => {
-    localStorage.setItem("lumina-cookie-consent", "declined");
+    storage.setItem("lumina-cookie-consent", "declined");
     setShowBanner(false);
     
     // Disable Google Analytics
@@ -116,4 +117,3 @@ declare global {
     gtag?: (...args: any[]) => void;
   }
 }
-

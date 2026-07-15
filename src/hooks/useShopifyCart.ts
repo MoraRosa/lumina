@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { shopifyClient, CREATE_CART_MUTATION, ADD_TO_CART_MUTATION, isShopifyConfigured } from '@/lib/shopify';
 import { useCartStore } from '@/stores/cartStore';
+import { storage } from '@/lib/storage';
 import { toast } from 'sonner';
 
 interface CartLine {
@@ -68,11 +69,11 @@ interface AddToCartResponse {
 const SHOPIFY_CART_ID_KEY = 'lumina-shopify-cart-id';
 
 const getStoredCartId = (): string | null => {
-  return localStorage.getItem(SHOPIFY_CART_ID_KEY);
+  return storage.getItem(SHOPIFY_CART_ID_KEY);
 };
 
 const setStoredCartId = (cartId: string) => {
-  localStorage.setItem(SHOPIFY_CART_ID_KEY, cartId);
+  storage.setItem(SHOPIFY_CART_ID_KEY, cartId);
 };
 
 export const useCreateShopifyCart = () => {
@@ -199,7 +200,7 @@ export const useSyncCartWithShopify = () => {
     try {
       // Always create a fresh cart for checkout
       // Clear any old Shopify cart ID first
-      localStorage.removeItem(SHOPIFY_CART_ID_KEY);
+      storage.removeItem(SHOPIFY_CART_ID_KEY);
 
       const lines = items.map(item => ({
         merchandiseId: item.variantId,
@@ -216,4 +217,3 @@ export const useSyncCartWithShopify = () => {
 
   return { syncAndCheckout };
 };
-

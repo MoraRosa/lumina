@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { subscribeToNewsletter } from "@/lib/shopifyCustomer";
+import { storage } from "@/lib/storage";
 
 const newsletterSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -46,7 +47,7 @@ export const Footer = () => {
 
   const handleClearCache = () => {
     toast.info("Clearing cache...");
-    localStorage.clear();
+    storage.clearAll();
     setTimeout(() => {
       window.location.reload();
     }, 500);
