@@ -142,6 +142,7 @@ const ProductDetail = () => {
       <div className="min-h-screen bg-background">
         <Navbar onCartClick={() => setIsCartOpen(true)} />
         <CartDrawer open={isCartOpen} onOpenChange={setIsCartOpen} />
+        <main id="main-content">
         <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
           <Skeleton className="h-8 w-24 sm:w-32 mb-6 sm:mb-8 rounded-full" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-12">
@@ -161,6 +162,7 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
+        </main>
         <Footer />
       </div>
     );
@@ -171,6 +173,7 @@ const ProductDetail = () => {
       <div className="min-h-screen bg-background">
         <Navbar onCartClick={() => setIsCartOpen(true)} />
         <CartDrawer open={isCartOpen} onOpenChange={setIsCartOpen} />
+        <main id="main-content">
         <div className="container mx-auto px-4 py-16 text-center">
           <h1 className="text-4xl font-bold mb-4">Product Not Found</h1>
           <p className="text-muted-foreground mb-8">
@@ -181,6 +184,7 @@ const ProductDetail = () => {
             Back to Products
           </Button>
         </div>
+        </main>
         <Footer />
       </div>
     );
@@ -223,6 +227,7 @@ const ProductDetail = () => {
       <Navbar onCartClick={() => setIsCartOpen(true)} />
       <CartDrawer open={isCartOpen} onOpenChange={setIsCartOpen} />
 
+      <main id="main-content">
       <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {/* Breadcrumbs */}
         {productCollection && (
@@ -615,6 +620,7 @@ const ProductDetail = () => {
           currentProductHandle={product.handle}
         />
       )}
+      </main>
 
       <Footer />
     </div>
@@ -622,4 +628,3 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
-

@@ -67,6 +67,7 @@ const Index = () => {
       <Navbar onCartClick={() => setIsCartOpen(true)} />
       <CartDrawer open={isCartOpen} onOpenChange={setIsCartOpen} />
 
+      <main id="main-content">
       {/* Hero Section - Option 4: Full-Width Carousel (Body Care) */}
       <section className="relative w-full h-[500px] sm:h-[600px] md:h-[700px] lg:h-[800px] overflow-hidden">
         {bodyProducts.length > 0 ? (
@@ -392,6 +393,7 @@ const Index = () => {
           </div>
         </div>
       </section>
+      </main>
 
       <Footer />
     </div>

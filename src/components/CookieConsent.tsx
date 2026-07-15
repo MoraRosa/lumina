@@ -4,6 +4,27 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { storage } from "@/lib/storage";
 
+// Keep in sync with the pixel ID in index.html's Meta Pixel loader.
+const META_PIXEL_ID = "26125074270423981";
+
+/**
+ * Actually starts sending data to Facebook. Only ever called once consent
+ * has been granted (see handleAccept and the mount effect below) -- the
+ * loader in index.html only defines window.fbq, it never calls this
+ * itself.
+ */
+const initMetaPixel = () => {
+  if (typeof window.fbq !== "function") return;
+  try {
+    window.fbq("init", META_PIXEL_ID);
+    window.fbq("track", "PageView");
+  } catch (error) {
+    if (import.meta.env.DEV) {
+      console.warn("Meta Pixel initialization failed:", error);
+    }
+  }
+};
+
 export const CookieConsent = () => {
   const [showBanner, setShowBanner] = useState(false);
 
@@ -13,31 +34,36 @@ export const CookieConsent = () => {
     if (!consent) {
       // Show banner after a short delay for better UX
       setTimeout(() => setShowBanner(true), 1000);
+      return;
+    }
+
+    // Returning visitor who already made a choice on a previous visit --
+    // they won't see the banner again, so this page load needs to apply
+    // that choice itself rather than leaving analytics/ads at the
+    // default-denied state set in index.html.
+    if (consent === "accepted") {
+      window.gtag?.("consent", "update", { analytics_storage: "granted" });
+      initMetaPixel();
+    } else if (consent === "declined") {
+      window.gtag?.("consent", "update", { analytics_storage: "denied" });
     }
   }, []);
 
   const handleAccept = () => {
     storage.setItem("lumina-cookie-consent", "accepted");
     setShowBanner(false);
-    
+
     // Enable Google Analytics if configured
-    if (window.gtag) {
-      window.gtag('consent', 'update', {
-        'analytics_storage': 'granted'
-      });
-    }
+    window.gtag?.("consent", "update", { analytics_storage: "granted" });
+    initMetaPixel();
   };
 
   const handleDecline = () => {
     storage.setItem("lumina-cookie-consent", "declined");
     setShowBanner(false);
-    
+
     // Disable Google Analytics
-    if (window.gtag) {
-      window.gtag('consent', 'update', {
-        'analytics_storage': 'denied'
-      });
-    }
+    window.gtag?.("consent", "update", { analytics_storage: "denied" });
   };
 
   if (!showBanner) return null;
@@ -114,6 +140,7 @@ export const CookieConsent = () => {
 // Extend Window interface for TypeScript
 declare global {
   interface Window {
-    gtag?: (...args: any[]) => void;
+    gtag?: (...args: unknown[]) => void;
+    fbq?: (...args: unknown[]) => void;
   }
 }

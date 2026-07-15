@@ -88,6 +88,7 @@ const Contact = () => {
       <Navbar onCartClick={() => setIsCartOpen(true)} />
       <CartDrawer open={isCartOpen} onOpenChange={setIsCartOpen} />
 
+      <main id="main-content">
       {/* Header Section */}
       <section className="relative bg-gradient-to-br from-pastel-purple to-pastel-purple/80 pt-12 sm:pt-16 md:pt-20 pb-16 sm:pb-20 md:pb-24">
         <div className="container mx-auto px-4 sm:px-6">
@@ -184,6 +185,7 @@ const Contact = () => {
           </div>
         </div>
       </section>
+      </main>
 
       <Footer />
     </div>
@@ -191,4 +193,3 @@ const Contact = () => {
 };
 
 export default Contact;
-

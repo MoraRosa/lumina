@@ -2,7 +2,7 @@ import { Review } from "@/data/reviews";
 import { getRelativeTime, formatDate } from "@/lib/dateUtils";
 import { Badge } from "@/components/ui/badge";
 import { Star } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface ProductReviewsProps {
   reviews: Review[];
@@ -123,6 +123,41 @@ export const ProductReviews = ({ reviews, averageRating, totalReviews }: Product
 // Image Gallery Component for Reviews
 const ReviewImageGallery = ({ images, reviewAuthor }: { images: string[]; reviewAuthor: string }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const previouslyFocusedElement = useRef<HTMLElement | null>(null);
+
+  const openLightbox = (image: string) => {
+    // Remember what had focus so we can return to it when the lightbox closes.
+    previouslyFocusedElement.current = document.activeElement as HTMLElement | null;
+    setSelectedImage(image);
+  };
+
+  const closeLightbox = () => {
+    setSelectedImage(null);
+  };
+
+  // Move focus into the dialog when it opens; restore it to the trigger on close.
+  useEffect(() => {
+    if (selectedImage) {
+      closeButtonRef.current?.focus();
+    } else {
+      previouslyFocusedElement.current?.focus();
+    }
+  }, [selectedImage]);
+
+  // Escape closes the dialog. Tab/Shift+Tab is trapped on the close button,
+  // since it's the only focusable element inside this simple dialog.
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Escape") {
+      event.stopPropagation();
+      closeLightbox();
+      return;
+    }
+    if (event.key === "Tab") {
+      event.preventDefault();
+      closeButtonRef.current?.focus();
+    }
+  };
 
   return (
     <>
@@ -131,7 +166,7 @@ const ReviewImageGallery = ({ images, reviewAuthor }: { images: string[]; review
         // Single image: max width on desktop
         <div className="mt-3 max-w-[300px]">
           <button
-            onClick={() => setSelectedImage(images[0])}
+            onClick={() => openLightbox(images[0])}
             className="relative aspect-square rounded-lg overflow-hidden border border-border hover:border-primary transition-all hover:scale-105 active:scale-95 w-full"
           >
             <img
@@ -149,7 +184,7 @@ const ReviewImageGallery = ({ images, reviewAuthor }: { images: string[]; review
             {images.map((image, index) => (
               <button
                 key={index}
-                onClick={() => setSelectedImage(image)}
+                onClick={() => openLightbox(image)}
                 className="relative aspect-square rounded-lg overflow-hidden border border-border hover:border-primary transition-all hover:scale-105 active:scale-95 flex-shrink-0 w-[200px]"
               >
                 <img
@@ -168,15 +203,20 @@ const ReviewImageGallery = ({ images, reviewAuthor }: { images: string[]; review
       {selectedImage && (
         <div
           className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
-          onClick={() => setSelectedImage(null)}
+          onClick={closeLightbox}
+          onKeyDown={handleKeyDown}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Review image by ${reviewAuthor}`}
         >
           <div className="relative max-w-4xl max-h-[90vh] w-full">
             <button
-              onClick={() => setSelectedImage(null)}
-              className="absolute -top-10 right-0 text-white hover:text-gray-300 text-2xl font-bold"
+              ref={closeButtonRef}
+              onClick={closeLightbox}
+              className="absolute -top-10 right-0 text-white hover:text-gray-300 text-2xl font-bold rounded focus:outline-none focus:ring-2 focus:ring-white"
               aria-label="Close image"
             >
-              ✕
+              &times;
             </button>
             <img
               src={selectedImage}
@@ -190,4 +230,3 @@ const ReviewImageGallery = ({ images, reviewAuthor }: { images: string[]; review
     </>
   );
 };
-

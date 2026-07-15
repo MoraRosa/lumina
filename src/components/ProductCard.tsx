@@ -104,6 +104,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             <img
               src={product.image}
               alt={product.title}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
           ) : (
@@ -198,4 +200,3 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     </Link>
   );
 };
-

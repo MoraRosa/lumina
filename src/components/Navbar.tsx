@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import { useCartStore } from "@/stores/cartStore";
 import { useFavoritesStore } from "@/stores/favoritesStore";
 import { Link, useLocation } from "react-router-dom";
+import { SkipToContent } from "./SkipToContent";
 
 interface NavbarProps {
   onCartClick: () => void;
@@ -19,6 +20,7 @@ export const Navbar = ({ onCartClick }: NavbarProps) => {
 
   return (
     <>
+    <SkipToContent />
     <nav className="sticky top-0 z-50 bg-navbar-pink shadow-lg">
       <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex items-center justify-between gap-4">
