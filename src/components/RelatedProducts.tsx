@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Product } from "@/components/ProductCard";
 import { useCollectionProducts } from "@/hooks/useCollectionProducts";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
@@ -11,7 +10,7 @@ interface RelatedProductsProps {
   currentProductHandle: string;
 }
 
-export const RelatedProducts = ({ currentProductId, currentProductHandle }: RelatedProductsProps) => {
+export const RelatedProducts = ({ currentProductId }: RelatedProductsProps) => {
   // Fetch from both collections
   const { data: bodyProducts = [] } = useCollectionProducts('body', 20);
   const { data: fragranceProducts = [] } = useCollectionProducts('fragrance', 20);
@@ -118,4 +117,3 @@ export const RelatedProducts = ({ currentProductId, currentProductHandle }: Rela
     </section>
   );
 };
-

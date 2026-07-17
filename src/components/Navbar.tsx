@@ -1,4 +1,4 @@
-import { ShoppingBag, Sparkles, Heart, Info, Mail, Home, Droplet } from "lucide-react";
+import { ShoppingBag, Sparkles, Heart, Info, Home, Droplet } from "lucide-react";
 import { Button } from "./ui/button";
 import { useCartStore } from "@/stores/cartStore";
 import { useFavoritesStore } from "@/stores/favoritesStore";

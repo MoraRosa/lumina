@@ -5,6 +5,7 @@ import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import useEmblaCarousel from "embla-carousel-react";
+import type { Product } from "@/components/ProductCard";
 
 interface RecentlyViewedProps {
   currentProductId?: string; // Optional - exclude current product if on product detail page
@@ -27,7 +28,7 @@ export const RecentlyViewed = ({ currentProductId, limit = 4 }: RecentlyViewedPr
     // Maintain order from recentlyViewedHandles
     return recentlyViewedHandles
       .map(handle => allProducts.find(p => p.handle === handle))
-      .filter(Boolean);
+      .filter((product): product is Product => product !== undefined);
   }, [allProducts, recentlyViewedHandles]);
 
   // Embla carousel setup
@@ -107,4 +108,3 @@ export const RecentlyViewed = ({ currentProductId, limit = 4 }: RecentlyViewedPr
     </section>
   );
 };
-

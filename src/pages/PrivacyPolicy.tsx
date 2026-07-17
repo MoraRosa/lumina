@@ -20,7 +20,7 @@ const PrivacyPolicy = () => {
       </Helmet>
 
       <Navbar onCartClick={() => setIsCartOpen(true)} />
-      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <CartDrawer open={isCartOpen} onOpenChange={setIsCartOpen} />
 
       <main id="main-content">
       {/* Header Section */}

@@ -17,7 +17,7 @@ const copy404Plugin = () => ({
 });
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig(() => ({
   base: '/', // Changed from '/lumina/' for custom domain
   server: {
     host: "::",

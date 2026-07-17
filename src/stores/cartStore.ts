@@ -42,7 +42,7 @@ const CURRENT_STORE = import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || '';
 
 export const useCartStore = create<CartStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       items: [],
       checkoutUrl: null,
       storeVersion: CURRENT_STORE,
@@ -80,7 +80,7 @@ export const useCartStore = create<CartStore>()(
       name: 'lumina-cart',
       storage: createJSONStorage(() => zustandStorage),
       version: 1,
-      migrate: (persistedState: unknown, version: number) => {
+      migrate: (persistedState: unknown) => {
         // persistedState comes from localStorage JSON and may be from an
         // older shape (that's the whole point of a migrate function), so
         // it's genuinely `unknown` rather than `any` -- narrowed once,

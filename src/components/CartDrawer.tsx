@@ -9,7 +9,6 @@ import {
   SheetFooter,
 } from "./ui/sheet";
 import { useCartStore } from "@/stores/cartStore";
-import { Separator } from "./ui/separator";
 import { ScrollArea } from "./ui/scroll-area";
 import { useSyncCartWithShopify } from "@/hooks/useShopifyCart";
 import { isShopifyConfigured } from "@/lib/shopify";
@@ -203,4 +202,3 @@ export const CartDrawer = ({ open, onOpenChange }: CartDrawerProps) => {
     </Sheet>
   );
 };
-

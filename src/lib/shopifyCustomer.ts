@@ -131,7 +131,7 @@ export async function subscribeToNewsletter(data: NewsletterSignupData): Promise
 
   if (import.meta.env.DEV) {
     console.log('✅ Newsletter signup successful in Shopify:', data.email);
-    console.log('📧 Customer ID:', result.customerCreate.customer.id);
+    console.log('📧 Customer ID:', result.customerCreate.customer?.id);
   }
 
   return true;
@@ -220,7 +220,7 @@ export async function submitContactForm(data: ContactFormData): Promise<boolean>
   }
 
   if (import.meta.env.DEV) {
-    console.log('✅ Customer created in Shopify:', result.customerCreate.customer.id);
+    console.log('✅ Customer created in Shopify:', result.customerCreate.customer?.id);
     console.log('⚠️ Note: Message content is NOT stored in Shopify (API limitation)');
     console.log('💡 Consider using Shopify Inbox or a third-party form service for message storage');
   }

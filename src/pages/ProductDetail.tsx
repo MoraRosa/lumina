@@ -195,9 +195,10 @@ const ProductDetail = () => {
     parseFloat(product.price.replace(/[^0-9.]/g, ""));
 
   // Get first image for OG tags
-  const ogImage = displayMedia.length > 0 && displayMedia[0].type === 'IMAGE'
-    ? displayMedia[0].url
-    : displayMedia[0]?.previewUrl || 'https://luminaco.skin/images/og%20image.png';
+  const firstMedia = displayMedia[0];
+  const ogImage = firstMedia && firstMedia.type === 'IMAGE'
+    ? firstMedia.url
+    : firstMedia?.previewUrl || 'https://luminaco.skin/images/og%20image.png';
 
   const pageUrl = `https://luminaco.skin/products/${handle}`;
   const description = product.description?.substring(0, 160) || `Shop ${product.title} at Lumina Skincare - Gentle, fragrance-free skincare for sensitive skin.`;
@@ -256,7 +257,7 @@ const ProductDetail = () => {
               <div className="overflow-hidden rounded-3xl" ref={emblaRef}>
                 <div className="flex touch-pan-y">
                   {displayMedia.length > 0 ? (
-                    displayMedia.map((media, index) => (
+                    displayMedia.map((media) => (
                       <div key={media.id} className="flex-[0_0_100%] min-w-0">
                         <div className="aspect-square bg-muted ring-2 ring-border/20 rounded-3xl overflow-hidden">
                           {media.type === 'IMAGE' && (
