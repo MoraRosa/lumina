@@ -128,7 +128,7 @@ export const useAddToShopifyCart = () => {
         throw new Error('Shopify is not configured');
       }
 
-      let cartId = getStoredCartId();
+      const cartId = getStoredCartId();
 
       // If no cart exists, create one first
       if (!cartId) {

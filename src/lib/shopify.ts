@@ -28,9 +28,22 @@ const client = createStorefrontClient({
   publicStorefrontToken: storefrontAccessToken || 'placeholder-token',
 });
 
+// Minimal shape of a GraphQL error as returned by Shopify's Storefront API.
+// Callers only ever read `.message` (see useShopifyCart.ts, useProduct.ts,
+// etc.), but GraphQL error objects can carry extra fields (locations, path,
+// extensions) depending on the error type, hence the index signature rather
+// than a closed interface.
+interface ShopifyGraphQLError {
+  message: string;
+  [key: string]: unknown;
+}
+
 // Helper function to make GraphQL requests
 export const shopifyClient = {
-  async request<T>(query: string, options?: { variables?: Record<string, any> }): Promise<{ data: T | null; errors?: any[] }> {
+  async request<T>(
+    query: string,
+    options?: { variables?: Record<string, unknown> }
+  ): Promise<{ data: T | null; errors?: ShopifyGraphQLError[] }> {
     try {
       const response = await fetch(client.getStorefrontApiUrl(), {
         method: 'POST',
@@ -394,4 +407,3 @@ export const ADD_TO_CART_MUTATION = `
     }
   }
 `;
-

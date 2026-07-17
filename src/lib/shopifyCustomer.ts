@@ -31,6 +31,26 @@ export interface ContactFormData {
   message: string;
 }
 
+// Shared response shape for the customerCreate mutation used by both
+// subscribeToNewsletter() and submitContactForm() below -- both send the
+// same mutation and handle the response identically.
+interface CustomerUserError {
+  code: string;
+  field?: string[] | null;
+  message: string;
+}
+
+interface CustomerCreateResponse {
+  customerCreate: {
+    customer: {
+      id: string;
+      email: string;
+      acceptsMarketing: boolean;
+    } | null;
+    customerUserErrors: CustomerUserError[];
+  } | null;
+}
+
 /**
  * Subscribe to newsletter
  * Creates a customer in Shopify with email marketing consent
@@ -68,7 +88,7 @@ export async function subscribeToNewsletter(data: NewsletterSignupData): Promise
     console.log('📤 Sending newsletter signup request:', variables);
   }
 
-  const response = await shopifyClient.request(mutation, { variables });
+  const response = await shopifyClient.request<CustomerCreateResponse>(mutation, { variables });
 
   if (import.meta.env.DEV) {
     console.log('📥 Response received:', response);
@@ -86,7 +106,7 @@ export async function subscribeToNewsletter(data: NewsletterSignupData): Promise
     throw new Error('Failed to create customer - no data returned from Shopify');
   }
 
-  const result = response.data as any;
+  const result = response.data;
 
   if (!result.customerCreate) {
     console.error('❌ No customerCreate in response:', result);
@@ -97,7 +117,7 @@ export async function subscribeToNewsletter(data: NewsletterSignupData): Promise
     const errors = result.customerCreate.customerUserErrors;
 
     // Check if customer already exists
-    if (errors.some((e: any) => e.code === 'TAKEN' || e.message.includes('taken'))) {
+    if (errors.some((e) => e.code === 'TAKEN' || e.message.includes('taken'))) {
       if (import.meta.env.DEV) {
         console.log('ℹ️ Customer already exists:', data.email);
       }
@@ -164,7 +184,7 @@ export async function submitContactForm(data: ContactFormData): Promise<boolean>
     console.log('📤 Creating customer in Shopify for contact form:', data.email);
   }
 
-  const response = await shopifyClient.request(mutation, { variables });
+  const response = await shopifyClient.request<CustomerCreateResponse>(mutation, { variables });
 
   // Check for GraphQL errors
   if (response.errors && response.errors.length > 0) {
@@ -177,7 +197,7 @@ export async function submitContactForm(data: ContactFormData): Promise<boolean>
     throw new Error('Failed to create customer - no data returned from Shopify');
   }
 
-  const result = response.data as any;
+  const result = response.data;
 
   if (!result.customerCreate) {
     console.error('❌ No customerCreate in response:', result);
@@ -188,7 +208,7 @@ export async function submitContactForm(data: ContactFormData): Promise<boolean>
     const errors = result.customerCreate.customerUserErrors;
 
     // Customer might already exist - that's okay
-    if (errors.some((e: any) => e.code === 'TAKEN' || e.message.includes('taken'))) {
+    if (errors.some((e) => e.code === 'TAKEN' || e.message.includes('taken'))) {
       if (import.meta.env.DEV) {
         console.log('ℹ️ Customer already exists in Shopify');
       }
@@ -207,6 +227,3 @@ export async function submitContactForm(data: ContactFormData): Promise<boolean>
 
   return true;
 }
-
-
-

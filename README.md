@@ -42,6 +42,9 @@ A beautiful, kawaii-styled e-commerce website for Lumina Skincare - gentle, frag
 - Node.js 18 or higher
 - npm or yarn
 
+### Push Bat
+./push.bat
+
 ### Local Development
 
 ```bash

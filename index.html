@@ -14,10 +14,17 @@
          against inline-script injection specifically, but it still blocks
          loading any *external* script from a domain not explicitly listed
          here, which is the more common real-world attack path (a
-         compromised or malicious third-party script tag). -->
+         compromised or malicious third-party script tag).
+         frame-src allows YouTube + Vimeo: the homepage's customer review
+         video (Index.tsx) and Shopify product video embeds
+         (ProductDetail.tsx, media.type === 'EXTERNAL_VIDEO') can be
+         hosted on either -- both are needed or video embeds silently fail
+         to load with no visible error. This exact regression happened
+         once already when the CSP first shipped without these; don't
+         remove either domain without checking both usages first. -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://ajax.googleapis.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.myshopify.com https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://*.facebook.com; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://ajax.googleapis.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.myshopify.com https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://*.facebook.com; frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com; object-src 'none'; base-uri 'self'; form-action 'self';"
     />
 
     <!-- Google Analytics 4 -->

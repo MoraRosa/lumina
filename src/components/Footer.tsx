@@ -173,6 +173,14 @@ export const Footer = () => {
                   Terms of Service
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/accessibility"
+                  className="hover:text-foreground transition-colors inline-block py-1"
+                >
+                  Accessibility Statement
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

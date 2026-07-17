@@ -80,9 +80,15 @@ export const useCartStore = create<CartStore>()(
       name: 'lumina-cart',
       storage: createJSONStorage(() => zustandStorage),
       version: 1,
-      migrate: (persistedState: any, version: number) => {
+      migrate: (persistedState: unknown, version: number) => {
+        // persistedState comes from localStorage JSON and may be from an
+        // older shape (that's the whole point of a migrate function), so
+        // it's genuinely `unknown` rather than `any` -- narrowed once,
+        // right here, to the one field this function actually reads.
+        const state = persistedState as { storeVersion?: string } | undefined;
+
         // If store domain changed, clear the cart
-        if (persistedState?.storeVersion !== CURRENT_STORE) {
+        if (state?.storeVersion !== CURRENT_STORE) {
           if (import.meta.env.DEV) {
             console.log('🔄 Store changed, clearing old cart data');
           }
@@ -93,7 +99,7 @@ export const useCartStore = create<CartStore>()(
             storeVersion: CURRENT_STORE,
           };
         }
-        return persistedState as CartStore;
+        return state as CartStore;
       },
     }
   )
